@@ -104,14 +104,9 @@ module Net
     #
     # == Server Example
     #
-    # This is an example of advertising a webrick server use DNS-SD (from
-    # link:exwebrick.rb).
+    # This is an example of advertising a webrick server using DNS-SD (from
+    # link:exwebrick.txt).
     #
-    # There is an outstanding problem where Safari doesn't see _http services
-    # advertised with MDNSSD. I have no idea why, I'm answering every question
-    # it asks. You can browse the service from the command-line with dns-sd or
-    # mdns.rb without difficulties.
-    #   
     #   require 'webrick'
     #   require 'net/dns/mdns-sd'
     #   
@@ -473,7 +468,8 @@ module Net
             @sock.setsockopt(Socket::SOL_SOCKET, so_reuseport, 1)
           rescue
             warn( "set SO_REUSEPORT raised #{$!}, try SO_REUSEADDR" )
-            @sock.setsockopt(Socket::SOL_SOCKET,Socket::SO_REUSEADDR, 1)
+            so_resuseport = Socket::SO_REUSEADDR
+            @sock.setsockopt(Socket::SOL_SOCKET, so_reuseport, 1)
           end
 
           # Request dest addr and ifx ids... no.
@@ -524,13 +520,20 @@ module Net
           loop do
             # from is [ AF_INET, port, name, addr ]
             reply, from = @sock.recvfrom(UDPSize)
+            qaddr = from[3]
+            qport = from[1]
 
             @mutex.synchronize do
 
               begin
                 msg =  Message.decode(reply)
 
-                debug( "from #{from[3]}:#{from[1]} -> qr=#{msg.qr} qcnt=#{msg.question.size} acnt=#{msg.answer.size}" )
+                qid  = msg.id
+                qr   = msg.qr == 0 ? 'Q' : 'R'
+                qcnt = msg.question.size
+                acnt = msg.answer.size
+
+                debug( "from #{qaddr}:#{qport} -> id #{qid} qr=#{qr} qcnt=#{qcnt} acnt=#{acnt}" )
 
                 if( msg.query? )
                   # Cache questions:
@@ -565,7 +568,9 @@ module Net
                     end
                   end
 
+                  amsg.question.uniq!
                   amsg.answer.uniq!
+                  amsg.additional.uniq!
 
                   amsg.answer.delete_if do |an|
                     msg.answer.detect do |known|
@@ -578,10 +583,7 @@ module Net
                     end
                   end
 
-                  amsg.answer.each do |an|
-                    debug( "-> a #{an[0]} (#{an[1]}) #{an[2].to_s} #{an[3].inspect}" )
-                  end
-                  send(amsg) if amsg.answer.first
+                  send(amsg, qid, qaddr, qport) if amsg.answer.first
 
                 else
                   # Cache answers:
@@ -735,16 +737,24 @@ module Net
           end # end loop
         end
 
-        def send(msg)
-          if( msg.is_a?(Message) )
-            msg = msg.encode
-          else
-            msg = msg.to_str
-          end
-
-          # TODO - ensure this doesn't cause DNS lookup for a dotted IP
+        def send(msg, qid = nil, qaddr = nil, qport = nil)
           begin
-            @sock.send(msg, 0, Addr, Port)
+            msg.answer.each do |an|
+              debug( "-> an #{an[0]} (#{an[1]}) #{an[2].to_s} #{an[3].inspect}" )
+            end
+            msg.additional.each do |an|
+              debug( "-> ad #{an[0]} (#{an[1]}) #{an[2].to_s} #{an[3].inspect}" )
+            end
+            # Unicast response directly to questioner if source port is not 5353.
+            if qport && qport != Port
+              debug( "unicast for qid #{qid} to #{qaddr}:#{qport}" )
+              msg.id = qid
+              @sock.send(msg.encode, 0, qaddr, qport)
+            end
+            # ID is always zero for mcast, don't repeat questions for mcast
+            msg.id = 0
+            msg.question.clear unless msg.query?
+            @sock.send(msg.encode, 0, Addr, Port)
           rescue
             error( "send msg failed: #{$!}" )
             raise
@@ -937,34 +947,39 @@ module Net
         def answer_question(name, rtype, amsg)
           case name
           when @instance
-#           amsg.add_answer(@instance, @srvttl, @rrsrv)
-
+            # See [DNSSD:14.2]
             case rtype.object_id
             when IN::ANY.object_id
+              amsg.add_question(name, rtype)
               amsg.add_answer(@instance, @srvttl, @rrsrv)
               amsg.add_answer(@instance, @srvttl, @rrtxt)
+              amsg.add_additional(*@hostrr) if @hostrr
  
             when IN::SRV.object_id
-              amsg.add_answer(*@hostrr) if @hostrr
+              amsg.add_question(name, rtype)
               amsg.add_answer(@instance, @srvttl, @rrsrv)
-              amsg.add_answer(@instance, @srvttl, @rrtxt)
-              amsg.add_answer(@type,     @ptrttl, @rrptr)
+              amsg.add_additional(*@hostrr) if @hostrr
  
             when IN::TXT.object_id
+              amsg.add_question(name, rtype)
               amsg.add_answer(@instance, @srvttl, @rrtxt)
             end
 
           when @type
+            # See [DNSSD:14.1]
             case rtype.object_id
             when IN::ANY.object_id, IN::PTR.object_id
+              amsg.add_question(name, rtype)
               amsg.add_answer(@type,     @ptrttl, @rrptr)
-#             amsg.add_answer(@instance, @srvttl, @rrsrv)
-#             amsg.add_answer(@instance, @srvttl, @rrtxt)
+              amsg.add_additional(@instance, @srvttl, @rrsrv)
+              amsg.add_additional(@instance, @srvttl, @rrtxt)
+              amsg.add_additional(*@hostrr) if @hostrr
             end
 
           when @enum
             case rtype.object_id
             when IN::ANY.object_id, IN::PTR.object_id
+              amsg.add_question(name, rtype)
               amsg.add_answer(@type, @ptrttl, @rrenum)
             end
 
