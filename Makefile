@@ -3,7 +3,7 @@
 default:
 	ruby18 -c net/dns/v2mdns.rb
 
-SAMPLES=mdns.rb exhttp.rb exhttpv1.rb v1mdns.rb v1demo.rb
+SAMPLES=mdns.rb exhttp.rb exhttpv1.rb v1mdns.rb v1demo.rb mdns-watch.rb exwebrick.rb
 
 .PHONY: doc
 doc:

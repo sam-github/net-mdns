@@ -50,7 +50,7 @@ module Net
     # - discovery of services on local networks
     # - advertisement of services on local networks
     #
-    # == Example
+    # == Client Example
     #
     # This is an example of finding all _http._tcp services, connecting to
     # them, and printing the 'Server' field of the HTTP headers using Net::HTTP
@@ -102,6 +102,41 @@ module Net
     #   # Hit enter when you think that's all.
     #   STDIN.gets
     #
+    # == Server Example
+    #
+    # This is an example of advertising a webrick server use DNS-SD (from
+    # link:exwebrick.rb).
+    #
+    # There is an outstanding problem where Safari doesn't see _http services
+    # advertised with MDNSSD. I have no idea why, I'm answering every question
+    # it asks. You can browse the service from the command-line with dns-sd or
+    # mdns.rb without difficulties.
+    #   
+    #   require 'webrick'
+    #   require 'net/dns/mdns-sd'
+    #   
+    #   DNSSD = Net::DNS::MDNSSD
+    #   
+    #   class HelloServlet < WEBrick::HTTPServlet::AbstractServlet
+    #     def do_GET(req, resp)   
+    #       resp.body = "hello, world\n"
+    #       resp['content-type'] = 'text/plain'
+    #       raise WEBrick::HTTPStatus::OK
+    #     end
+    #   end
+    #   
+    #   server = WEBrick::HTTPServer.new( :Port => 8080 )
+    #   
+    #   server.mount( '/hello/', HelloServlet )
+    #   
+    #   handle = DNSSD.register("hello", '_http._tcp', 'local', 8080, 'path' => '/hello/')
+    #   
+    #   ['INT', 'TERM'].each { |signal| 
+    #     trap(signal) { server.shutdown; handle.stop; }
+    #   }
+    #   
+    #   server.start
+    # 
     # == Samples
     #
     # There are a few command line utilities in the samples/ directory:
@@ -111,6 +146,8 @@ module Net
     #   predates Net::DNS::MDNSSD, so while its a great sample, you might want
     #   to look at mdns.rb instead.
     # - link:v1mdns.txt, v1mdns.rb is a low-level utility for exercising Resolv::MDNS.
+    # - link:mdns-watch.txt, mdns-watch.rb is a utility that dumps all mDNS traffic, useful
+    #   for debugging.
     # 
     # == Comparison to the DNS-SD Extension
     #
