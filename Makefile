@@ -4,9 +4,8 @@ default: test
 
 .PHONY: doc
 doc:
-	 rdoc -S -o doc net/dns
+	 rdoc18 -S -o doc net/dns
 	 open doc/index.html &
-
 
 doc-upload:
 	cd doc; scp -r . sam@rubyforge.org:/var/www/gforge-projects/vpim/mdns
@@ -16,10 +15,12 @@ pkg-upload:
 
 submit: release pkg-upload doc-upload
 
+TAGSRC = net/dns/v2mdns.rb net/dns/resolvx.rb resolv.rb
+
 .PHONY: tags
 tags:
-	exctags -R multicast.rb
-	RUBYLIB=/Users/sam/p/ruby/ruby/lib rdoc18 -f tags multicast.rb
+	exctags -R $(TAGSRC)
+	RUBYLIB=/Users/sam/p/ruby/ruby/lib rdoc18 -f tags $(TAGSRC)
 	mv tags tags.ctags
 	sort tags.ctags tags.rdoc > tags
 
