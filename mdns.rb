@@ -48,7 +48,7 @@ and -R.
 Options:
   --native   Attempt to use 'dnssd', the interface to the native DNS-SD
              resolver library.
-  --ruby     Attempt to use 'net/dns/mdns-sd', a pure-ruby DNS-SD resolver
+  --ruby     Attempt to use 'net/dns/mdnssd', a pure-ruby DNS-SD resolver
              library.
 
 Examples:
@@ -115,7 +115,7 @@ begin
   DNSSD.class
   puts "Using native DNSSD..."
 rescue NameError
-  require 'net/dns/mdns-sd.rb'
+  require 'net/dns/mdnssd.rb'
   DNSSD = Net::DNS::DNSSD
   puts "Using net::dns::DNSSD..."
 end

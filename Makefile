@@ -3,7 +3,7 @@
 default:
 	ruby18 -c net/dns/v2mdns.rb
 
-TAGSRC = net/dns/v2mdns.rb net/dns/resolvx.rb net/dns/resolv.rb net/dns/mdns-sd.rb
+TAGSRC = net/dns/v2mdns.rb net/dns/resolvx.rb net/dns/resolv.rb net/dns/mdnssd.rb
 
 .PHONY: doc
 doc:
