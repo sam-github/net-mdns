@@ -1,9 +1,12 @@
+# resolv-replace.rb is copied from the ruby library, where it is maintained by Tanaka
+# Akira. See net/dns/resolv.rb for more information.
 require 'socket'
-require 'resolv'
+require 'net/dns/resolv'
 
 class << IPSocket
   alias original_resolv_getaddress getaddress
   def getaddress(host)
+    return original_resolv_getaddress(host) if Fixnum === host
     begin
       return Resolv.getaddress(host).to_s
     rescue Resolv::ResolvError
