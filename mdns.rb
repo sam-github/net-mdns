@@ -2,8 +2,6 @@
 
 $:.unshift(File.dirname($0))
 
-puts $:
-
 require 'getoptlong'
 require 'net/dns/mdns'
 require 'pp'
