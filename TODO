@@ -1,9 +1,5 @@
 TODO
 
-- merge 1.8-resolv.rb diffs into net/dns/resolv.rb
-
-                --> __diff
-
 - deal with dots and spaces
 
 - Query: don't report answers multiple times
@@ -16,8 +12,6 @@ TODO
 
 - don't cache our own answers
 
-- get ifx address from something other than reverse lookup of hostname
-
 - adding a question of '*' causes it to always be requeried
 
 - reintegrate into resolver
@@ -28,6 +22,7 @@ TODO
 
 - wildcard answering services
 
+- try the meta-queries (_services._dns-sd._udp.local.)
 
 Should do:
 
