@@ -1,0 +1,149 @@
+Reqs:
+
+-  The option to lookup unqualified (relative) names by appending
+   ".local." (or not) is controlled by whether ".local." appears
+   (or not) in the client's DNS search list.
+
+DONE
+
+-  Any DNS query for a name ending with ".local." MUST be sent
+   to the mDNS multicast address (224.0.0.251 or its IPv6 equivalent
+   FF02::FB).
+
+-  Any DNS query for a name ending with "254.169.in-addr.arpa." MUST
+   be sent to the mDNS multicast address 224.0.0.251.
+
+-  Make resolver always lookup .local names with mDNS, by inserting before DNS.
+
+-  Most computer users neglect to type the trailing dot at the end of a
+   fully qualified domain name, making it a relative domain name (e.g.
+   "www.example.com"). In the event of network outage, attempts to
+   positively resolve the name as entered will fail, resulting in
+   application of the search list, including ".local.", if present.
+   A malicious host could masquerade as "www.example.com" by answering
+   the resulting Multicast DNS query for "www.example.com.local."
+   To avoid this, a host MUST NOT append the search suffix
+   ".local.", if present, to any relative (partially qualified)
+   domain name containing two or more labels. Appending ".local." to
+   single-label relative domain names is acceptable, since the user
+   should have no expectation that a single-label domain name will
+   resolve as-is.
+
+   --> ensure this!
+
+-  All Multicast DNS responses (including responses sent via unicast)
+   MUST be sent with IP TTL set to 255.
+
+-  A host sending Multicast DNS queries to a link-local destination
+   address (including the 224.0.0.251 link-local multicast address) MUST
+   verify that the IP TTL in response packets is 255, and silently
+   discard any response packets where the IP TTL is not 255. See the IP_RECVTTL socket option.
+
+-  Multicast DNS is a new protocol and doesn't (yet) have old buggy
+   legacy implementations to constrain the design choices. Accordingly,
+   it adopts the obvious simple solution: all names in Multicast DNS are
+   encoded using UTF-8 [RFC 2279].
+
+-  Multicast DNS Messages carried by UDP may be up to the IP MTU of the
+   physical interface, less the space required for the IP header (20
+   bytes for IPv4; 40 bytes for IPv6) and the UDP header (8 bytes).
+
+   --> does Message truncate?
+
+19.2. QR (Query/Response) Bit
+
+   In query messages, MUST be zero.
+
+19.3. OPCODE
+
+   In both multicast query and multicast response messages, MUST be zero
+   (only standard queries are currently supported over multicast, unless
+   other queries are allowed by future IETF Standards Action).
+
+19.4. AA (Authoritative Answer) Bit
+
+   In query messages, the Authoritative Answer bit MUST be zero on
+   transmission, and MUST be ignored on reception.
+
+19.6. RD (Recursion Desired) Bit
+
+   In both multicast query and multicast response messages, the
+   Recursion Desired bit SHOULD be zero on transmission, and MUST be
+   ignored on reception.
+
+19.7. RA (Recursion Available) Bit
+
+   In both multicast query and multicast response messages, the
+   Recursion Available bit MUST be zero on transmission, and MUST be
+   ignored on reception.
+
+19.8. Z (Zero) Bit
+
+   In both query and response messages, the Zero bit MUST be zero on
+   transmission, and MUST be ignored on reception.
+
+19.9. AD (Authentic Data) Bit [RFC 2535]
+
+   In query messages the Authentic Data bit MUST be zero on
+   transmission, and MUST be ignored on reception.
+
+Goals:
+
+a)
+
+  - name -> addr DONE
+
+  - addr -> name DONE
+
+  - reorganize against 1.8 DONE
+
+  - have local addrs/ips resolve with require 'resolv-replace' DONE
+
+  - fix Config/timeout/choice of candidates problems
+
+  - test, do lookups, review code
+
+  - remove timeout imp?
+
+  - produce patches against 1.8
+
+b)
+  - refactor into net/dns
+  - implement network browwer
+  - submit diffs
+  - server
+  - rinda?
+  - client/server in test/unit
+
+
+Things to take care of from the draft:
+
+
+
+questions:
+
+  Do I really need timeouts with mDNS? I think the timeouts are way too long for
+  a local multicast network.
+
+  Shouldn't Resolv and the built-in resolver use the same exception classes, particularly
+  in resolv-replace?
+ 
+  can't do reverse address lookups, with ruby 1.6... my fault?
+
+  run ga using -r resolv-replace, see if ruby does the CNAME thing...
+
+  can Resolver query arbitrary records, like CNAME?
+
+  can I use ruby's Message.decode() to decode and dump a detailed description
+  of a log captured by tcpdump?
+
+  resolv.conf looks correct, but I can't resolv www.google.ca!
+
+  Shouldn't BasicSocket.do_not_reverse_lookup be set? Or be set on our sockets?
+  It's weird that in @sock.recv we get a tuple with the address... when we ARE
+  a resolver library.... and if you call resolv-replace, won't we call
+  ourselves in order to resolve the IP when you call recv to get the peer info?
+  And isn't resolv-replace ignoring BasicSocket.do_not_reverse_lookup?
+
+
+

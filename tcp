@@ -1,0 +1,17 @@
+#!/bin/sh
+
+#E="(src host 192.168.123.154 and dst port 5353) or (dst host 192.168.123.154 and src port 5353)"
+
+E="src or dst port 5353"
+
+set -x
+
+sudo /opt/local/sbin/tcpdump -n -t -X -l -s 256 "$E"
+
+# -n don't convert addrs to names
+# -t no timestamp
+# -X print each packet in hex and ascii
+# -l make linebuffered so you can watch output
+# -s 256 increase buffer size to see whole dns pkt
+# -A print packet in ascii
+

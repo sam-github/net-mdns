@@ -1,0 +1,188 @@
+> Maybe you should be aware that there could be another responder 
+> running on your machine using the port 5353 on the multicast address. 
+> In that case you can not announce services.
+ 
+  Actually, with multicast addresses, you can have multiple applications 
+  on the same machine listening to the multicast address 
+  224.0.0.251:5353.  The disadvantage is that they would all have their 
+  own separate caches.  That"s why it"s better to have a daemon that 
+  allows for a shared cache, but an application developer can safely 
+  compile the responder directly into their application if they choose to.
+        
+???
+
+
+
+How to call tcpdump:
+
+  sudo /opt/local/sbin/tcpdump -n -t -X -l -s 256
+
+UDP Name Server Requests
+
+ (N.B.:The  following  description  assumes  familiarity with the Domain
+ Service protocol described in RFC-1035.  If you are not  familiar  with
+ the  protocol,  the  following description will appear to be written in
+ greek.)
+
+ Name server requests are formatted as
+        src > dst: id op? flags qtype qclass name (len)
+
+id     - query ID
+op     - operation, omitted if it is Query
+flags  - flags are:
+            +    - recursion desired
+qtype  - query type:
+           A    - address record
+qclass - query class, omitted if it is C_IN
+name   - query name
+(len)  - query length
+
+
+        h2opolo.1538 > helios.domain: 3+ A? ucbvax.berkeley.edu. (37)
+
+id = 3
+op = Query
+flags = recursion desired
+qtype = address record
+  "?" means what?
+qclass = C_IN
+name = ucbvax.berkeley.edu.
+len = 37
+
+
+ Host h2opolo asked the domain server on helios for  an  address  record
+ (qtype=A)  associated  with the name ucbvax.berkeley.edu.  The query id
+ was `3'.  The `+' indicates the recursion desired flag  was  set.   The
+ query  length was 37 bytes, not including the UDP and IP protocol head-
+ ers.  The query operation was the normal one, Query, so  the  op  field
+ was  omitted.   If  the  op  had been anything else, it would have been
+ printed between the `3' and the `+'.  Similarly,  the  qclass  was  the
+ normal  one,  C_IN,  and  omitted.   Any  other  qclass would have been
+ printed immediately after the `A'.
+
+ A few anomalies are checked and may result in extra fields enclosed  in
+ square  brackets:   If a query contains an answer, authority records or
+ additional records section, ancount, nscount, or arcount are printed as
+ `[na]', `[nn]' or  `[nau]' where n is the appropriate count.  If any of
+ the response bits are set (AA, RA or rcode) or  any  of  the  `must  be
+ zero' bits are set in bytes two and three, `[b2&3=x]' is printed, where
+ x is the hex value of header bytes two and three.
+
+
+
+ UDP Name Server Responses
+
+ Name server responses are formatted as
+        src > dst:  id op rcode flags a/n/au type class data (len)
+
+        helios.domain > h2opolo.1538: 3 3/3/7 A 128.32.137.3 (273)
+        helios.domain > h2opolo.1537: 2 NXDomain* 0/1/0 (97)
+
+id     - query id being responded to
+op     - operation, omitted if Query
+rcode  - omitted if NoError
+flags  - one of:
+           *    - answer is authoritative
+           -    - recursion available, RA, NOT set
+           |    - truncated message, TC, set
+a/n/au - answer/name server/additional records
+type   - first answer record type
+class  - omitted if C_IN
+data   - first answer record data
+
+ In the first example, helios responds to query id 3 from h2opolo with 3
+ answer  records,  3  name server records and 7 additional records.  The
+ first answer record is type  A  (address)  and  its  data  is  internet
+ address  128.32.137.3.   The  total size of the response was 273 bytes,
+ excluding UDP and IP headers.  The op (Query) and response code  (NoEr-
+ ror) were omitted, as was the class (C_IN) of the A record.
+
+ In  the second example, helios responds to query 2 with a response code
+ of non-existent domain (NXDomain) with no answers, one name server  and
+ no  authority records.  The `*' indicates that the authoritative answer
+ bit was set.  Since there were no answers, no type, class or data  were
+ printed.
+
+ Other  flag  characters that might appear are `-' (recursion available,
+ RA, not set) and `|' (truncated message, TC, set).  If  the  `question'
+ section doesn't contain exactly one entry, `[nq]' is printed.
+
+ Note  that  name server requests and responses tend to be large and the
+ default snaplen of 68 bytes may not capture enough  of  the  packet  to
+ print.   Use  the  -s flag to increase the snaplen if you need to seri-
+ ously investigate name server traffic.  `-s 128' has  worked  well  for
+ me.
+
+
+SRV request:
+
+IP 192.168.123.154.5353 > 224.0.0.251.5353:  0 [4a] [3q] SRV? Julie Lebel's Web Site._http._tcp.local. TXT? Julie Lebel's Web Site._http._tcp.local. PTR? _http._tcp.local. (173)
+        0x0000:  4500 00c9 af62 0000 ff11 ee82 c0a8 7b9a  E....b........{.
+        0x0010:  e000 00fb 14e9 14e9 00b5 4b83 0000 0000  ..........K.....
+        0x0020:  0003 0004 0000 0000 164a 756c 6965 204c  .........Julie.L
+        0x0030:  6562 656c 2773 2057 6562 2053 6974 6505  ebel's.Web.Site.
+        0x0040:  5f68 7474 7004 5f74 6370 056c 6f63 616c  _http._tcp.local
+        0x0050:  0000 2100 01c0 0c00 1000 01c0 2300 0c00  ..!.........#...
+        0x0060:  01c0 2300 0c00 0100 0018 a200 0b08 656e  ..#...........en
+        0x0070:  7365 6d62 6c65 c023 c023 000c 0001 0000  semble.#.#......
+        0x0080:  18a2 0013 1067 7565 7374 2773 2057 6562  .....guest's.Web
+        0x0090:  2053 6974 65c0 23c0 2300 0c00 0100 0018  .Site.#.#.......
+        0x00a0:  a200 02c0 0cc0 2300 0c00 0100 0018 a200  ......#.........
+        0x00b0:  1815 5361 6d20 526f 6265 7274 7327 2057  ..Sam.Roberts'.W
+        0x00c0:  6562 2053 6974 65c0 23                   eb.Site.#
+IP 192.168.123.154.5353 > 224.0.0.251.5353:  0*- [0q] 2/0/1 (Cache flush) SRV ensemble.local.:80 0 0, (Cache flush) TXT "path=/~julie/" (122)
+        0x0000:  4500 0096 af63 0000 ff11 eeb4 c0a8 7b9a  E....c........{.
+        0x0010:  e000 00fb 14e9 14e9 0082 a86e 0000 8400  ...........n....
+        0x0020:  0000 0002 0000 0001 164a 756c 6965 204c  .........Julie.L
+        0x0030:  6562 656c 2773 2057 6562 2053 6974 6505  ebel's.Web.Site.
+        0x0040:  5f68 7474 7004 5f74 6370 056c 6f63 616c  _http._tcp.local
+        0x0050:  0000 2180 0100 0000 3c00 1100 0000 0000  ..!.....<.......
+        0x0060:  5008 656e 7365 6d62 6c65 c02e c00c 0010  P.ensemble......
+        0x0070:  8001 0000 003c 000e 0d70 6174 683d 2f7e  .....<...path=/~
+        0x0080:  6a75 6c69 652f c045 0001 8001 0000 003c  julie/.E.......<
+        0x0090:  0004 c0a8 7b9a                           ....{.
+IP 192.168.123.154.5353 > 224.0.0.251.5353:  0 [1a] A? ensemble.local. (48)
+        0x0000:  4500 004c af64 0000 ff11 eefd c0a8 7b9a  E..L.d........{.
+        0x0010:  e000 00fb 14e9 14e9 0038 dc4e 0000 0000  .........8.N....
+        0x0020:  0001 0001 0000 0000 0865 6e73 656d 626c  .........ensembl
+        0x0030:  6505 6c6f 6361 6c00 0001 0001 c00c 0001  e.local.........
+        0x0040:  0001 0000 003c 0004 c0a8 7b9a            .....<....{.
+IP 192.168.123.154.53081 > 224.0.0.251.5353:  41650+ SRV? Julie Lebel's Web Site._http._tcp.local. (57)
+        0x0000:  4500 0055 af66 0000 ff11 eef2 c0a8 7b9a  E..U.f........{.
+        0x0010:  e000 00fb cf59 14e9 0041 df04 a2b2 0100  .....Y...A......
+        0x0020:  0001 0000 0000 0000 164a 756c 6965 204c  .........Julie.L
+        0x0030:  6562 656c 2773 2057 6562 2053 6974 6505  ebel's.Web.Site.
+        0x0040:  5f68 7474 7004 5f74 6370 056c 6f63 616c  _http._tcp.local
+        0x0050:  0000 2100 01                             ..!..
+IP 192.168.123.154.5353 > 224.0.0.251.5353:  0*- [0q] 1/0/1 (Cache flush) SRV ensemble.local.:80 0 0 (96)
+        0x0000:  4500 007c af68 0000 ff11 eec9 c0a8 7b9a  E..|.h........{.
+        0x0010:  e000 00fb 14e9 14e9 0068 2bba 0000 8400  .........h+.....
+        0x0020:  0000 0001 0000 0001 164a 756c 6965 204c  .........Julie.L
+        0x0030:  6562 656c 2773 2057 6562 2053 6974 6505  ebel's.Web.Site.
+        0x0040:  5f68 7474 7004 5f74 6370 056c 6f63 616c  _http._tcp.local
+        0x0050:  0000 2180 0100 0000 3c00 1100 0000 0000  ..!.....<.......
+        0x0060:  5008 656e 7365 6d62 6c65 c02e c045 0001  P.ensemble...E..
+        0x0070:  8001 0000 003c 0004 c0a8 7b9a            .....<....{.
+
+
+What are these queries in _mdns for?
+
+IP 192.168.123.154.5353 > 224.0.0.251.5353:  0 [4a] [5q] PTR? _register._mdns._udp.local. PTR? _default._register._mdns._udp.local. PTR? _browse._mdns._udp.local. PTR? _default._browse._mdns._udp.local. PTR? _http._tcp.local. (232)
+        0x0000:  4500 0104 4211 0000 ff11 5b99 c0a8 7b9a  E...B.....[...{.
+        0x0010:  e000 00fb 14e9 14e9 00f0 85fc 0000 0000  ................
+        0x0020:  0005 0004 0000 0000 095f 7265 6769 7374  ........._regist
+        0x0030:  6572 055f 6d64 6e73 045f 7564 7005 6c6f  er._mdns._udp.lo
+        0x0040:  6361 6c00 000c 0001 085f 6465 6661 756c  cal......_defaul
+        0x0050:  74c0 0c00 0c00 0107 5f62 726f 7773 65c0  t......._browse.
+        0x0060:  1600 0c00 0108 5f64 6566 6175 6c74 c03b  ......_default.;
+        0x0070:  000c 0001 055f 6874 7470 045f 7463 70c0  ....._http._tcp.
+        0x0080:  2100 0c00 01c0 5800 0c00 0100 0016 2300  !.....X.......#.
+        0x0090:  0b08 656e 7365 6d62 6c65 c058 c058 000c  ..ensemble.X.X..
+        0x00a0:  0001 0000 1623 0013 1067 7565 7374 2773  .....#...guest's
+        0x00b0:  2057 6562 2053 6974 65c0 58c0 5800 0c00  .Web.Site.X.X...
+        0x00c0:  0100 0016 2300 1916 4a75 6c69 6520 4c65  ....#...Julie.Le
+        0x00d0:  6265 6c27 7320 5765 6220 5369 7465 c058  bel's.Web.Site.X
+        0x00e0:  c058 000c 0001 0000 1623 0018 1553 616d  .X.......#...Sam
+        0x00f0:  2052                                     .R
+
+

@@ -1,0 +1,522 @@
+                                                         Stuart Cheshire
+Document: draft-cheshire-ipv4-acd-00.txt                  Apple Computer
+Expires 8th May 2002                                   8th November 2001
+
+
+
+                    IPv4 Address Conflict Detection
+
+                    <draft-cheshire-ipv4-acd-00.txt>
+
+
+
+Status of this Memo
+
+   This document is an Internet-Draft and is in full conformance with
+   all provisions of Section 10 of RFC2026.  Internet-Drafts are
+   working documents of the Internet Engineering Task Force (IETF),
+   its areas, and its working groups.  Note that other groups may
+   also distribute working documents as Internet-Drafts.
+
+   Internet-Drafts are draft documents valid for a maximum of six
+   months and may be updated, replaced, or obsoleted by other documents
+   at any time.  It is inappropriate to use Internet-Drafts as
+   reference material or to cite them other than as "work in progress."
+
+   The list of current Internet-Drafts can be accessed at
+   http://www.ietf.org/ietf/1id-abstracts.txt
+
+   The list of Internet-Draft Shadow Directories can be accessed at
+   http://www.ietf.org/shadow.html
+
+   Distribution of this memo is unlimited.
+
+
+Abstract
+
+   When two hosts on the same link attempt to use the same IPv4 address
+   at the same time (except in rare special cases where this has been
+   arranged by prior coordination) problems ensue for one or both hosts.
+   This document describes a simple precaution that a host can take to
+   help prevent this misconfiguration from happening, and a simple
+   mechanism by which a host can passively detect when this
+   misconfiguration has occurred.
+
+
+1. Introduction
+
+   Historically, accidentally configuring two Internet hosts with the
+   same IP address has often been an annoying and hard-to-diagnose
+   problem.
+
+   This is unfortunate, because the existing ARP protocol provides an
+   easy way for a host to detect this kind of misconfiguration and
+   report it to the user. The DHCP specification [RFC 2131] briefly
+   mentions the role of ARP in detecting misconfiguration:
+
+
+Expires 8th May 2002                  Cheshire                  [Page 1]
+
+Internet Draft     IPv4 Address Conflict Detection     8th November 2001
+
+
+      the client SHOULD probe the newly received address,
+      e.g., with ARP.
+
+      The client SHOULD perform a final check on the parameters
+      (e.g., ARP for allocated network address)
+
+      If the client detects that the address is already in use
+      (e.g., through the use of ARP), the client MUST send
+      a DHCPDECLINE message to the server
+
+      if the client is on a network that supports ARP, the client
+      may issue an ARP request for the suggested request [sic]. When
+      broadcasting an ARP request for the suggested address, the
+      client must fill in its own hardware address as the sender's
+      hardware address, and 0 as the sender's IP address, to avoid
+      confusing ARP caches in other hosts on the same subnet. If the
+      network address appears to be in use, the client MUST send a
+      DHCPDECLINE message to the server. The client SHOULD broadcast
+      an ARP reply to announce the client's new IP address and clear
+      any outdated ARP cache entries in hosts on the client's subnet.
+
+   Unfortunately, the DHCP specification does not give any guidance to
+   implementers concerning the number of ARP packets to send, the
+   interval between packets, the total time to wait before concluding
+   that an address may safely be used, or indeed even which kinds of
+   packets a host should be listening for, in order to make this
+   determination. It leaves unspecified the action a host should take
+   if, after concluding that an address may safely be used, it
+   subsequently discovers that it was wrong. It also fails to specify
+   what precautions a DHCP client should take to guard against
+   pathological failure cases, such as DHCP server that repeatedly
+   OFFERs the same address, even though it has been DECLINEd multiple
+   times.
+
+   The authors of the DHCP specification may have thought the answers to
+   these questions too obvious to mention; however, experience has shown
+   that even amongst intelligent experienced protocol implementers,
+   these issues are the subject of debate. This draft seeks to end this
+   ambiguity by clearly specifying the required actions for:
+
+   1. Determining whether use of an address is likely to lead to an
+      addressing conflict. This includes (a) the case where the address
+      is already actively in use by another host on the same link, and
+      (b) the case where two hosts are inadvertently about to begin
+      using the same address, and both are simultaneously in the process
+      of probing to determine whether the address may safely be used.
+
+   2. Subsequent passive detection that another host on the network is
+      inadvertently using the same address. Even if all hosts observe
+      precautions to avoid using an address that is already in use,
+      conflicts can still occur if two hosts are out of communication at
+
+
+Expires 8th May 2002                  Cheshire                  [Page 2]
+
+Internet Draft     IPv4 Address Conflict Detection     8th November 2001
+
+
+      the time of initial interface configuration. This could occur with
+      wireless network interfaces if the hosts are temporarily out of
+      range, or with Ethernet interfaces if the link between two
+      Ethernet hubs is not functioning at the time of address
+      configuration. A well-designed host will handle not only conflicts
+      detected during interface configuration, but also conflicts
+      detected later, for the entire duration of the time that the host
+      is using the address.
+
+   3. Rate-limiting in the case of an excessive number of repeated
+      conflicts.
+
+   The utility of IPv4 Address Conflict Detection is not limited to DHCP
+   clients. No matter how an address was configured, whether via manual
+   entry by a human user, via information received from a DHCP server,
+   or via any other source of configuration information, detecting
+   conflicts is useful. Upon detecting a conflict, the configuring agent
+   should be notified of the error. In the case where the configuring
+   agent is a human user, that notification may take the form of an
+   error message on a screen, an SNMP trap, or an error message sent via
+   pager. In the case of a DHCP server, that notification takes the form
+   of a DHCP DECLINE message sent to the server. In the case of
+   configuration by some other kind of software, that notification takes
+   the form of an error indication to the software in question, to
+   inform it that the address it selected is in conflict with some other
+   host on the network. The configuring software may choose to cease
+   network operation, or it may automatically select a new address so
+   that the host may re-establish IP connectivity as soon as possible.
+
+   The specifications described in this document have been implemented
+   in Mac OS, Windows and other platforms for many years, and work
+   successfully.
+
+
+1.1. Conventions and Terminology Used in this Document
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in "Key words for use in
+   RFCs to Indicate Requirement Levels" [RFC 2119].
+
+   Wherever this document uses the term "sender IP address" or "target
+   IP address" in the context of an ARP packet, it is referring to the
+   fields of the ARP packet identified in the ARP specification [RFC
+   826] as "ar$spa" (Sender Protocol Address) and "ar$tpa" (Target
+   Protocol Address) respectively. For the usage of ARP described in
+   this document, each of these fields always contains an IP address.
+
+   In this document, the term "ARP Probe" is used to refer to an ARP
+   request packet, broadcast on the local link, with an all-zero 'sender
+   IP address'. The 'sender hardware address' MUST contain the hardware
+
+
+Expires 8th May 2002                  Cheshire                  [Page 3]
+
+Internet Draft     IPv4 Address Conflict Detection     8th November 2001
+
+
+   address of the interface sending the packet. The 'target hardware
+   address' field is ignored and SHOULD be set to all zeroes. The
+   'target IP address' field MUST be set to the address being probed.
+
+   In this document, the term "ARP Announcement" is used to refer to
+   an ARP request packet, broadcast on the local link, identical to
+   the ARP probe described above, except that both the sender and
+   target IP address fields contain the IP address being announced.
+
+
+1.2 Relationship to RFC 826
+
+   This draft does not modify any of the protocol rules in RFC 826; it
+   merely clarifies two things that were unstated in RFC 826. In RFC
+   826, an ARP Request packet serves two functions, an assertion and a
+   question.
+
+   Assertion: The fields "ar$sha" (Sender Hardware Address) and "ar$spa"
+   (Sender Protocol Address) together serve as an assertion of a fact,
+   that the stated Protocol Address is mapped to the stated Hardware
+   Address.
+
+   Question: The fields "ar$tha" (Target Hardware Address, zero) and
+   "ar$tpa" (Target Protocol Address) serve as a question, asking, for
+   the stated Protocol Address, to which Hardware Address it is mapped.
+
+   This draft standardizes the natural and widely-used interpretation
+   of an ARP Request where the Target Protocol Address is non-zero but
+   the Sender Protocol Address is zero, namely that it is a question
+   without an associated assertion (an "ARP Probe").
+
+   This draft standardizes the natural and widely-used interpretation
+   of an ARP Request where the Sender and Target Protocol Address fields
+   contain the same address, namely that it is an assertion without an
+   associated question (an "ARP Announcement").
+
+
+1.3. Applicability
+
+   The specifications in this document apply to any link-layer network
+   technology that uses ARP [RFC 826] to map from IP addresses to
+   link-layer hardware addresses.
+
+
+2. Address Probing, Announcing, Conflict Detection and Defense
+
+   This section describes initial probing to safely determine whether an
+   address is already in use, ongoing conflict checking, and optional
+   use of broadcast ARP replies to provide faster conflict detection.
+
+
+
+
+Expires 8th May 2002                  Cheshire                  [Page 4]
+
+Internet Draft     IPv4 Address Conflict Detection     8th November 2001
+
+
+2.1 Probing an Address
+
+   Before beginning to use an IP address (whether received from manual
+   configuration, DHCP, or some other means), a host may test to see if
+   the address is already in use, using ARP probes.
+
+   A host probes to see if an address is already in use by broadcasting
+   an ARP request for the desired address. The client MUST fill in the
+   'sender hardware address' field of the ARP request with the hardware
+   address of the interface through which it is sending the packet.
+   The 'sender IP address' field MUST be set to all zeroes, to avoid
+   polluting ARP caches in other hosts on the same link in the case
+   where the address turns out to be already in use by another host.
+   The 'target hardware address' field is ignored and SHOULD be set to
+   all zeroes. The 'target IP address' field MUST be set to the address
+   being probed. An ARP request constructed this way with an all-zero
+   'sender IP address' is referred to as an "ARP probe".
+
+   Where link-state information is available, the host should delay
+   beginning the probing process until after the underlying hardware or
+   link-layer driver software indicates that the physical link (e.g. the
+   port on an Ethernet hub) has become active and is forwarding packets.
+
+   When ready to begin probing, the host should then wait for a random
+   time interval selected uniformly in the range zero to two seconds,
+   and should then send four probe packets, spaced two seconds apart.
+   This initial random delay helps ensure that a large number of hosts
+   powered on at the same time do not all send their initial probe
+   packets simultaneously.
+
+   If during this period, from the beginning of the probing process
+   until two seconds after the last probe packet is sent, the host
+   receives any ARP packet (request *or* reply) where the packet's
+   'sender IP address' is the address being probed for, then the host
+   MUST treat this address as being in use by some other host, and
+   should indicate to the configuring agent (human operator, DHCP
+   server, etc.) that the proposed address is not acceptable. In
+   addition, if during this period the host receives any ARP probe where
+   the packet's 'target IP address' is the address being probed for, and
+   the packet's 'sender hardware address' is not the hardware address of
+   any of the host's interfaces, then the host MUST similarly treat this
+   as an address conflict and signal an error to the configuring agent
+   as above. This can occur if two (or more) hosts have, for whatever
+   reason, been inadvertently configured with the same address, and both
+   are simultaneously in the process of probing that address to see if
+   it can safely be used.
+
+   A host should maintain a counter of the number of conflicts it has
+   experienced in the process of trying to configure an interface, and
+   if the number of conflicts exceeds ten then the host MUST limit the
+   rate at which it probes for new addresses to no more than one new
+
+
+Expires 8th May 2002                  Cheshire                  [Page 5]
+
+Internet Draft     IPv4 Address Conflict Detection     8th November 2001
+
+
+   address per minute. This is to prevent catastrophic ARP storms in
+   pathological failure cases, such as a defective DHCP server that
+   repeatedly assigns the same address to every host that asks for one.
+
+   If, by two seconds after the transmission of the last ARP probe
+   no conflicting ARP reply has been received, then the host has
+   successfully determined that the desired address may be used safely.
+
+2.2 Announcing an Address
+
+   Having determined that a desired address may be used safely, a host
+   should then announce that it is commencing to use this address by
+   broadcasting two ARP announcements, spaced two seconds apart. An ARP
+   announcement is identical to the ARP probe described above, except
+   that now the sender and target IP addresses are both set to the
+   host's newly selected IP address. The purpose of these ARP
+   announcements is to make sure that other hosts on the link do not
+   have stale ARP cache entries left over from some other host that may
+   previously have been using the same address.
+
+2.3 Ongoing Address Conflict Detection and Address Defense
+
+   Address conflict detection should not be limited to only the time of
+   initial interface configuration, when a host is sending ARP probes.
+   Address conflict detection is an ongoing process that is in effect
+   for as long as a host is using an address. At any time, if a host
+   receives an ARP packet (request *or* reply) where the 'sender IP
+   address' is the host's own IP address, but the 'sender hardware
+   address' does not match any of the host's own interface addresses,
+   then this is a conflicting ARP packet, indicating some other unknown
+   host also thinks it is validly using this address. To resolve the
+   address conflict, a host must respond to a conflicting ARP packet as
+   described in either (a) or (b) below:
+
+   (a) Upon receiving a conflicting ARP packet, a host MAY elect to
+   immediately cease using the address, and signal an error to the
+   configuring agent as described above, or
+
+   (b) If a host currently has active TCP connections or other reasons
+   to prefer to keep the same IP address, and it has not seen any other
+   conflicting ARP packets recently (for Ethernet, within the last ten
+   seconds) then it MAY elect to attempt to defend its address.
+   To defend its address, the host first records the time that the
+   conflicting ARP packet was received, and then broadcasts one single
+   ARP announcement, giving its own IP and hardware addresses. Having
+   done this, the host can then continue to use the address normally
+   without any further special action. However, if this is not the first
+   conflicting ARP packet the host has seen, and the time recorded for
+   the previous conflicting ARP packet is recent (within ten seconds for
+   Ethernet) then the host MUST immediately cease using this address and
+   signal an error to the configuring agent as described above. This is
+
+
+Expires 8th May 2002                  Cheshire                  [Page 6]
+
+Internet Draft     IPv4 Address Conflict Detection     8th November 2001
+
+
+   necessary to ensure that two hosts do not get stuck in an endless
+   loop with both hosts trying to defend the same address.
+
+   A host wishing to provide reliable network operation must respond to
+   conflicting ARP packets as described in either (a) or (b) above.
+   Ignoring conflicting ARP packets results in seemingly random network
+   failures which can be hard to diagnose and very frustrating for human
+   users.
+
+   Forced address reconfiguration may be disruptive, causing TCP
+   connections to be broken. However, it is expected that such
+   disruptions will be rare, and if inadvertent address duplication
+   happens, then disruption of communication is inevitable. It is not
+   possible for two different hosts using the same IP address on the
+   same network to operate reliably.
+
+   Immediately configuring a new address as soon as the conflict is
+   detected is the best way to restore useful communication as quickly
+   as possible. The mechanism described above of broadcasting a single
+   ARP announcement to defend the address mitigates the problem
+   somewhat, by helping to improve the chance that one of the two
+   conflicting hosts may be able to retain its address.
+
+2.4 Broadcast ARP Replies
+
+   In a carefully-run network with manually-assigned addresses, or
+   a network with a reliable DHCP server and reliable DHCP clients,
+   address conflicts should occur only in rare failure scenarios,
+   so the passive monitoring described above in Section 2.3 is adequate.
+   If two hosts are using the same IP address, then sooner or later one
+   or other host will broadcast an ARP request, which the other will
+   see, allowing the conflict to be detected and consequently resolved.
+
+   It is possible however, that a conflicting configuration may persist
+   for a short time before it is detected. Suppose that two hosts A and
+   B have been inadvertently assigned the same IP address X. Suppose
+   further that at the time they were both probing to determine whether
+   the address could safely be used, the communication link between them
+   was non-functional for some reason, so neither detected the conflict
+   at interface-configuration time. Suppose now that the communication
+   link is restored, and a third host C broadcasts an ARP request for
+   address X. Unaware of any conflict, both hosts A and B will send
+   unicast ARP replies to host C. Host C will see both replies, and may
+   be a little confused, but neither host A nor B will see the other's
+   reply, and neither will immediately detect that there is a conflict
+   to be resolved. Hosts A and B will continue to be unaware of the
+   conflict until one or other broadcasts an ARP request of their own.
+
+   If quicker conflict detection is desired, this can be achieved by
+   having hosts send ARP replies using link-level broadcast, instead
+   of sending only ARP requests via broadcast, and replies via unicast.
+
+
+Expires 8th May 2002                  Cheshire                  [Page 7]
+
+Internet Draft     IPv4 Address Conflict Detection     8th November 2001
+
+
+3. Security Considerations
+
+   The ARP protocol [RFC 826] is insecure. A malicious host may send
+   fraudulent ARP packets on the network, interfering with the correct
+   operation of other hosts. For example, it is easy for a host to
+   answer all ARP requests with responses giving its own hardware
+   address, thereby claiming ownership of every address on the network.
+
+
+4. IANA Considerations
+
+   This document has no IANA-related considerations.
+
+
+5. Acknowledgements
+
+   This document arose as a result of discussions on link-local
+   addressing, where it was not clear to many readers which elements of
+   link-local address management were specific to that particular
+   problem, and which elements were generic and applicable to all IPv4
+   address configuration mechanisms. The following people made valuable
+   comments in the course of that work: Bernard Aboba, Jim Busse, Pavani
+   Diwanji, Donald Eastlake 3rd, Peter Ford, Spencer Giacalone, Josh
+   Graessley, Erik Guttman, Myron Hattig, Hugh Holbrook, Richard
+   Johnson, Kim Yong-Woon, Rod Lopez, Satish Mundra, Thomas Narten, Erik
+   Nordmark, Howard Ridenour, Daniel Senie, Dieter Siegmund, Valery
+   Smyslov and Ryan Troll.
+
+
+6. Copyright
+
+   Copyright (C) The Internet Society 8th March 2000.
+   All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works. However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the Internet Society or other
+   Internet organizations, except as needed for the purpose of
+   developing Internet standards in which case the procedures for
+   copyrights defined in the Internet Standards process must be
+   followed, or as required to translate it into languages other than
+   English.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by the Internet Society or its successors or assigns.
+
+
+
+Expires 8th May 2002                  Cheshire                  [Page 8]
+
+Internet Draft     IPv4 Address Conflict Detection     8th November 2001
+
+
+   This document and the information contained herein is provided on an
+   "AS IS" basis and THE INTERNET SOCIETY AND THE INTERNET ENGINEERING
+   TASK FORCE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+
+
+7. References
+
+   [RFC 826]  D. Plummer, "An Ethernet Address Resolution Protocol -or-
+              Converting Network Addresses to 48-bit Ethernet Address
+              for Transmission on Ethernet Hardware", STD 37, RFC 826,
+              November 1982.
+
+   [RFC 2131] R. Droms, "Dynamic Host Configuration Protocol",
+              RFC 2131, March 1997.
+
+   [RFC 2119] S. Bradner, "Key words for use in RFCs to Indicate
+              Requirement Levels", RFC 2119, March 1997.
+
+
+8. Author's Address
+
+   Stuart Cheshire
+   Apple Computer, Inc.
+   1 Infinite Loop
+   Cupertino
+   California 95014
+   USA
+
+   Phone: +1 408 974 3207
+   EMail: rfc@stuartcheshire.org
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Expires 8th May 2002                  Cheshire                  [Page 9]
