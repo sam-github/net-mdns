@@ -41,7 +41,8 @@ module Net
     # ...).
     def self.rrname(rr)
       rr = rr.class unless rr.class == Class
-      rr.to_s.sub(/.*Resource::/, '')
+      rr = rr.to_s.sub(/.*Resource::/, '')
+      rr = rr.to_s.sub(/.*DNS::/, '')
     end
 
     module MDNS
@@ -97,7 +98,7 @@ module Net
           when IN::SRV
             s << " #{data.target}:#{data.port}"
           when IN::TXT
-            s << " #{data.strings.inspect}"
+            s << " #{data.strings.first.inspect}#{data.strings.length > 1 ? ', ...' : ''}"
           end
         end
       end
@@ -265,7 +266,12 @@ module Net
 
           debug( "start" )
 
-          kINADDR_IFX = Socket.gethostbyname(Socket.gethostname)[3]
+          #kINADDR_IFX = Socket.gethostbyname(Socket.gethostname)[3]
+
+          # FIXME
+
+          kINADDR_IFX = IPAddr.new('192.168.123.154').hton
+
 
           @sock = UDPSocket.new
 
@@ -293,11 +299,14 @@ module Net
           @sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_MULTICAST_IF, kINADDR_IFX)
 
           # Set IP TTL for outgoing packets.
-          # @sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_TTL, 255)
+          @sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_TTL, 255)
+          @sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_MULTICAST_TTL, 255)
 
-          # @sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_MULTICAST_TTL, 255 as int)
-          #  - or -
-          # @sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_MULTICAST_TTL, 255 as byte)
+          # Apple source makes it appear that optval may need to be a "char" on
+          # some systems:
+          #  @sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_MULTICAST_TTL, 255 as int)
+          #     - or -
+          #  @sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_MULTICAST_TTL, 255 as byte)
 
           # Bind to our port.
           @sock.bind(Socket::INADDR_ANY, Port)
@@ -685,27 +694,27 @@ module Net
             amsg.add_answer(@type, @ttl, @rrptr)
 
           when @instance
-            case rtype.id
-            when IN::ANY.id
+            case rtype.object_id
+            when IN::ANY.object_id
               amsg.add_answer(@instance, @ttl, @rrsrv)
-              amsg.add_answer(@instance, @ttl, @rrtxt)
+              amsg.add_answer(@instance, @ttl, @rrtxt) if @rrtxt
 
-            when IN::SRV.id
+            when IN::SRV.object_id
               amsg.add_answer(@instance, @ttl, @rrsrv)
 
-            when IN::TXT.id
-              amsg.add_answer(@instance, @ttl, @rrtxt)
+            when IN::TXT.object_id
+              amsg.add_answer(@instance, @ttl, @rrtxt) if @rrtxt
             end
 
           when @type
-            case rtype.id
-            when IN::ANY.id, IN::PTR.id
+            case rtype.object_id
+            when IN::ANY.object_id, IN::PTR.object_id
               amsg.add_answer(@type, @ttl, @rrptr)
             end
 
           when @enum
-            case rtype.id
-            when IN::ANY.id, IN::PTR.id
+            case rtype.object_id
+            when IN::ANY.object_id, IN::PTR.object_id
               amsg.add_answer(@type, @ttl, @rrenum)
             end
 
