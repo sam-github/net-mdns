@@ -17,68 +17,41 @@ class Resolv
   #
   # It can be used by doing:
   #   require 'net/dns/resolv-mdns'
-  #   Resolv.getaddress('localhost') # resolved using Resolv::Hosts("/etc/hosts")
+  #   Resolv.getaddress('localhost')       # resolved using Resolv::Hosts("/etc/hosts")
   #   Resolv.getaddress('www.example.com') # resolved using Resolv::DNS
-  #   Resolv.getaddress('example.local') # resolved using Resolv::MDNS
+  #   Resolv.getaddress('example.local')   # resolved using Resolv::MDNS
+  #
   # Using this approach means that both global DNS names and local names can be
   # resolved.  When doing this, you may also consider doing:
-  #   require 'resolv-replace'
-  # This has the effect of replacing the default ruby implementation of address
-  # lookup in IPSocket, TCPSocket, UDPSocket, and SOCKSocket with
-  # Resolv.getaddress, so (if 'net/dns/mdns-resolv' has been required) the
-  # standard libraries TCP/IP classes will use mDNS for name lookups in the .local domain.
   #
-  # = Example
-  #   require 'net/http'
   #   require 'net/dns/resolv-mdns'
-  #   
-  #   # Address lookup
-  #   
-  #   begin
-  #   puts Resolv.getaddress('example.local')
-  #   rescue Resolv::ResolvError
-  #     puts "no such address!"
-  #   end
-  #   
-  #   # Service discovery
-  #   
-  #   mdns = Resolv::MDNS.new
-  #   
-  #   mdns.each_resource('_http._tcp.local', Resolv::DNS::Resource::IN::PTR) do |rrhttp|
-  #     service = rrhttp.name
-  #     host = nil
-  #     port = nil
-  #     path = '/'
-  #   
-  #     rrsrv = mdns.getresource(rrhttp.name, Resolv::DNS::Resource::IN::SRV)
-  #     host, port = rrsrv.target.to_s, rrsrv.port
-  #     rrtxt = mdns.getresource(rrhttp.name, Resolv::DNS::Resource::IN::TXT)
-  #     if  rrtxt.data =~ /path=(.*)/
-  #       path = $1
-  #     end
-  #   
-  #     http = Net::HTTP.new(host, port)
-  #   
-  #     headers = http.head(path)
-  #   
-  #     puts "#{service[0]} on #{host}:#{port}#{path} was last-modified #{headers['last-modified']}"
-  #   end
-  #   
+  #   require 'resolv-replace'
+  #
+  # This has the effect of replacing the default ruby implementation of address
+  # lookup using the C library in IPSocket, TCPSocket, UDPSocket, and
+  # SOCKSocket with Resolv.getaddress. Since 'net/dns/resolv-mdns' has been
+  # required Resolv.getaddress and the standard libraries TCP/IP classes will
+  # use mDNS for name lookups in the .local mDNS domain.
+  #
   # == Service Discovery (DNS-SD)
   #
   # Service discovery consists of 2 stages:
   # - enumerating the names of the instances of the service
   # - resolving the instance names
   #
-  # The Net::DNS::MDNSSD API is better documented and easier to use for DNS-SD,
-  # but here's some information on using the Resolv APIs for DNS-SD.
+  # The Net::DNS::MDNSSD API is better documented and easier to use for DNS-SD.
+  # Still, here's some information on using the Resolv APIs for DNS-SD, and
+  # examples of doing so are:
+  # - link:exhttpv1.txt
+  # - link:v1mdns.txt
+  # - link:v1demo.txt.
   #
   # = Service Enumeration
   #
   # To do this query the pointer records (Resolv::DNS::Resource::IN::PTR) for
   # names of the form _svc._prot.local. The values of svc and prot for common
   # services can be found at http://www.dns-sd.org/ServiceTypes.html.
-  # The first label of the name returned is suitable for display to peoplem, and
+  # The first label of the name returned is suitable for display to people, and
   # should be unique in the network.
   #
   # = Service Resolution
