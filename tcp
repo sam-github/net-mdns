@@ -2,11 +2,16 @@
 
 #E="(src host 192.168.123.154 and dst port 5353) or (dst host 192.168.123.154 and src port 5353)"
 
-E="src or dst port 5353"
+if [ x$1 == x ]
+then
+  E="src or dst port 5353"
+else
+  E=$1
+fi
 
 set -x
 
-sudo /opt/local/sbin/tcpdump -n -t -X -l -s 256 "$E"
+sudo /opt/local/sbin/tcpdump -n -t -X -l -s 256 $E
 
 # -n don't convert addrs to names
 # -t no timestamp
