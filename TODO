@@ -1,25 +1,21 @@
 TODO
 
-Release: 0.1
+Release: 0.0  "proof of concept" - done
 
-- dns-sd test modes:
-   -A  ok, but don't support -Q so don't see HINFO add/update/remove
-   -U  ok
-   -N  ?
-   -T  ?
-   -M  ?
-   -I  ?
 
-- implement a MDNSSD api for DNSServiceQueryRecord, and mdns.rb -Q
+Release: 0.1  "make it work"
 
-- reintegrate into resolver, using Query API?
+- reintegrate into resolver
 
-- don't register a service that already exists
+
+
+Release: 0.2  "do the right thing"
+
+- correctly encode a nil in a text_record, and allow "key" w/no value for mdns.rb -R
 
 - implement flags, particularly add/remove flags
 
-
-Release: 0.2
+- don't register a service that already exists
 
 - set cacheflush bits, as appropriate, for service registration
 
@@ -27,6 +23,21 @@ Release: 0.2
     .. and do we notify queries that the answers are being deleted, too?
 
 - escape/parse DNS-SD names ...
+
+- try the meta-queries (_services._dns-sd._udp.local.)
+
+- add known answers to queries
+
+- answer unicast questions
+
+- implement a MDNSSD api for DNSServiceQueryRecord, and mdns.rb -Q
+
+Release: 0.3  "make it pretty"
+
+- mdns.rb -K, watch for records and immediately register replacements pointing
+  to somewhere else
+
+- general code cleanups
 
 - Add #to_s to the RR types.
 
@@ -38,73 +49,36 @@ Release: 0.2
 
 - wildcard answering services
 
-- try the meta-queries (_services._dns-sd._udp.local.)
-
-- add known answers to queries
-
-- answer unicast questions
-
-- DNS packet dumper
-
-- move hierarchal DNS Name comparison operators to an optional file.
+- Query#start, #restart
 
 - let Query.new take a block, and yield itself, or yield with every answer?
 
-- Query#stop, start, restart
+- move hierarchal DNS Name comparison operators to an optional file.
+
+- DNS packet dumper
 
 
 
-Projects:
-
-- Can this be used for rinda?
-
-
-Open design issues
-
-- look at perl's Net::DNS - http://www.net-dns.org
-
-- net classes that do socketopts, so you don't have to pack the structs yourself! or maybe
-  implement the 8 functions of Stevens?
-
-- factor Resolv::DNS internals into module Net::DNS. As a module, I can do
-  include Net::DNS, and use Name, etc.
-
- - DNS::Name should have to_str to advertise that it can be converted into a string?
-   --> net.http can't be used with return values of SRV.target...
-
- - case equality?
+dns-sd test mode results:
+   -A  ok, but don't support -Q so don't see HINFO add/update/remove
+   -U  ok
+   -N  ok, but don't support -Q so don't see NULL add
+   -T  ok
+   -M  no, we don't support multiple TXT records for a service
+   -I  ok
 
 
-      #  call-seq:
-      #     name === obj    => true or false
-      #  
-      #  Case Equality---Returns <code>true</code> if <i>anObject</i> is an
-      #  instance of +name+ or one of +name+'s descendents. Of
-      #  limited use for modules, but can be used in <code>case</code>
-      #  statements to classify objects by class.
-
-   or maybe when '*.example.com'...
-
- - maybe I should allow the port to be configurable, so mDNS can run on other
-   ports?
-
- - rename mdns.rb net/dns/multicast.rb?
-
- - namespace to put MDNS into?
-
- - get MDNS from Resolv's defaults
-
- - deal with timeout's
-
- - allow infinite loops, querying with no timeout
 
 
-Open resolv.rb questions:
+Open design issues:
 
-  - reverse DNS lookups done by sock.recv
+- how to get the local ifx ipv4 address?
 
+- Net classes that do socksetopts, so you don't have to pack the structs
+  yourself! or maybe implement the 8 functions of Stevens?
 
-questions:
+- Reverse DNS lookups are done by sock.recv, seems like its a problem for a
+  DNS library...
 
   Shouldn't BasicSocket.do_not_reverse_lookup be set? Or be set on our sockets?
   It's weird that in @sock.recv we get a tuple with the address... when we ARE
