@@ -12,12 +12,10 @@ doc:
 	 for s in $(SAMPLES); do cp $$s doc/`basename $$s .rb`.txt; done
 	 chmod u=rw doc/*.txt
 	 chmod go=r doc/*.txt
-	 mkdir -p ~/Sites/net-mdns/
-	 cp -r doc/* ~/Sites/net-mdns/
 	 open doc/index.html
 
 doc-upload:
-	cd doc; scp -r . sam@rubyforge.org:/var/www/gforge-projects/dnssd/net-mdns
+	cd doc; scp -r . sam@rubyforge.org:/var/www/gforge-projects/dnssd/net-mdns/
 
 submit: release doc-upload
 
@@ -33,8 +31,8 @@ test:
 	#/opt/local/bin/ruby -w -r 1.8-resolv.rb rr.rb
 	/usr/local/bin/ruby18 -w rr.rb
 
-bug:
-	/usr/local/bin/ruby18 -w -r 1.8-resolv.rb bug.rb
+diff:
+	diff -u ../ruby/lib/resolv.rb net/dns/resolv.rb
 
 ri:
 	rdoc18 -f ri net/dns/mdns.rb

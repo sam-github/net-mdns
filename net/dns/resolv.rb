@@ -11,9 +11,33 @@
 # resolv.rb I still need a copy in net-mdns. Without it, it would be necessary
 # to install ruby from CVS in order to use net-mdns.
 #
-# = BUGS
+# = Bug fixes/Required changes
 # - resolv-replace.rb: IPSocket#getaddress fails when passed a Fixnum, such as when
 #   calling UDPSocket#bind(Socket:INADDR_ANY, 5353)
+# - MessageEncoder#put_string: would silently create a garbage record if string was
+#   longer than 255 characters.
+# - TXT.new: correctly deal with TXT records longer than 255 characters.
+# - TXT#data: correctly concatenate strings into a TXT record longer than 255 characters.
+# - Message#encode/Message#decode: question and answer arrays now contain the
+#   mDNS unicast and cacheflush bit, respectively. #each_question and
+#   #each_answer are backwards compatible.
+#
+# = Ease-of-use changes
+#
+# - began rdocs
+# - Str#inspect: difficult to notice whitespace at beginning of string, use String#inspect
+# - Name#==: allow comparison to String or Name, similar to Name#create.
+# - Name#subdomain_of?: allow comparison to String or Name, similar to Name#create.
+# - Name#subdomain_of?: disregard absolute, it doesn't make sense that:
+#     www.example.com subdomain_of? www.example.com  => true
+#     www.example.com subdomain_of? www.example.com. => false
+#
+# I had a lot of bugs using Name comparison related to trailing dots. Name#==
+# is almost impossible to use correctly when comparing against an other which
+# is a Name or a String, and may have come from a DNS Message (in which case it
+# will be absolute), or from input from a user, in which case they probably did
+# not type the trailing dot.  These changes and the APIs in resolvx.rb helped,
+# and I think they are correct.
 
 =begin
 = resolv library

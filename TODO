@@ -5,15 +5,13 @@ Release: 0.0  "seeing if its possible" - done
 
 Release: 0.1  "making it work"
 
-- implement flags, particularly add/remove flags
-
-- make mdns.rb work with DNSSD (it is using r.ttl!)
-
-- package
-
+  A complete rewrite, too many changes to even mention, other than it now has
+  an almost-DNSSD compatible API, and supports advertising services.
 
 
 Release: 0.2  "doing the right thing"
+
+- implement flags, particularly add/remove flags
 
 - remove the use of absolute in name comparisons, I have had one too many bug
   involving this, I don't care if Tanaka thinks its not correct
