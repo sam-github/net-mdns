@@ -34,7 +34,7 @@ module Net
         attr_reader :interface, :name, :type, :domain, :fullname
         def initialize(an)
           @interface = nil
-          @fullname = ansrv.name.to_s
+          @fullname = an.name.to_s
           @domain, @type, @name = DNSSD.name_parse(an.data.name)
         end
       end
