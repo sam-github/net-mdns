@@ -76,8 +76,10 @@ module Net
         dnsname << DNS::Name.create(domain)
         dnsname.absolute = true
 
-        q = MDNS::BackgroundQuery.new(dnsname, IN::PTR) do |q, an|
-          yield BrowseReply.new( an )
+        q = MDNS::BackgroundQuery.new(dnsname, IN::PTR) do |q, answers|
+          answers.each do |an|
+            yield BrowseReply.new( an )
+          end
         end
         q
       end
@@ -111,19 +113,23 @@ module Net
         dnsname << DNS::Name.create(domain)
         dnsname.absolute = true
 
-        # This may look a bit painful, but we can't report an instance of a
-        # service until we have both a SRV and a TXT resource record for it.
+        # We can't report an instance of a service until we have both a SRV and
+        # a TXT resource record for it.
 
-        rrs = Hash.new { |h,k| h[k] = Hash.new }
+        rrs = {}
 
-        q = MDNS::BackgroundQuery.new(dnsname, IN::ANY) do |q, an|
-          rrs[an.name][an.type] = an
-
-          ansrv, antxt = rrs[an.name][IN::SRV], rrs[an.name][IN::TXT]
+        q = MDNS::BackgroundQuery.new(dnsname, IN::ANY) do |q, answers|
+          answers.each do |an|
+            # Paranoid check that the answer is for our question.
+            if an.name == dnsname
+              rrs[an.type] = an
+            end
+          end
+          ansrv, antxt = rrs[IN::SRV], rrs[IN::TXT]
 
           if ansrv && antxt
-#           puts "ansrv->#{ansrv.to_s}"
-#           puts "antxt->#{antxt.to_s}"
+#           puts "ansrv->#{ansrv}"
+#           puts "antxt->#{antxt}"
             yield ResolveReply.new( ansrv, antxt )
           end
         end

@@ -414,7 +414,7 @@ module Net
 
                     debug( "push #{answers.length} to #{q}" )
 
-                    q.push( *answers )
+                    q.push( answers )
                   end
 
                 end
@@ -569,7 +569,7 @@ module Net
 
               answers = @cache.answers_for(query.name, query.type)
 
-              query.push( *answers )
+              query.push( answers )
              
               # If it wasn't added, then we already are asking the question,
               # don't ask it again.
@@ -641,10 +641,8 @@ module Net
           false
         end
 
-        def push(*args) # :nodoc:
-          args.each do |an|
-            @queue.push(an)
-          end
+        def push(answers) # :nodoc:
+          @queue.push(answers) if answers.first
           self
         end
 
@@ -653,14 +651,14 @@ module Net
         # The query +type+ from Query.new.
         attr_reader :type
 
-        # Block waiting for a Answer.
+        # Block, returning annswers when available.
         def pop
           @queue.pop
         end
 
 
-        # Loop forever, yielding each answer.
-        def each # :yield: an
+        # Loop forever, yielding answers as available.
+        def each # :yield: answers
           loop do
             yield pop
           end
@@ -870,22 +868,8 @@ $print_mutex = Mutex.new
 
 def print_answers(q,answers)
   $print_mutex.synchronize do
-    puts "query #{q.name}/#{q.type} got #{answers.length} answers:"
-    answers.each do |a|
-      case a.data
-      when IN::A
-        puts "  #{a.name} -> A   #{a.data.address.to_s}"
-      when Net::DNS::IN::PTR
-        puts "  #{a.name} -> PTR #{a.data.name}"
-      when Net::DNS::IN::SRV
-        puts "  #{a.name} -> SRV #{a.data.target}:#{a.data.port}"
-      when Net::DNS::IN::TXT
-        puts "  #{a.name} -> TXT"
-        a.data.strings.each { |s| puts "    #{s}" }
-      else
-        puts "  #{a.name} -> ??? #{a.data.inspect}"
-      end
-    end
+    puts "#{q} ->"
+    answers.each do |an| puts "  #{an}" end
   end
 end
 
@@ -905,11 +889,8 @@ questions.each do |question|
   next unless question
 
   type, name = question
-  MDNS::BackgroundQuery.new(name, type) do |q, an|
-    #print_answers(q, [an])
-     $print_mutex.synchronize do
-       puts "#{q}->#{an}"
-     end
+  MDNS::BackgroundQuery.new(name, type) do |q, answers|
+    print_answers(q, answers)
   end
 end
 
