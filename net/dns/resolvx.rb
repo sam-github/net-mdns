@@ -1,4 +1,12 @@
-# Extensions to the Resolv module, as opposed to modications.
+=begin
+  Copyright (C) 2005 Sam Roberts
+
+  This library is free software; you can redistribute it and/or modify it
+  under the same terms as the ruby language itself, see the file COPYING for
+  details.
+=end
+
+# resolvx.rb are extensions to resolv.rb, as opposed to modifications.
 
 require 'net/dns/resolv'
 
@@ -6,17 +14,15 @@ class Resolv
   class DNS
 
     class Message
-
-      # Is message a query?
+      # Returns true if message is a query.
       def query?
         qr == 0
       end
 
-      # Is message a response?
+      # Returns true if message is a response.
       def response?
         !query?
       end
-
     end
 
   end
@@ -32,47 +38,84 @@ class Resolv
   # The resolvers configured.
   attr_reader :resolvers
 
+end
+
+class Resolv
   class DNS
+
     class Config
       attr_reader :ndots
+      # A series of search suffixes to use if the name being looked up does not end
+      # in a dot, and does not have more than ndots in it.
       attr_reader :search
+      # The list of nameservers to query, should be dotted IP addresses, not
+      # domain names.
       attr_reader :nameservers
     end
 
-    # DNS names are hierarchical in a similar sense to ruby classes/modules, and the
-    # comparison operators are defined similarly to those of Module. A name is
-    # +<+ another if it is a subdomain.
-    #   www.example.com < example.com # -> true
-    #   example.com < example.com # -> false
-    #   example.com <= example.com # -> true
-    #   com < example.com # -> false
-    #   bar.com < example.com # -> nil
-    #
-    # Note that #== does not consider two names equal if they differ in whether
-    # they are #absolute?, but #equal? considers only the label when comparing
-    # names.
+  end
+end
+
+
+class Resolv
+  class DNS
+
     class Name
+      # Append +arg+ to this Name. +arg+ can be a String or a Name.
+      #
+      # Returns +self+.
       def <<(arg)
         arg = Name.create(arg)
         @labels.concat(arg.to_a)
         @absolute = arg.absolute?
+        self
       end
 
+      # Returns a new Name formed by concatenating +self+ with +arg+. +arg+ can
+      # be a String or a Name.
       def +(arg)
         arg = Name.create(arg)
         Name.new(@labels + arg.to_a, arg.absolute?)
       end
 
+      # Set whether +self+ is absolute or not. This is particularly useful when
+      # creating a Name from a String, since the trailing "." is rarely used in
+      # string representations of domain names, even when the domain name is
+      # fully qualified. This makes them very difficult to compare to a Name
+      # returned from the DNS record decoders, because DNS names are always
+      # absolute.
       def absolute=(abs)
         @absolute = abs ? true : false
       end
 
+      # Returns whether two names are equal, disregarding the absolute? property
+      # of the names.
+      #
+      # Note that this differs from #==, which does not consider two names
+      # equal if they differ in absoluteness.
       def equal?(name)
         n = Name.create(name)
 
         @labels == n.to_a
       end
+    end
 
+  end
+end
+
+
+class Resolv
+  class DNS
+
+    # DNS names are hierarchical in a similar sense to ruby classes/modules,
+    # and the comparison operators are defined similarly to those of Module. A
+    # name is +<+ another if it is a subdomain of it.
+    #   www.example.com < example.com # -> true
+    #   example.com < example.com # -> false
+    #   example.com <= example.com # -> true
+    #   com < example.com # -> false
+    #   bar.com < example.com # -> nil
+    class Name
       def related?(name)
         n = Name.create(name)
 
@@ -148,8 +191,8 @@ class Resolv
         # must be #equal?
         return  0
       end
-
     end
+
   end
 end
 
