@@ -5,8 +5,14 @@ Release: 0.0  "seeing if its possible" - done
 
 Release: 0.1  "making it work"
 
+- need to send TTL=0 message on service shutdown
+
+- Safari doesn't see my services!
+
+
   A complete rewrite, too many changes to even mention, other than it now has
   an almost-DNSSD compatible API, and supports advertising services.
+
 
 
 Release: 0.2  "doing the right thing"
@@ -68,6 +74,9 @@ Release: 0.3  "making it pretty"
 
 - DNS packet dumper
 
+- to make both TXT objects and TXT classes have a value,
+  add methods type_value and type_class.
+
 
 
 dns-sd test mode results:
@@ -108,4 +117,11 @@ Open design issues:
 
 - Net classes that do socksetopts, so you don't have to pack the structs
   yourself! or maybe implement the 8 functions of Stevens?
+
+
+System differences in multicast:
+
+[EACCES]           The destination address is a broadcast address, and
+SO_BROADCAST has not been set on the socket.
+
 
