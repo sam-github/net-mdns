@@ -4,7 +4,7 @@ default: test
 
 .PHONY: doc
 doc:
-	 rdoc -a -d -N -S -o doc
+	 rdoc -S -o doc net/dns
 
 .PHONY: tags
 tags:
