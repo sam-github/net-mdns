@@ -7,10 +7,11 @@
 =end
 
 require 'ipaddr'
-require 'resolv'
-require 'net/dns/resolvx'
 require 'logger'
+require 'resolv'
 require 'singleton'
+
+require 'net/dns/resolvx'
 
 BasicSocket.do_not_reverse_lookup = true
 
@@ -21,12 +22,27 @@ module Net
     Name         = Resolv::DNS::Name
     DecodeError  = Resolv::DNS::DecodeError
 
-    module RR
-      ANY = Resolv::DNS::Resource::IN::ANY
-      SRV = Resolv::DNS::Resource::IN::SRV
-      PTR = Resolv::DNS::Resource::IN::PTR
-      TXT = Resolv::DNS::Resource::IN::TXT
-      A   = Resolv::DNS::Resource::IN::A
+    module IN
+      A      = Resolv::DNS::Resource::IN::A
+      AAAA   = Resolv::DNS::Resource::IN::AAAA
+      ANY    = Resolv::DNS::Resource::IN::ANY
+      CNAME  = Resolv::DNS::Resource::IN::CNAME
+      HINFO  = Resolv::DNS::Resource::IN::HINFO
+      MINFO  = Resolv::DNS::Resource::IN::MINFO
+      MX     = Resolv::DNS::Resource::IN::MX
+      NS     = Resolv::DNS::Resource::IN::NS
+      PTR    = Resolv::DNS::Resource::IN::PTR
+      SOA    = Resolv::DNS::Resource::IN::SOA
+      SRV    = Resolv::DNS::Resource::IN::SRV
+      TXT    = Resolv::DNS::Resource::IN::TXT
+      WKS    = Resolv::DNS::Resource::IN::WKS
+    end
+
+    # Returns the resource record name of +rr+ as a short string ("IN::A",
+    # ...).
+    def self.rrname(rr)
+      rr = rr.class unless rr.class == Class
+      rr.to_s.sub(/.*Resource::/, '')
     end
 
     module MDNS
@@ -69,29 +85,68 @@ module Net
 
         # TODO - should be to_s, so inspect can give all attributes?
         def inspect
-          flags = ''
-          flags << '!' if absolute?
-          flags << '-' if ttl == 0
+          s = "#{name.to_s} (#{ttl}) -> "
+          s << '!' if absolute?
+          s << '-' if ttl == 0
+          s << " #{DNS.rrname(data)}"
+
           case data
-          when RR::A
-            "#{name.to_s} (#{ttl}) -> #{flags} A   #{data.address.to_s}"
-          when RR::PTR
-            "#{name.to_s} (#{ttl}) -> #{flags} PTR #{data.name}"
-          when RR::SRV
-            "#{name.to_s} (#{ttl}) -> #{flags} SRV #{data.target}:#{data.port}"
-          when RR::TXT
-            "#{name.to_s} (#{ttl}) -> #{flags} TXT #{data.strings.inspect}"
-          else
-            "#{name.to_s} (#{ttl}) -> #{flags} ??? #{data.inspect}"
+          when IN::A
+            s << " #{data.address.to_s}"
+          when IN::PTR
+            s << " #{data.name}"
+          when IN::SRV
+            s << " #{data.target}:#{data.port}"
+          when IN::TXT
+            s << " #{data.strings.inspect}"
           end
         end
       end
 
+      class Question
+        attr_reader :name, :type, :retries
+        attr_writer :retries
+
+        # Normally we see our own question, so an update will occur right away,
+        # causing retries to be set to 1. If we don't see our own question, for
+        # some reason, we'll ask again a second later.
+        RETRIES = [1, 1, 2, 4]
+
+        def initialize(name, type)
+          @name = name
+          @type = type
+
+          @lastq = Time.now.to_i
+
+          @retries = 0
+        end
+
+        # Update the number of times the question has been asked based on having
+        # seen the question, so that the question is considered asked whether
+        # we asked it, or another machine/process asked.
+        def update
+          @retries += 1
+          @lastq = Time.now.to_i
+        end
+
+        # Questions are asked 4 times, repeating at increasing intervals of 1,
+        # 2, and 4 seconds.
+        def refresh
+          r = RETRIES[retries]
+          @lastq + r if r
+        end
+
+        # TODO - should be to_s, so inspect can give all attributes?
+        def inspect
+          "#{@name.to_s}/#{DNS.rrname @type} (#{@retries})"
+        end
+      end
+
       class Cache
-        # asked: Hash[Name] -> Hash[Resource] -> Time (that question was asked)
+        # asked: Hash[Name] -> Hash[Resource] -> Question
         attr_reader :asked
 
-        # asked: Hash[Name] -> Hash[Resource] -> Array -> Answer (answers to value/resource)
+        # cached: Hash[Name] -> Hash[Resource] -> Array -> Answer
         attr_reader :cached
 
         def initialize
@@ -100,8 +155,19 @@ module Net
           @cached = Hash.new { |h,k| h[k] = (Hash.new { |a,b| a[b] = Array.new }) }
         end
 
+        # Return the question if we added it, or nil if question is already being asked.
+        def add_question(name, type)
+          if !@asked[name][type]
+            @asked[name][type] = Question.new(name, type)
+          end
+        end
+
+        # Cache question. Increase the number of times we've seen it.
         def cache_question(name, type)
-          @asked[name][type] = Time.now
+          if qu = @asked[name][type]
+            qu.update
+          end
+          qu
         end
 
         # Return cached answer, or nil if answer wasn't cached.
@@ -134,7 +200,7 @@ module Net
           answers = []
           if( name.to_s == '*' )
             @cached.keys.each { |n| answers += answers_for(n, type) }
-          elsif( type == RR::ANY )
+          elsif( type == IN::ANY )
             @cached[name].each { |rtype,rdata| answers += rdata }
           else
             answers += @cached[name][type]
@@ -145,7 +211,7 @@ module Net
         def asked?(name, type)
           return true if name.to_s == '*'
 
-          t = @asked[name][type] || @asked[name][RR::ANY]
+          t = @asked[name][type] || @asked[name][IN::ANY]
 
           # TODO - true if (Time.now - t) < some threshold...
 
@@ -157,28 +223,38 @@ module Net
       class Responder
         include Singleton
 
-        # mDNS network params
+        # mDNS link-local multicast address
         Addr = "224.0.0.251"
         Port = 5353
         UDPSize = 9000
 
-        attr_reader :thread
         attr_reader :cache
         attr_reader :log
 
+        # Log messages to +log+. +log+ must be +nil+ (no logging) or an object
+        # that responds to debug(), warn(), and error(). Default is a Logger to
+        # STDERR that logs only ERROR messages.
+        def log=(log)
+          unless !log || (log.respond_to?(:debug) && log.respond_to?(:warn) && log.respond_to?(:error))
+            raise ArgumentError, "log doesn't appear to be a kind of logger"
+          end
+          @log = log
+        end
+
         def debug(*args)
-          @log.debug( *args )
+          @log.debug( *args ) if @log
         end
         def warn(*args)
-          @log.warn( *args )
+          @log.warn( *args ) if @log
         end
         def error(*args)
-          @log.error( *args )
+          @log.error( *args ) if @log
         end
 
         def initialize
           @log = Logger.new(STDERR)
-          @log.level = Logger::DEBUG
+
+          @log.level = Logger::ERROR
 
           @mutex = Mutex.new
 
@@ -186,7 +262,7 @@ module Net
 
           @queries = []
 
-          @log.debug( "start" )
+          debug( "start" )
 
           kINADDR_IFX = Socket.gethostbyname(Socket.gethostname)[3]
 
@@ -203,7 +279,7 @@ module Net
           begin
             @sock.setsockopt(Socket::SOL_SOCKET, so_reuseport, 1)
           rescue
-            @log.warn( "set SO_REUSEPORT raised #{$!}, try SO_REUSEADDR" )
+            warn( "set SO_REUSEPORT raised #{$!}, try SO_REUSEADDR" )
             @sock.setsockopt(Socket::SOL_SOCKET,Socket::SO_REUSEADDR, 1)
           end
 
@@ -229,11 +305,11 @@ module Net
 
           @waketime = nil
 
-          @sweep_thrd = Thread.new do
-            sweep_loop
+          @cacher_thrd = Thread.new do
+            cacher_loop
           end
 
-          @thread = Thread.new do
+          @responder_thrd = Thread.new do
             responder_loop
           end
         end
@@ -248,7 +324,7 @@ module Net
               begin
                 msg =  Message.decode(reply)
 
-                @log.debug( "from #{from[3]}:#{from[1]} -> qr=#{msg.qr} qcnt=#{msg.question.size} acnt=#{msg.answer.size}" )
+                debug( "from #{from[3]}:#{from[1]} -> qr=#{msg.qr} qcnt=#{msg.question.size} acnt=#{msg.answer.size}" )
 
                 # When we see a QM:
                 #  - record the question as asked
@@ -258,8 +334,10 @@ module Net
                   msg.each_question do |name, type|
                     # Skip QUs
                     next if (type::ClassValue >> 15) == 1
-                    @log.debug( "++ q #{name.to_s}/#{type.to_s.sub(/.*source::/,'')}" )
-                      @cache.cache_question(name, type)
+
+                    debug( "++ q #{name.to_s}/#{DNS.rrname(type)}" )
+
+                    @cache.cache_question(name, type)
                   end
 
                   next
@@ -268,43 +346,45 @@ module Net
                 # Cache answers
                 cached = []
                 msg.each_answer do |n, ttl, data|
+
                   a = Answer.new(n, ttl, data)
-                  @log.debug( "++ a #{ a.inspect }" )
+                  debug( "++ a #{ a.inspect }" )
                   a = @cache.cache_answer(a)
 
                   # If a wasn't cached, then its no newer than an answer we already have, so
                   # we won't report it.
                   cached << a if a
 
-                  if a
-                    # wake sweeper if cached answer needs refreshing before current waketime
-                    if( !@waketime || a.refresh < @waketime )
-                      @waketime = a.refresh
-                      @sweep_thrd.wakeup
-                    end
-                  end
+                  wake_cacher_for(a)
                 end
 
                 # Push answers to Queries
                 @queries.each do |q|
-                  answers = []
+                  answers = cached.select { |an| q.subscribes_to? an }
 
-                  cached.each { |a| answers.push a if q.subscribes_to? a }
+                  debug( "push #{answers.length} to #{q.inspect}" )
 
-                  @log.debug( "push #{answers.length} to #{q.inspect}" )
-
-                  q.queue.push answers if answers.first
+                  q.push answers
                 end
 
               rescue DecodeError
-                @log.warn( "decode error: #{reply.inspect}" )
+                warn( "decode error: #{reply.inspect}" )
               end
 
             end # end sync
           end # end loop
         end
 
-        def sweep_loop
+        # wake sweeper if cache item needs refreshing before current waketime
+        def wake_cacher_for(item)
+          return unless item
+
+          if !@waketime || @waketime == 0 || item.refresh < @waketime
+            @cacher_thrd.wakeup
+          end
+        end
+
+        def cacher_loop
           delay = 0
 
           loop do
@@ -320,52 +400,81 @@ module Net
 
               @waketime = nil
 
-              questions = Message.new(0)
+              msg = Message.new(0)
+
               now = Time.now.to_i
 
-              # next Answer needing refresh
-              sweep = nil
+              # the earliest question or answer we need to wake for
+              wakefor = nil
 
+              # TODO - A delete expired, that yields every answer before
+              # deleting it (so I can log it).
+              # TODO - A #each_answer?
               @cache.cached.each do |name,rtypes|
-                qtype = []
-
                 rtypes.each do |rtype, answers|
-                  answers.delete_if do |a|
-                    r = a.expired?
-                    debug( "-- a #{a.inspect}" ) if r
-                    r
+                  # Delete expired answers.
+                  answers.delete_if do |an|
+                    if an.expired?
+                      debug( "-- a #{an.inspect}" )
+                      true
+                    end
                   end
-                  answers.each do |a|
-                    if a.refresh
-                      if now >= a.refresh
-                        a.retries += 1
-                        qtype << a.data.class
+                  # Requery answers that need refreshing, if there is a query that wants it.
+                  # Remember the earliest one we need to wake for.
+                  answers.each do |an|
+                    if an.refresh
+                      unless @queries.detect { |q| q.subscribes_to? an }
+                        debug( "no refresh of: a #{an.inspect}" )
+                        next
                       end
-                      if !sweep || a.refresh < sweep.refresh
-                        sweep = a
+                      if now >= an.refresh
+                        an.retries += 1
+                        msg.add_question(name, an.data.class)
+                      end
+                      if !wakefor || an.refresh < wakefor.refresh
+                        wakefor = an
                       end
                     end
                   end
                 end
+              end
 
-                qtype.uniq.each do |q|
-                  debug( "-> q #{name} #{q.to_s.sub(/.*source::/, '')}" )
-                  questions.add_question(name, q)
+              @cache.asked.each do |name,rtypes|
+                # Delete questions no query subscribes to, and that don't need refreshing.
+                rtypes.delete_if do |rtype, qu|
+                  if !qu.refresh || !@queries.detect { |q| q.subscribes_to? qu }
+                    debug( "no refresh of: q #{qu.inspect}" )
+                    true
+                  end
+                end
+                # Requery questions that need refreshing.
+                # Remember the earliest one we need to wake for.
+                rtypes.each do |rtype, qu|
+                  if now >= qu.refresh
+                    msg.add_question(name, rtype)
+                  end
+                  if !wakefor || qu.refresh < wakefor.refresh
+                    wakefor = qu
+                  end
                 end
               end
 
-              send(questions) if questions.question.first
+              msg.question.uniq!
 
-              @waketime = sweep.refresh if sweep
+              msg.each_question { |n,r| debug( "-> q #{n} #{DNS.rrname(r)}" ) }
+
+              send(msg) if msg.question.first
+
+              @waketime = wakefor.refresh if wakefor
 
               if @waketime
                 delay = @waketime - Time.now.to_i
                 delay = 1 if delay < 1
-              else
-                delay = 0 # forever (until Thread#wake)
-              end
 
-              debug( "refresh in #{delay} sec for #{sweep.inspect}" )
+                debug( "refresh in #{delay} sec for #{wakefor.inspect}" )
+              else
+                delay = 0
+              end
 
               debug( "sweep end" )
             end
@@ -383,32 +492,27 @@ module Net
           begin
             @sock.send(msg, 0, Addr, Port)
           rescue
-            @log.error( "send msg failed: #{$!}" )
+            error( "send msg failed: #{$!}" )
             raise
           end
         end
 
-        # 
-
-        # '*' is a pseudo-query, it will match any Answers, but can't be used
-        # to send a Query.
-        #
-        # Cached answers will be pushed right away.
-        #
-        # Query will be sent to the net if it hasn't already been asked.
-        #
-        # TODO - try to send with "unicast response" bit set.
         def start(query)
           @mutex.synchronize do
             begin
               @queries << query
 
-              asked = @cache.asked?(query.name, query.type)
+              qu = @cache.add_question(query.name, query.type)
+
+              wake_cacher_for(qu)
+
               answers = @cache.answers_for(query.name, query.type)
 
-              @log.debug( "query #{query.inspect} - start asked?=#{asked ? "y" : "n"} answers#=#{answers.size}" )
+              debug( "start query #{query.inspect}" )
              
-              unless asked
+              # If it wasn't added, then we already are asking the question,
+              # don't ask it again.
+              if qu
                 qmsg = Message.new(0)
                 qmsg.rd = 0
                 qmsg.add_question(query.name, query.type)
@@ -418,7 +522,7 @@ module Net
 
               query.push answers if answers.first
             rescue
-              @log.warn( "query #{query.inspect} - start failed: #{$!}" )
+              warn( "fail query #{query.inspect} - #{$!}" )
               @queries.delete(query)
               raise
             end
@@ -427,7 +531,7 @@ module Net
 
         def stop(query)
           @mutex.synchronize do
-            @log.debug( "query #{query.inspect} - stop" )
+            debug( "query #{query.inspect} - stop" )
             @queries.delete(query)
           end
         end
@@ -437,11 +541,13 @@ module Net
 
       #  - derived is one that calls proc in current thread
       class Query
+        include Net::DNS
+
         attr_reader :name, :type, :queue
 
         def subscribes_to?(an)
           if( name.to_s == '*' || name == an.name )
-            if( type == RR::ANY || type == an.type )
+            if( type == IN::ANY || type == an.type )
               return true
             end
           end
@@ -449,7 +555,7 @@ module Net
         end
 
         def push(*args)
-          @queue.push(*args)
+          @queue.push(*args) if args.first
           self
         end
 
@@ -462,14 +568,14 @@ module Net
         end
 
         def to_s
-          "q?#{name}/#{type.to_s.sub(/.*source::/, '')}"
+          "q?#{name}/#{DNS.rrname(type)}"
         end
 
         def inspect
           to_s + "(#{@queue.length})"
         end
 
-        def initialize(name, type = RR::ANY)
+        def initialize(name, type = IN::ANY)
           @name = Name.create(name)
           @type = type
           @queue = Queue.new
@@ -484,7 +590,7 @@ module Net
       end # Query
 
       class BackgroundQuery < Query
-        def initialize(name, type = RR::ANY, &proc)
+        def initialize(name, type = IN::ANY, &proc)
           super(name, type)
 
           @thread = Thread.new do
@@ -515,10 +621,16 @@ module Net
   end
 end
 
+
 include Net::DNS
 
 $stdout.sync = true
 $stderr.sync = true
+
+log = Logger.new(STDERR)
+log.level = Logger::DEBUG
+
+MDNS::Responder.instance.log = log
 
 require 'pp'
 
@@ -530,13 +642,13 @@ def print_answers(q,answers)
     puts "query #{q.name}/#{q.type} got #{answers.length} answers:"
     answers.each do |a|
       case a.data
-      when RR::A
+      when IN::A
         puts "  #{a.name} -> A   #{a.data.address.to_s}"
-      when Net::DNS::RR::PTR
+      when Net::DNS::IN::PTR
         puts "  #{a.name} -> PTR #{a.data.name}"
-      when Net::DNS::RR::SRV
+      when Net::DNS::IN::SRV
         puts "  #{a.name} -> SRV #{a.data.target}:#{a.data.port}"
-      when Net::DNS::RR::TXT
+      when Net::DNS::IN::TXT
         puts "  #{a.name} -> TXT"
         a.data.strings.each { |s| puts "    #{s}" }
       else
@@ -546,37 +658,36 @@ def print_answers(q,answers)
   end
 end
 
+questions = [
+# [ IN::ANY, '*'],
+  [ IN::PTR, '_http._tcp.local.' ],
+# [ IN::SRV, 'Sam Roberts._http._tcp.local.' ],
+# [ IN::ANY, '_ftp._tcp.local.' ],
+# [ IN::ANY, '_daap._tcp.local.' ],
+# [ IN::A,   'ensemble.local.' ],
+# [ IN::ANY, 'ensemble.local.' ],
+# [ IN::PTR, '_services._dns-sd.udp.local.' ],
+  nil
+]
+
+questions.each do |question|
+  next unless question
+
+  type, name = question
+  MDNS::BackgroundQuery.new(name, type) do |q, answers|
+    print_answers(q, answers)
+  end
+end
+
 =begin
-MDNS::BackgroundQuery.new('*') do |q, answers|
-  print_answers(q, answers)
-end
-
-MDNS::BackgroundQuery.new('_http._tcp.local.', RR::PTR) do |q, answers|
-  print_answers(q, answers)
-end
-
-MDNS::BackgroundQuery.new('_ftp._tcp.local.', RR::ANY) do |q, answers|
-  print_answers(q, answers)
-end
-
-sleep 4
-
-MDNS::BackgroundQuery.new('_ftp._tcp.local.', RR::ANY) do |q, answers|
-  print_answers(q, answers)
-end
-
-MDNS::BackgroundQuery.new('_daap._tcp.local.', RR::ANY) do |q, answers|
-  print_answers(q, answers)
-end
+q = MDNS::Query.new('ensemble.local.', IN::ANY)
+print_answers( q, q.pop )
+q.stop
 =end
-
-MDNS::BackgroundQuery.new('ensemble.local.', RR::A) do |q, answers|
-  print_answers(q, answers)
-end
 
 Signal.trap('USR1') do
   PP.pp( MDNS::Responder.instance.cache, $stderr )
 end
 
-sleep
+$stdin.gets
 
