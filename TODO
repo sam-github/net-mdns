@@ -13,8 +13,6 @@ Release: 0.1
 - when we see a question, flush answers over few seconds old from cache
     .. and do we notify queries that the answers are being deleted, too?
 
-- adding a question of '*' causes it to always be requeried
-
 - reintegrate into resolver
 
 - dns-sd test modes... useful to test us?
@@ -23,6 +21,10 @@ Release: 0.1
 
 
 Release: 0.2
+
+- Add #to_s to the RR types.
+
+- Add #to_s the *classes* of the RR types ("IN::TXT", ...)
 
 - HINFO service
 

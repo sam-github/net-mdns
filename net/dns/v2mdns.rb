@@ -99,7 +99,12 @@ module Net
             s << " #{data.target}:#{data.port}"
           when IN::TXT
             s << " #{data.strings.first.inspect}#{data.strings.length > 1 ? ', ...' : ''}"
+          when IN::HINFO
+            s << " os=#{data.os}, cpu=#{data.cpu}"
+          else
+            s << data.inspect
           end
+          s
         end
       end
 
@@ -886,8 +891,8 @@ def print_answers(q,answers)
 end
 
 questions = [
-# [ IN::ANY, '*'],
-  [ IN::PTR, '_http._tcp.local.' ],
+  [ IN::ANY, '*'],
+# [ IN::PTR, '_http._tcp.local.' ],
 # [ IN::SRV, 'Sam Roberts._http._tcp.local.' ],
 # [ IN::ANY, '_ftp._tcp.local.' ],
 # [ IN::ANY, '_daap._tcp.local.' ],
@@ -902,7 +907,10 @@ questions.each do |question|
 
   type, name = question
   MDNS::BackgroundQuery.new(name, type) do |q, an|
-    print_answers(q, [an])
+    #print_answers(q, [an])
+     $print_mutex.synchronize do
+       puts "#{q}->#{an}"
+     end
   end
 end
 
