@@ -72,6 +72,10 @@ Examples:
   mdns -B _daap._tcp
   mdns -L sam _daap._tcp
   mdns -R me _example._tcp local 4321 key=value key2=value2
+
+Apple's dns-sd offers some test modes, these queries work for them:
+  mdns -L Test _testupdate._tcp  (dns-sd -A)
+
 EOF
 
 opts = GetoptLong.new(
@@ -156,11 +160,11 @@ case @cmd
 when :browse
   STDERR.puts( "#{@cmd}(#{@type}, #{@domain}) =>" )  if @debug
 
-  fmt = "%-3.3s  %-10.10s   %-15.15s  %-20.20s\n"
-  printf fmt, "Ifx", "Domain", "Service Type", "Instance Name"
+  fmt = "%-3.3s  %-8.8s   %-15.15s  %-20.20s\n"
+  printf fmt, "Ttl", "Domain", "Service Type", "Instance Name"
 
   handle = DNSSD.browse(@type, @domain) do |reply|
-    printf fmt, "?", reply.domain, reply.type, reply.name
+    printf fmt, reply.ttl, reply.domain, reply.type, reply.name
   end
 
   $stdin.gets
