@@ -1,8 +1,9 @@
 # $Id:$
 
 default:
+	ruby18 -c net/dns/v2mdns.rb
 
-TAGSRC = net/dns/v2mdns.rb net/dns/resolvx.rb resolv.rb
+TAGSRC = net/dns/v2mdns.rb net/dns/resolvx.rb net/dns/resolv.rb
 
 .PHONY: doc
 doc:
