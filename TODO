@@ -11,6 +11,13 @@ Release: 0.1  "make it work"
 
 Release: 0.2  "do the right thing"
 
+- remove the use of absolute in name comparisons, I have had one too many bug
+  involving this, I don't care if Tanaka thinks its not correct
+
+- deal with timeouts in Resolv::MDNS
+
+- reverse lookups of names by addresses using mDNS, see notes in #generate_candidates
+
 - correctly encode a nil in a text_record, and allow "key" w/no value for mdns.rb -R
 
 - implement flags, particularly add/remove flags

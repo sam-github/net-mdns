@@ -306,7 +306,7 @@ class Resolv
       @initialized = nil
     end
 
-    def lazy_initialize
+    def lazy_initialize # :nodoc:
       @mutex.synchronize {
         unless @initialized
           @name2addr = {}
@@ -399,7 +399,7 @@ class Resolv
       @initialized = nil
     end
 
-    def lazy_initialize
+    def lazy_initialize # :nodoc:
       @mutex.synchronize {
         unless @initialized
           @config.lazy_initialize
@@ -508,7 +508,7 @@ class Resolv
       end
     end
 
-    def extract_resources(msg, name, typeclass)
+    def extract_resources(msg, name, typeclass) # :nodoc:
       if typeclass < Resource::ANY
         n0 = Name.create(name)
         msg.each_answer {|n, ttl, data|
@@ -1054,8 +1054,7 @@ class Resolv
       #   p Resolv::DNS::Name.create("w.z").subdomain_of?(domain) #=> false
       #
       def subdomain_of?(other)
-        raise ArgumentError, "not a domain name: #{other.inspect}" unless Name === other
-        return false if @absolute != other.absolute?
+        other = Name.create(other)
         other_len = other.length
         return false if @labels.length <= other_len
         return @labels[-other_len, other_len] == other.to_a

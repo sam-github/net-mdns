@@ -1,4 +1,4 @@
-#!/bin/env ruby
+#!/usr/local/bin/ruby18 -w
 #
 # Example code to use the multicast library
 # (c) 2005 Ben Giddings
@@ -7,7 +7,7 @@
 # Include local dir
 $: << File.dirname($0)
 
-require 'multicast'
+require 'net/dns/resolv-mdns'
 require 'pp'
 
 # default to browsing

@@ -3,7 +3,7 @@
 require 'pp'
 require 'socket'
 
-require 'resolv'
+require 'net/dns/resolvx'
 
 doslow = false
 
@@ -46,9 +46,9 @@ end
 
 ## Now with MultiDNS
 
-require 'multicast'
+require 'net/dns/resolv-mdns.rb'
 
-if doslow
+if true
 
   r = Resolv::MDNS.new(:domain => 'local')
 
@@ -63,6 +63,11 @@ if doslow
   pp r.generate_candidates('foo.bar.local')
 
 end
+
+require 'logger'
+log = Logger.new(STDERR)
+log.level = Logger::DEBUG
+#Net::DNS::MDNS::Responder.instance.log = log
 
 # pp Resolv.default_resolvers
 

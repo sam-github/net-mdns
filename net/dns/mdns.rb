@@ -147,7 +147,7 @@ module Net
         end
       end
 
-      class Cache
+      class Cache # :nodoc:
         # asked: Hash[Name] -> Hash[Resource] -> Question
         attr_reader :asked
 
@@ -233,7 +233,7 @@ module Net
 
       end
 
-      class Responder
+      class Responder # :nodoc:
         include Singleton
 
         # mDNS link-local multicast address

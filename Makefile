@@ -3,11 +3,9 @@
 default:
 	ruby18 -c net/dns/v2mdns.rb
 
-TAGSRC = net/dns/v2mdns.rb net/dns/resolvx.rb net/dns/resolv.rb net/dns/mdnssd.rb
-
 .PHONY: doc
 doc:
-	 rdoc18 -S -o doc $(TAGSRC)
+	 rdoc18 -S -o doc net/dns/*.rb
 	 open doc/index.html &
 
 doc-upload:
@@ -24,7 +22,7 @@ submit: release pkg-upload doc-upload
 .PHONY: tags
 tags:
 	exctags -R $(TAGSRC)
-	RUBYLIB=/Users/sam/p/ruby/ruby/lib rdoc18 -f tags $(TAGSRC)
+	RUBYLIB=/Users/sam/p/ruby/ruby/lib rdoc18 -f tags net/dns/*.rb
 	mv tags tags.ctags
 	sort tags.ctags tags.rdoc > tags
 
