@@ -8631,3 +8631,152 @@ D, [2005-02-12T00:01:04.306181 #4559] DEBUG -- : query q?_http._tcp.local/IN::PT
 net/dns/v2mdns.rb:290:in `wakeup': killed thread (ThreadError)
 	from net/dns/v2mdns.rb:573:in `join'
 	from net/dns/v2mdns.rb:573
+D, [2005-02-17T23:11:51.237653 #1815] DEBUG -- : start
+D, [2005-02-17T23:11:51.353181 #1815] DEBUG -- : query q?_http._tcp.local/IN::PTR(0) - start asked?=n answers#=0
+D, [2005-02-17T23:11:51.360156 #1815] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-17T23:11:51.363216 #1815] DEBUG -- : ++ q _http._tcp.local/IN::PTR
+D, [2005-02-17T23:11:51.364269 #1815] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - start asked?=n answers#=0
+D, [2005-02-17T23:11:51.373346 #1815] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-17T23:11:51.375118 #1815] DEBUG -- : ++ q _ftp._tcp.local/IN::ANY
+D, [2005-02-17T23:11:51.419632 #1815] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=3
+D, [2005-02-17T23:11:51.420158 #1815] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR Sam Roberts._http._tcp.local
+D, [2005-02-17T23:11:51.420608 #1815] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR Julie Lebel._http._tcp.local
+D, [2005-02-17T23:11:51.423609 #1815] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR guest._http._tcp.local
+D, [2005-02-17T23:11:51.424899 #1815] DEBUG -- : push 3 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-17T23:11:51.427377 #1815] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-17T23:11:51.430954 #1815] DEBUG -- : sweep begin
+D, [2005-02-17T23:11:51.434721 #1815] DEBUG -- : refresh in 5760 sec for _http._tcp.local (7200) ->  PTR Sam Roberts._http._tcp.local
+D, [2005-02-17T23:11:51.438530 #1815] DEBUG -- : sweep end
+D, [2005-02-17T23:11:51.497000 #1815] DEBUG -- : from 192.168.123.154:50930 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-17T23:11:51.497454 #1815] DEBUG -- : ++ q ensemble.local/IN::AAAA
+D, [2005-02-17T23:11:51.746935 #1815] DEBUG -- : from 192.168.123.154:50930 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-17T23:11:51.747371 #1815] DEBUG -- : ++ q ensemble.local/IN::AAAA
+D, [2005-02-17T23:11:51.997533 #1815] DEBUG -- : from 192.168.123.154:50930 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-17T23:11:51.997967 #1815] DEBUG -- : ++ q ensemble.local/IN::AAAA
+D, [2005-02-17T23:11:52.248249 #1815] DEBUG -- : from 192.168.123.154:50932 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-17T23:11:52.248676 #1815] DEBUG -- : ++ q ensemble.local.local/IN::AAAA
+D, [2005-02-17T23:11:52.498974 #1815] DEBUG -- : from 192.168.123.154:50932 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-17T23:11:52.499433 #1815] DEBUG -- : ++ q ensemble.local.local/IN::AAAA
+D, [2005-02-17T23:11:52.749486 #1815] DEBUG -- : from 192.168.123.154:50932 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-17T23:11:52.749907 #1815] DEBUG -- : ++ q ensemble.local.local/IN::AAAA
+D, [2005-02-17T23:11:53.000120 #1815] DEBUG -- : from 192.168.123.154:50932 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-17T23:11:53.000573 #1815] DEBUG -- : ++ q ensemble.local.local/IN::AAAA
+D, [2005-02-17T23:11:55.385374 #1815] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - start asked?=y answers#=0
+D, [2005-02-17T23:11:55.387894 #1815] DEBUG -- : query q?_daap._tcp.local/IN::ANY(0) - start asked?=n answers#=0
+D, [2005-02-17T23:11:55.397328 #1815] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-17T23:11:55.399661 #1815] DEBUG -- : ++ q _daap._tcp.local/IN::ANY
+D, [2005-02-17T23:11:55.400954 #1815] DEBUG -- : query q?ensemble.local/IN::A(0) - start asked?=n answers#=0
+D, [2005-02-17T23:11:55.409396 #1815] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-17T23:11:55.410616 #1815] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-17T23:11:55.455297 #1815] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=2
+D, [2005-02-17T23:11:55.455821 #1815] DEBUG -- : ++ a ensemble.local (240) -> ! A   192.168.123.154
+D, [2005-02-17T23:11:55.478197 #1815] DEBUG -- : ++ a _daap._tcp.local (7200) ->  PTR Ensemble Music._daap._tcp.local
+D, [2005-02-17T23:11:55.480855 #1815] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-17T23:11:55.481388 #1815] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-17T23:11:55.481824 #1815] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-17T23:11:55.482282 #1815] DEBUG -- : push 1 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-17T23:11:55.486848 #1815] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-17T23:11:55.492535 #1815] DEBUG -- : sweep begin
+D, [2005-02-17T23:11:55.498886 #1815] DEBUG -- : refresh in 192 sec for ensemble.local (240) -> ! A   192.168.123.154
+D, [2005-02-17T23:11:55.500741 #1815] DEBUG -- : sweep end
+D, [2005-02-17T23:12:48.010323 #1815] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=2
+D, [2005-02-17T23:12:48.010853 #1815] DEBUG -- : ++ a _daap._tcp.local (0) -> - PTR Ensemble Music._daap._tcp.local
+D, [2005-02-17T23:12:48.012288 #1815] DEBUG -- : ++ a _dacp._tcp.local (0) -> - PTR iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local
+D, [2005-02-17T23:12:48.014857 #1815] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-17T23:12:48.015425 #1815] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-17T23:12:48.015872 #1815] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-17T23:12:48.016344 #1815] DEBUG -- : push 1 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-17T23:12:48.018656 #1815] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-17T23:12:48.021270 #1815] DEBUG -- : sweep begin
+D, [2005-02-17T23:12:48.024199 #1815] DEBUG -- : -> q _dacp._tcp.local IN::PTR
+D, [2005-02-17T23:12:48.032882 #1815] DEBUG -- : -> q _daap._tcp.local IN::PTR
+D, [2005-02-17T23:12:48.043472 #1815] DEBUG -- : refresh in 1 sec for _dacp._tcp.local (0) -> - PTR iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local
+D, [2005-02-17T23:12:48.045214 #1815] DEBUG -- : sweep end
+D, [2005-02-17T23:12:48.046809 #1815] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=2 acnt=0
+D, [2005-02-17T23:12:48.048136 #1815] DEBUG -- : ++ q _dacp._tcp.local/IN::PTR
+D, [2005-02-17T23:12:48.048620 #1815] DEBUG -- : ++ q _daap._tcp.local/IN::PTR
+D, [2005-02-17T23:12:49.048150 #1815] DEBUG -- : sweep begin
+D, [2005-02-17T23:12:49.051941 #1815] DEBUG -- : -> q _dacp._tcp.local IN::PTR
+D, [2005-02-17T23:12:49.052628 #1815] DEBUG -- : -> q _daap._tcp.local IN::PTR
+D, [2005-02-17T23:12:49.057115 #1815] DEBUG -- : refresh in 1 sec for _dacp._tcp.local (0) -> - PTR iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local
+D, [2005-02-17T23:12:49.060553 #1815] DEBUG -- : sweep end
+D, [2005-02-17T23:12:49.062748 #1815] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=2 acnt=0
+D, [2005-02-17T23:12:49.064192 #1815] DEBUG -- : ++ q _dacp._tcp.local/IN::PTR
+D, [2005-02-17T23:12:49.064582 #1815] DEBUG -- : ++ q _daap._tcp.local/IN::PTR
+D, [2005-02-17T23:12:50.064219 #1815] DEBUG -- : sweep begin
+D, [2005-02-17T23:12:50.065014 #1815] DEBUG -- : -- a _dacp._tcp.local (0) -> - PTR iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local
+D, [2005-02-17T23:12:50.065398 #1815] DEBUG -- : -- a _daap._tcp.local (0) -> - PTR Ensemble Music._daap._tcp.local
+D, [2005-02-17T23:12:50.065972 #1815] DEBUG -- : refresh in 137 sec for ensemble.local (240) -> ! A   192.168.123.154
+D, [2005-02-17T23:12:50.066131 #1815] DEBUG -- : sweep end
+D, [2005-02-17T23:15:07.073168 #1815] DEBUG -- : sweep begin
+D, [2005-02-17T23:15:07.073781 #1815] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-17T23:15:07.076722 #1815] DEBUG -- : refresh in 12 sec for ensemble.local (240) -> ! A   192.168.123.154
+D, [2005-02-17T23:15:07.078188 #1815] DEBUG -- : sweep end
+D, [2005-02-17T23:15:07.079416 #1815] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-17T23:15:07.080488 #1815] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-17T23:15:07.081616 #1815] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-17T23:15:07.081967 #1815] DEBUG -- : ++ a ensemble.local (240) -> ! A   192.168.123.154
+D, [2005-02-17T23:15:07.082446 #1815] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-17T23:15:07.082796 #1815] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-17T23:15:07.083129 #1815] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-17T23:15:07.083449 #1815] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-17T23:15:07.083744 #1815] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-17T23:15:13.083731 #1815] DEBUG -- : query q?ensemble.local/IN::A(0) - stop
+D, [2005-02-17T23:15:13.084666 #1815] DEBUG -- : query q?_daap._tcp.local/IN::ANY(0) - stop
+D, [2005-02-17T23:15:13.085388 #1815] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - stop
+D, [2005-02-17T23:15:13.086034 #1815] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - stop
+D, [2005-02-17T23:15:13.086671 #1815] DEBUG -- : query q?_http._tcp.local/IN::PTR(0) - stop
+net/dns/v2mdns.rb:577:in `sleep': Interrupt
+	from net/dns/v2mdns.rb:577
+D, [2005-02-17T23:53:16.438651 #1914] DEBUG -- : start
+D, [2005-02-17T23:53:16.782039 #1914] DEBUG -- : query q?_http._tcp.local/IN::PTR(0) - start asked?=n answers#=0
+D, [2005-02-17T23:53:16.787029 #1914] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-17T23:53:16.789108 #1914] DEBUG -- : ++ q _http._tcp.local/IN::PTR
+D, [2005-02-17T23:53:16.790250 #1914] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - start asked?=n answers#=0
+D, [2005-02-17T23:53:16.795586 #1914] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-17T23:53:16.796497 #1914] DEBUG -- : ++ q _ftp._tcp.local/IN::ANY
+D, [2005-02-17T23:53:16.876040 #1914] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=3
+D, [2005-02-17T23:53:16.876502 #1914] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR Sam Roberts._http._tcp.local
+D, [2005-02-17T23:53:16.876908 #1914] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR Julie Lebel._http._tcp.local
+D, [2005-02-17T23:53:16.879744 #1914] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR guest._http._tcp.local
+D, [2005-02-17T23:53:16.880602 #1914] DEBUG -- : push 3 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-17T23:53:16.882841 #1914] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-17T23:53:16.886893 #1914] DEBUG -- : sweep begin
+D, [2005-02-17T23:53:16.891543 #1914] DEBUG -- : refresh in 5760 sec for _http._tcp.local (7200) ->  PTR Sam Roberts._http._tcp.local
+D, [2005-02-17T23:53:16.893088 #1914] DEBUG -- : sweep end
+D, [2005-02-17T23:53:16.968546 #1914] DEBUG -- : from 192.168.123.154:50980 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-17T23:53:16.968934 #1914] DEBUG -- : ++ q ensemble.local/IN::AAAA
+D, [2005-02-17T23:53:17.218572 #1914] DEBUG -- : from 192.168.123.154:50980 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-17T23:53:17.218976 #1914] DEBUG -- : ++ q ensemble.local/IN::AAAA
+D, [2005-02-17T23:53:17.469230 #1914] DEBUG -- : from 192.168.123.154:50982 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-17T23:53:17.469591 #1914] DEBUG -- : ++ q ensemble.local.local/IN::AAAA
+D, [2005-02-17T23:53:17.719878 #1914] DEBUG -- : from 192.168.123.154:50982 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-17T23:53:17.720293 #1914] DEBUG -- : ++ q ensemble.local.local/IN::AAAA
+D, [2005-02-17T23:53:17.970496 #1914] DEBUG -- : from 192.168.123.154:50982 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-17T23:53:17.970903 #1914] DEBUG -- : ++ q ensemble.local.local/IN::AAAA
+D, [2005-02-17T23:53:18.221003 #1914] DEBUG -- : from 192.168.123.154:50982 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-17T23:53:18.221425 #1914] DEBUG -- : ++ q ensemble.local.local/IN::AAAA
+D, [2005-02-17T23:53:20.807032 #1914] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - start asked?=y answers#=0
+D, [2005-02-17T23:53:20.808949 #1914] DEBUG -- : query q?_daap._tcp.local/IN::ANY(0) - start asked?=n answers#=0
+D, [2005-02-17T23:53:20.814039 #1914] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-17T23:53:20.815301 #1914] DEBUG -- : ++ q _daap._tcp.local/IN::ANY
+D, [2005-02-17T23:53:20.816300 #1914] DEBUG -- : query q?ensemble.local/IN::A(0) - start asked?=n answers#=0
+D, [2005-02-17T23:53:20.822203 #1914] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-17T23:53:20.823255 #1914] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-17T23:53:20.917493 #1914] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-17T23:53:20.917997 #1914] DEBUG -- : ++ a ensemble.local (240) -> ! A   192.168.123.154
+D, [2005-02-17T23:53:20.918554 #1914] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-17T23:53:20.920382 #1914] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-17T23:53:20.920804 #1914] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-17T23:53:20.921135 #1914] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-17T23:53:20.921450 #1914] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-17T23:53:20.923486 #1914] DEBUG -- : sweep begin
+D, [2005-02-17T23:53:20.930110 #1914] DEBUG -- : refresh in 192 sec for ensemble.local (240) -> ! A   192.168.123.154
+D, [2005-02-17T23:53:20.932629 #1914] DEBUG -- : sweep end
+D, [2005-02-17T23:53:31.150528 #1914] DEBUG -- : query q?ensemble.local/IN::A(0) - stop
+D, [2005-02-17T23:53:31.151455 #1914] DEBUG -- : query q?_daap._tcp.local/IN::ANY(0) - stop
+D, [2005-02-17T23:53:31.152345 #1914] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - stop
+D, [2005-02-17T23:53:31.152972 #1914] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - stop
+D, [2005-02-17T23:53:31.153603 #1914] DEBUG -- : query q?_http._tcp.local/IN::PTR(0) - stop
+net/dns/v2mdns.rb:575:in `sleep': Interrupt
+	from net/dns/v2mdns.rb:575
