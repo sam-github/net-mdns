@@ -1,3 +1,7 @@
+# Requiring 'net/dns/mdns-resolv' causes a Resolv::MDNS resolver to be added to
+# list of default resolvers queried when using Resolv#getaddress, and the other
+# Resolv module methods.
+
 require 'net/dns/mdns.rb'
 
 class Resolv

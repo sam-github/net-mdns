@@ -1,4 +1,8 @@
-# $Id: $
+# Extensions to the standard library's Resolv module. Some have been accepted,
+# some have not been submitted.
+#
+# The extensions that have been accepted are conditionally defined because they
+# have already been accepted into ruby 1.8's cvs. 
 
 require 'resolv'
 
