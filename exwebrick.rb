@@ -3,11 +3,6 @@
 # Licence: this file is placed in the public domain
 #
 # Advertise a webrick server over mDNS.
-# 
-# There is an outstanding problem where Safari doesn't see _http services
-# advertised with MDNSSD. I have no idea why, I'm answering every question it
-# asks. You can browse the service from the command-line with dns-sd or mdns.rb
-# without difficulties.
 
 require 'webrick'
 require 'net/dns/mdns-sd'
