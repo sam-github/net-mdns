@@ -6,8 +6,6 @@
   details.
 =end
 
-# resolvx.rb are extensions to resolv.rb, as opposed to modifications.
-
 require 'net/dns/resolv'
 
 class Resolv
