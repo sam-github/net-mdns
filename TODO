@@ -1,43 +1,110 @@
-Reqs:
+TODO
 
--  The option to lookup unqualified (relative) names by appending
-   ".local." (or not) is controlled by whether ".local." appears
-   (or not) in the client's DNS search list.
+- rename mdns.rb net/dns/multicast.rb
 
-DONE
+- fix/extend label comparisons, look at Module# <, <=, etc., it is like DNS
 
--  Any DNS query for a name ending with ".local." MUST be sent
-   to the mDNS multicast address (224.0.0.251 or its IPv6 equivalent
-   FF02::FB).
+- document
+
+- mdns.rb user interface: search for multiple paths, move 'type' to a -t arg
+
+- package
+
+- install
+
+- raa
+
+- upload
+
+- TXT not returning multiple strings
+
+- resolv.conf looks correct, but I can't resolv www.google.ca!
+
+- mdns.rb, do each_resource inside each_resource to test threading
+
+- Name#<< - append label(s) to a Name
+
+- factor Resolv::DNS internals into module Net::DNS. As a module, I can do
+  include Net::DNS, and use Name, etc.
+
+
+Goals:
+
+a)
+
+  - fix Config/timeout/choice of candidates problems
+
+  - test, do lookups, review code
+
+  - remove timeout implementation?
+
+  - produce patches against 1.8
+
+b)
+
+  - refactor into net/dns
+  - implement network browwer
+  - submit diffs
+  - server
+  - rinda?
+  - client/server in test/unit
+
+
+Projects:
+
+  - use Message.decode to dump details of tcpdump logs
+
+  - query weather reports, represent as iCalendars, with colors for wet/dry warm/cold!
+
+  - install dns_sd.h API/new mDNSResolver
+
+  - install DNSServiceDiscovery API
+
+
+Open design issues
+
+ - namespace to put MDNS into
+
+ - get MDNS from Resolv's defaults
+
+ - deal with timeout's
+
+ - allow infinite loops, querying with no timeout
+
+
+Open resolv.rb questions:
+
+  - reverse DNS lookups done by sock.recv
+
+  - Resolv and built-in resolver use different exception classes.
+
+
+
+questions:
+
+  Shouldn't BasicSocket.do_not_reverse_lookup be set? Or be set on our sockets?
+  It's weird that in @sock.recv we get a tuple with the address... when we ARE
+  a resolver library.... and if you call resolv-replace, won't we call
+  ourselves in order to resolve the IP when you call recv to get the peer info?
+  And isn't resolv-replace ignoring BasicSocket.do_not_reverse_lookup?  So, it
+  is very weird that resolv.rb does ad socket.recv that causes (blocking) DNS
+  queries to occure for its peer IP address...
+
+    Related: run ga using -r resolv-replace, see if ruby does the CNAME thing...
+
+
+Things to take care of from the draft:
 
 -  Any DNS query for a name ending with "254.169.in-addr.arpa." MUST
    be sent to the mDNS multicast address 224.0.0.251.
 
--  Make resolver always lookup .local names with mDNS, by inserting before DNS.
-
--  Most computer users neglect to type the trailing dot at the end of a
-   fully qualified domain name, making it a relative domain name (e.g.
-   "www.example.com"). In the event of network outage, attempts to
-   positively resolve the name as entered will fail, resulting in
-   application of the search list, including ".local.", if present.
-   A malicious host could masquerade as "www.example.com" by answering
-   the resulting Multicast DNS query for "www.example.com.local."
-   To avoid this, a host MUST NOT append the search suffix
-   ".local.", if present, to any relative (partially qualified)
-   domain name containing two or more labels. Appending ".local." to
-   single-label relative domain names is acceptable, since the user
-   should have no expectation that a single-label domain name will
-   resolve as-is.
-
-   --> ensure this!
-
 -  All Multicast DNS responses (including responses sent via unicast)
    MUST be sent with IP TTL set to 255.
 
--  A host sending Multicast DNS queries to a link-local destination
-   address (including the 224.0.0.251 link-local multicast address) MUST
-   verify that the IP TTL in response packets is 255, and silently
-   discard any response packets where the IP TTL is not 255. See the IP_RECVTTL socket option.
+-  A host sending Multicast DNS queries to a link-local destination address
+   (including the 224.0.0.251 link-local multicast address) MUST verify that
+   the IP TTL in response packets is 255, and silently discard any response
+   packets where the IP TTL is not 255. See the IP_RECVTTL socket option.
 
 -  Multicast DNS is a new protocol and doesn't (yet) have old buggy
    legacy implementations to constrain the design choices. Accordingly,
@@ -86,64 +153,5 @@ DONE
 
    In query messages the Authentic Data bit MUST be zero on
    transmission, and MUST be ignored on reception.
-
-Goals:
-
-a)
-
-  - name -> addr DONE
-
-  - addr -> name DONE
-
-  - reorganize against 1.8 DONE
-
-  - have local addrs/ips resolve with require 'resolv-replace' DONE
-
-  - fix Config/timeout/choice of candidates problems
-
-  - test, do lookups, review code
-
-  - remove timeout imp?
-
-  - produce patches against 1.8
-
-b)
-  - refactor into net/dns
-  - implement network browwer
-  - submit diffs
-  - server
-  - rinda?
-  - client/server in test/unit
-
-
-Things to take care of from the draft:
-
-
-
-questions:
-
-  Do I really need timeouts with mDNS? I think the timeouts are way too long for
-  a local multicast network.
-
-  Shouldn't Resolv and the built-in resolver use the same exception classes, particularly
-  in resolv-replace?
- 
-  can't do reverse address lookups, with ruby 1.6... my fault?
-
-  run ga using -r resolv-replace, see if ruby does the CNAME thing...
-
-  can Resolver query arbitrary records, like CNAME?
-
-  can I use ruby's Message.decode() to decode and dump a detailed description
-  of a log captured by tcpdump?
-
-  resolv.conf looks correct, but I can't resolv www.google.ca!
-
-  Shouldn't BasicSocket.do_not_reverse_lookup be set? Or be set on our sockets?
-  It's weird that in @sock.recv we get a tuple with the address... when we ARE
-  a resolver library.... and if you call resolv-replace, won't we call
-  ourselves in order to resolve the IP when you call recv to get the peer info?
-  And isn't resolv-replace ignoring BasicSocket.do_not_reverse_lookup?
-
 
 
