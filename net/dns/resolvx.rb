@@ -92,12 +92,6 @@ class Resolv
     # they are #absolute?, but #equal? considers only the label when comparing
     # names.
     class Name
-      def inspect
-        n = to_s
-        n << '.' if absolute?
-        return n
-      end
-
       def equal?(name)
         n = Name.create(name)
 
