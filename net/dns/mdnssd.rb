@@ -113,24 +113,28 @@ module Net
         dnsname << DNS::Name.create(domain)
         dnsname.absolute = true
 
-        # We can't report an instance of a service until we have both a SRV and
-        # a TXT resource record for it.
-
         rrs = {}
 
         q = MDNS::BackgroundQuery.new(dnsname, IN::ANY) do |q, answers|
+          _rrs = {}
           answers.each do |an|
-            # Paranoid check that the answer is for our question.
             if an.name == dnsname
-              rrs[an.type] = an
+              _rrs[an.type] = an
             end
           end
-          ansrv, antxt = rrs[IN::SRV], rrs[IN::TXT]
+          # We queried for ANY, but don't yield unless we got a SRV or TXT.
+          if( _rrs[IN::SRV] || _rrs[IN::TXT] )
+            rrs.update _rrs
 
-          if ansrv && antxt
+            ansrv, antxt = rrs[IN::SRV], rrs[IN::TXT]
+
 #           puts "ansrv->#{ansrv}"
 #           puts "antxt->#{antxt}"
-            yield ResolveReply.new( ansrv, antxt )
+
+            # Even though we got an SRV or TXT, we can't yield until we have both.
+            if ansrv && antxt
+              yield ResolveReply.new( ansrv, antxt )
+            end
           end
         end
         q
