@@ -756,7 +756,7 @@ module Net
           @port = port.to_int
           @target = target.to_str
 
-          @txt = {}
+          @txt = txt
           @ttl = 7200 # Arbitrary, but Apple seems to use this value.
           @priority = 0
           @weight = 0
@@ -780,7 +780,13 @@ module Net
 
           @rrtxt = IN::TXT.new(*strings)
 
-          # undefine_method "[]=", "ttl=", priority=, weight=
+          # class << self
+          #   undef_method 'ttl='
+          # end
+          #  -or-
+          # undef :ttl=
+          #
+          # TODO - all the others
 
           start
         end
