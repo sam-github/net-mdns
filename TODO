@@ -6,9 +6,6 @@ Release: 0.1
 
 - deal with dots and spaces, escaping DNS-SD names
 
-- when we see a question, flush answers over a few seconds old from cache
-    .. and do we notify queries that the answers are being deleted, too?
-
 - reintegrate into resolver
 
 - dns-sd test modes... useful to test us?
@@ -18,7 +15,8 @@ Release: 0.1
 
 Release: 0.2
 
-- deal with lower/upper and comparison problem of text hash
+- when we see a question, flush answers over a few seconds old from cache
+    .. and do we notify queries that the answers are being deleted, too?
 
 - Add #to_s to the RR types.
 
@@ -39,14 +37,9 @@ Release: 0.2
 - move hierarchal DNS Name comparison operators to an optional file.
 
 
-
-Cleanups (mdns):
-
 - let Query.new take a block, and yield itself, or yield with every answer?
 
 - Query#stop, start, restart
-
-- make code easier to read
 
 
 
