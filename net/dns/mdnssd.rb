@@ -40,8 +40,13 @@ module Net
     #
     # - fullname: The concatention of the service name (optionally), type, and
     #   domain results in a single dot-seperated domain name - the "fullname".
-    #   It could be decoded with #z_name_parse, but that won't generally be
-    #   necessary.
+    #   See Util.parse_name for more information about the format.
+    #
+    # - text_record: Service information in the form of key/value pairs.
+    #   See Util.parse_strings for more information about the format.
+    #
+    # - ttl: should return flags, similar to DNSSD, but for now we just return the
+    #   TTL of the DNS message. A TTL of zero means a deregistration of the record.
     #
     # Services are advertised and resolved over specific network interfaces.
     # Currently, Net::DNS::MDNS supports only a single default interface, and
@@ -50,11 +55,12 @@ module Net
 
       # A reply yielded by #browse, see MDNSSD for a description of the attributes.
       class BrowseReply
-        attr_reader :interface, :fullname, :name, :type, :domain
+        attr_reader :interface, :fullname, :name, :type, :domain, :ttl
         def initialize(an) # :nodoc:
           @interface = nil
           @fullname = an.name.to_s
-          @domain, @type, @name = DNSSD.z_name_parse(an.data.name)
+          @domain, @type, @name = DNSSD::Util.parse_name(an.data.name)
+          @ttl = an.ttl
         end
       end
 
@@ -70,31 +76,25 @@ module Net
         dnsname << DNS::Name.create(domain)
         dnsname.absolute = true
 
-        q = MDNS::BackgroundQuery.new(dnsname, IN::PTR) do |q, answers|
-          answers.each do |an|
-            yield BrowseReply.new( an )
-          end
+        q = MDNS::BackgroundQuery.new(dnsname, IN::PTR) do |q, an|
+          yield BrowseReply.new( an )
         end
         q
       end
 
       # A reply yielded by #resolve, see MDNSSD for a description of the attributes.
       class ResolveReply
-        attr_reader :interface, :fullname, :name, :type, :domain, :target, :port, :priority, :weight, :text_record
+        attr_reader :interface, :fullname, :name, :type, :domain, :target, :port, :priority, :weight, :text_record, :ttl
         def initialize(ansrv, antxt) # :nodoc:
           @interface = nil
           @fullname = ansrv.name.to_s
-          @domain, @type, @name = DNSSD.z_name_parse(ansrv.name)
+          @domain, @type, @name = DNSSD::Util.parse_name(ansrv.name)
           @target = ansrv.data.target
           @port = ansrv.data.port
           @priority = ansrv.data.priority
           @weight = ansrv.data.weight
-
-          @text_record = {}
-          antxt.data.strings.each do |kv|
-            kv.match(/([^=]+)=([^=]+)/)
-            @text_record[$1] = $2
-          end
+          @text_record = MDNSSD::Util.parse_strings(antxt.data.strings)
+          @ttl = ansrv.ttl
         end
       end
 
@@ -116,16 +116,16 @@ module Net
 
         rrs = Hash.new { |h,k| h[k] = Hash.new }
 
-        q = MDNS::BackgroundQuery.new(dnsname, IN::ANY) do |q, answers|
-          answers.each do |an|
-            rrs[an.name][an.type] = an
+        q = MDNS::BackgroundQuery.new(dnsname, IN::ANY) do |q, an|
+          rrs[an.name][an.type] = an
 
-            ansrv, antxt = rrs[an.name][IN::SRV], rrs[an.name][IN::TXT]
+          ansrv, antxt = rrs[an.name][IN::SRV], rrs[an.name][IN::TXT]
 
-            if ansrv && antxt
-              rrs.delete an.name
-              yield ResolveReply.new( ansrv, antxt )
-            end
+          if ansrv && antxt
+            rrs.delete an.name
+#           puts "ansrv->#{ansrv.to_s}"
+#           puts "antxt->#{antxt.to_s}"
+            yield ResolveReply.new( ansrv, antxt )
           end
         end
         q
@@ -171,31 +171,59 @@ module Net
         s
       end
 
-      # Decode a DNS-SD domain name. The format is:
-      #   [<instance>.]<_service>.<_protocol>.<domain>
-      #
-      # Examples are:
-      #   _http._tcp.local
-      #   guest._http._tcp.local
-      #   Ensemble Musique._daap._tcp.local
-      #
-      # The <_service>.<_protocol> combined is the <type>.
-      #
-      # Return either:
-      #  [ <domain>, <type> ]
-      # or
-      #  [ <domain>, <type>, <instance>]
-      #
-      # Because of the order of the return values, it can be called like:
-      #   domain, type = MDNSSD.z_name_parse(fullname)
-      # or
-      #   domain, type, name = MDNSSD.z_name_parse(fullname)
-      # If there is no name component to fullname, name will be nil.
-      def self.z_name_parse(dnsname)
-        domain, t1, t0, name = dnsname.to_a.reverse.map {|n| n.to_s}
-        [ domain, t0 + '.' + t1, name].compact
-      end
+      # Utility routines not for general use.
+      module Util
+        # Decode a DNS-SD domain name. The format is:
+        #   [<instance>.]<_service>.<_protocol>.<domain>
+        #
+        # Examples are:
+        #   _http._tcp.local
+        #   guest._http._tcp.local
+        #   Ensemble Musique._daap._tcp.local
+        #
+        # The <_service>.<_protocol> combined is the <type>.
+        #
+        # Return either:
+        #  [ <domain>, <type> ]
+        # or
+        #  [ <domain>, <type>, <instance>]
+        #
+        # Because of the order of the return values, it can be called like:
+        #   domain, type = MDNSSD::Util.parse_name(fullname)
+        # or
+        #   domain, type, name = MDNSSD::Util.parse_name(fullname)
+        # If there is no name component to fullname, name will be nil.
+        def self.parse_name(dnsname)
+          domain, t1, t0, name = dnsname.to_a.reverse.map {|n| n.to_s}
+          [ domain, t0 + '.' + t1, name].compact
+        end
 
+        # Decode TXT record strings, an array of String.
+        #
+        # DNS-SD defines formatting conventions for them:
+        # - Keys must be at least one char in range (0x20-0x7E), excluding '='
+        #   (0x3D), and they must be matched case-insensitively.
+        # - There may be no '=', in which case value is nil.
+        # - There may be an '=' with no value, in which case value is empty string, "".
+        # - Anything following the '=' is a value, it is not case sensitive, can be binary,
+        #   and can include whitespace.
+        # - Discard all keys but the first.
+        # - Discard a string that aren't formatting accorded to these rules.
+        def self.parse_strings(strings)
+          h = {}
+
+          strings.each do |kv|
+            if kv.match( /^([\x20-\x3c\x3f-\x7e]+)(?:=(.*))?$/ )
+              key = $1.downcase
+              value = $2
+              next if h.has_key? key
+              h[key] = value
+            end
+          end
+
+          h
+        end
+      end
 
     end
   end

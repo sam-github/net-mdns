@@ -155,9 +155,9 @@ module Net
         end
 
         # Return the question if we added it, or nil if question is already being asked.
-        def add_question(name, type)
-          if !@asked[name][type]
-            @asked[name][type] = Question.new(name, type)
+        def add_question(qu)
+          if qu && !@asked[qu.name][qu.type]
+            @asked[qu.name][qu.type] = qu
           end
         end
 
@@ -174,22 +174,30 @@ module Net
           answers = @cached[an.name][an.type]
 
           if( an.absolute? )
-            # Replace answers older than a ~1 sec [mDNS]
+            # Replace all answers older than a ~1 sec [mDNS].
+            # If the data is the same, don't delete it, we don't want it to look new.
             now_m1 = Time.now.to_i - 1
-            answers.delete_if { |a| a.toa < now_m1 }
+            answers.delete_if { |a| a.toa < now_m1 && a.data != an.data }
           end
 
           old_an = answers.detect { |a| a.name == an.name && a.data == an.data }
 
-          if !old_an
+          if( !old_an )
+            # new answer, cache it
             answers << an
+          elsif( an.ttl == 0 )
+            # it's a "remove" notice, replace old_an
+            answers.delete( old_an )
+            answers << an
+          elsif( an.expiry > old_an.expiry)
+            # it's a fresher record than we have, cache it but the data is the
+            # same so don't report it as cached
+            answers.delete( old_an )
+            answers << an
+            an = nil
           else
-            if( an.ttl == 0 || an.expiry > old_an.expiry)
-              answers.delete( old_an )
-              answers << an
-            else
-              an = nil
-            end
+            # don't cache it
+            an = nil
           end
 
           an
@@ -312,7 +320,7 @@ module Net
           # Bind to our port.
           @sock.bind(Socket::INADDR_ANY, Port)
 
-          # Start resonder and cacheing threads.
+          # Start responder and cacher threads.
 
           @waketime = nil
 
@@ -320,7 +328,8 @@ module Net
             begin
               cacher_loop
             rescue
-              error( "cacher_loop exited with #{$!}\n#{$!.backtrace}" )
+              error( "cacher_loop exited with #{$!}" )
+              $!.backtrace.each do |e| error(e) end
             end
           end
 
@@ -328,7 +337,8 @@ module Net
             begin
               responder_loop
             rescue
-              error( "responder_loop exited with #{$!}\n#{$!.backtrace}" )
+              error( "responder_loop exited with #{$!}" )
+              $!.backtrace.each do |e| error(e) end
             end
           end
         end
@@ -385,27 +395,22 @@ module Net
                     a = Answer.new(n, ttl, data)
                     debug( "++ a #{ a }" )
                     a = @cache.cache_answer(a)
+                    debug( " cached" ) if a
 
-                    # If a wasn't cached, then its no newer than an answer we already have, so
-                    # we won't report it.
+                    # If a wasn't cached, then its an answer we already have, don't push it.
                     cached << a if a
-
-                    # TODO - maybe don't bother with this, or the subscribes_to? below,
-                    # just feed every answer to every query, and let them do as they will with it.
-                    # This might also fix the problem where *.local subscribes_to everything, so
-                    # keeps all cached records continuously alive, when it only wants to be
-                    # a passive observer.
 
                     wake_cacher_for(a)
                   end
 
                   # Push answers to Queries:
+                  # TODO - push all answers, let the Query do what it wants with them.
                   @queries.each do |q|
                     answers = cached.select { |an| q.subscribes_to? an }
 
                     debug( "push #{answers.length} to #{q}" )
 
-                    q.push answers
+                    q.push( *answers )
                   end
 
                 end
@@ -474,8 +479,15 @@ module Net
                         an.retries += 1
                         msg.add_question(name, an.data.class)
                       end
+                      # TODO: cacher_loop exited with comparison of Bignum with nil failed, v2mdns.rb:478:in `<'
+                      begin
                       if !wakefor || an.refresh < wakefor.refresh
                         wakefor = an
+                      end
+                      rescue
+                        error( "an #{an.inspect}" )
+                        error( "wakefor #{wakefor.inspect}" )
+                        raise
                       end
                     end
                   end
@@ -540,30 +552,30 @@ module Net
           end
         end
 
-        def query_start(query)
+        def query_start(query, qu)
           @mutex.synchronize do
             begin
+              debug( "start query #{query} with qu #{qu.inspect}" )
+
               @queries << query
 
-              qu = @cache.add_question(query.name, query.type)
+              qu = @cache.add_question(qu)
 
               wake_cacher_for(qu)
 
               answers = @cache.answers_for(query.name, query.type)
 
-              debug( "start query #{query}" )
+              query.push( *answers )
              
               # If it wasn't added, then we already are asking the question,
               # don't ask it again.
               if qu
                 qmsg = Message.new(0)
                 qmsg.rd = 0
-                qmsg.add_question(query.name, query.type)
+                qmsg.add_question(qu.name, qu.type)
                 
                 send(qmsg)
               end
-
-              query.push answers if answers.first
             rescue
               warn( "fail query #{query} - #{$!}" )
               @queries.delete(query)
@@ -612,13 +624,11 @@ module Net
 
       end # Responder
 
-      #  - derived is one that calls proc in current thread
+      # An mDNS query.
       class Query
         include Net::DNS
 
-        attr_reader :name, :type, :queue
-
-        def subscribes_to?(an)
+        def subscribes_to?(an) # :nodoc:
           if( name.to_s == '*' || name == an.name )
             if( type == IN::ANY || type == an.type )
               return true
@@ -627,35 +637,55 @@ module Net
           false
         end
 
-        def push(*args)
-          @queue.push(*args) if args.first
+        def push(*args) # :nodoc:
+          args.each do |an|
+            @queue.push(an)
+          end
           self
         end
 
+        # The query +name+ from Query.new.
+        attr_reader :name
+        # The query +type+ from Query.new.
+        attr_reader :type
+
+        # Block waiting for a Answer.
         def pop
           @queue.pop
         end
 
-        def each # :yield: Answer
+
+        # Loop forever, yielding each answer.
+        def each # :yield: an
           loop do
             yield pop
           end
         end
 
+        # Number of waiting answers.
         def length
           @queue.length
         end
 
+        # A string describing this query.
         def to_s
           "q?#{name}/#{DNS.rrname(type)}"
         end
 
+        # Query for resource records of +type+ for the +name+. +type+ is one of
+        # the constants in Net::DNS::IN, such as A or ANY. +name+ is a DNS
+        # Name or String, see Name.create. 
+        #
+        # +name+ can also be the wildcard "*". This will cause no queries to
+        # be multicast, but will return every answer seen by the responder.
         def initialize(name, type = IN::ANY)
           @name = Name.create(name)
           @type = type
           @queue = Queue.new
 
-          Responder.instance.query_start(self)
+          qu = @name != "*" ? Question.new(@name, @type) : nil
+
+          Responder.instance.query_start(self, qu)
         end
 
         def stop
@@ -857,7 +887,7 @@ end
 
 questions = [
 # [ IN::ANY, '*'],
-# [ IN::PTR, '_http._tcp.local.' ],
+  [ IN::PTR, '_http._tcp.local.' ],
 # [ IN::SRV, 'Sam Roberts._http._tcp.local.' ],
 # [ IN::ANY, '_ftp._tcp.local.' ],
 # [ IN::ANY, '_daap._tcp.local.' ],
@@ -871,8 +901,8 @@ questions.each do |question|
   next unless question
 
   type, name = question
-  MDNS::BackgroundQuery.new(name, type) do |q, answers|
-    print_answers(q, answers)
+  MDNS::BackgroundQuery.new(name, type) do |q, an|
+    print_answers(q, [an])
   end
 end
 
@@ -880,11 +910,11 @@ end
 q = MDNS::Query.new('ensemble.local.', IN::ANY)
 print_answers( q, q.pop )
 q.stop
-=end
 
 svc = MDNS::Service.new('julie', '_example._tcp', 0xdead) do |s|
   s.ttl = 10
 end
+=end
 
 Signal.trap('USR1') do
   PP.pp( MDNS::Responder.instance.cache, $stderr )

@@ -970,7 +970,7 @@ class Resolv
         end
 
         def inspect
-          return "#<#{self.class} #{self.to_s}>"
+          return "#<#{self.class} #{self.to_s.inspect}>"
         end
 
         def ==(other)

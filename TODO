@@ -2,22 +2,16 @@ TODO
 
 Release: 0.1
 
-- Testing:
-     mdns.rb and dns-sd -A:
+- fix #get_rr so it returns cacheflush in array, as #get_question does
 
-       -L returns multiple?
+- deal with lower/upper and comparison problem of text hash
 
+- implement flags, particularly add/remove flags
 
 - deal with dots and spaces
 
-- Query: report start/stop
-
 - when we see a question, flush answers over few seconds old from cache
     .. and do we notify queries that the answers are being deleted, too?
-
-- dns-sd -B: what are the flags?
-
-- don't cache our own answers
 
 - adding a question of '*' causes it to always be requeried
 
@@ -36,9 +30,6 @@ Release: 0.2
 
 - try the meta-queries (_services._dns-sd._udp.local.)
 
-
-Should do:
-
 - add known answers to queries
 
 - answer unicast questions
@@ -47,8 +38,6 @@ Should do:
 
 - move hierarchal DNS Name comparison operators to an optional file.
 
-- make resolv.rb ignore absolute? in comparison, and accept String or Name
-  as args
 
 
 Cleanups (mdns):
@@ -59,44 +48,11 @@ Cleanups (mdns):
 
 - make code easier to read
 
-- errors can escape the sweep and responder loops... ok? NO
 
-
-Cleanup (resolv.rb):
-
-- Name#<< - append label(s) to a Name?
-
-
-Goals:
-
-a)
-
-  - fix Config/timeout/choice of candidates problems
-
-  - test, do lookups, review code
-
-  - remove timeout implementation?
-
-  - produce patches against 1.8
-
-b)
-
-  - refactor into net/dns
-  - implement network browwer
-  - submit diffs
-  - server
-  - rinda?
-  - client/server in test/unit
 
 Projects:
 
-  - use Message.decode to dump details of tcpdump logs
-
-  - query weather reports, represent as iCalendars, with colors for wet/dry warm/cold!
-
-  - install dns_sd.h API/new mDNSResolver
-
-  - install DNSServiceDiscovery API
+- Can this be used for rinda?
 
 
 Open design issues

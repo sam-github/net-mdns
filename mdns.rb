@@ -8,19 +8,23 @@ $:.unshift(File.dirname($0))
 
 require 'getoptlong'
 
+$stdout.sync = true
+$stderr.sync = true
+
 =begin
 Apple's dns-sd options:
 
-  mdns -e                  (Enumerate recommended registration domains)
-  mdns -f                      (Enumerate recommended browsing domains)
-  mdns -b        <Type> <Domain>         (Browse for service instances)
-  mdns -l <Name> <Type> <Domain>           (Look up a service instance)
-  mdns -r <Name> <Type> <Domain> <Port> [<TXT>...] (Register a service)
-  mdns -p <Name> <Type> <Domain> <Port> <Host> <IP> [<TXT>...]  (Proxy)
-  mdns -q <FQDN> <rrtype> <rrclass> (Generic query for any record type)
+  mdns -E                  (Enumerate recommended registration domains)
+  mdns -F                      (Enumerate recommended browsing domains)
+  mdns -B        <Type> <Domain>         (Browse for service instances)
+  mdns -L <Name> <Type> <Domain>           (Look up a service instance)
+  mdns -R <Name> <Type> <Domain> <Port> [<TXT>...] (Register a service)
+  mdns -P <Name> <Type> <Domain> <Port> <Host> <IP> [<TXT>...]  (Proxy)
+  mdns -Q <FQDN> <rrtype> <rrclass> (Generic query for any record type)
 =end
 
 @debug = false
+@log   = nil
 
 @recursive = false
 @domain = 'local'
@@ -32,13 +36,24 @@ Apple's dns-sd options:
 @cmd = nil
 
 
+# TODO - can I use introspection on class names to determine all supported
+# RR types in DNS::Resource::IN?
+
 HELP =<<EOF
 Usage: 
-  mdns [options] -B        <Type> [Domain]         (Browse for service instances)
-  mdns [options] -L <Name> <Type> [Domain]           (Look up a service instance)
-  mdns [options] -R <Name> <Type> [Domain] <Port> [<TXT>...] (Register a service)
+  mdns [options] -B        <type> [domain]         (Browse for service instances)
+  mdns [options] -L <name> <type> [domain]           (Look up a service instance)
+  mdns [options] -R <name> <type> [domain] <port> [<TXT>...] (Register a service)
+  mdns [options] -Q <fqdn> [rrtype] [rrclass] (Generic query for any record type)
 
-[Domain] is optional for -B, -L, and -R, it defaults to "local".
+Note: -Q is not yet implemented.
+
+For -B, -L, and -R, [domain] is optional and defaults to "local".
+
+For -Q, [rrtype] defaults to A, other values are TXT, PTR, SRV, CNAME, ...
+
+For -Q, [rrclass] defaults to 1 (IN).
+
 
 [<TXT>...] is optional for -R, it can be a series of key=value pairs.
 
@@ -46,10 +61,12 @@ You can use long names --browse, --lookup, and --register instead of -B, -L,
 and -R.
 
 Options:
-  --native   Attempt to use 'dnssd', the interface to the native DNS-SD
-             resolver library.
-  --ruby     Attempt to use 'net/dns/mdnssd', a pure-ruby DNS-SD resolver
-             library.
+  -m,--mdnssd   Attempt to use 'net/dns/mdnssd', a pure-ruby DNS-SD resolver
+                library (this is the default).
+  -n,--dnssd    Attempt to use 'dnssd', the interface to the native ("-n")
+                DNS-SD resolver library APIs, "dns_sd.h" from Apple.
+                Note: YMMV, this doesn't entirely work, currently.
+  -d,--debug    Print debug messages to stderr.
 
 Examples:
   mdns -B _daap._tcp
@@ -60,8 +77,8 @@ EOF
 opts = GetoptLong.new(
   [ "--debug",    "-d",               GetoptLong::NO_ARGUMENT ],
   [ "--help",     "-h",               GetoptLong::NO_ARGUMENT ],
-  [ "--native",   "-n",               GetoptLong::NO_ARGUMENT ],
-  [ "--ruby",     "-r",               GetoptLong::NO_ARGUMENT ],
+  [ "--dnssd",    "-n",               GetoptLong::NO_ARGUMENT ],
+  [ "--mdnssd",   "-m",               GetoptLong::NO_ARGUMENT ],
 
   [ "--browse",    "-B",              GetoptLong::NO_ARGUMENT ],
   [ "--lookup",    "-L",              GetoptLong::NO_ARGUMENT ],
@@ -71,8 +88,12 @@ opts = GetoptLong.new(
 opts.each do |opt, arg|
   case opt
   when "--debug"
-    @debug = true
     require 'pp'
+    require 'logger'
+
+    @debug = true
+    @log = Logger.new(STDERR)
+    @log.level = Logger::DEBUG
 
   when "--help"
     print HELP
@@ -91,6 +112,11 @@ opts.each do |opt, arg|
     @name   = ARGV.shift
     @type   = ARGV.shift
     @domain = ARGV.shift || @domain
+
+    unless @name && @type
+      puts 'name and type required for -L'
+      exit 1
+    end
 
   when "--register"
     @cmd = :register
@@ -116,8 +142,9 @@ begin
   puts "Using native DNSSD..."
 rescue NameError
   require 'net/dns/mdnssd.rb'
-  DNSSD = Net::DNS::DNSSD
-  puts "Using net::dns::DNSSD..."
+  DNSSD = Net::DNS::MDNSSD
+  Net::DNS::MDNS::Responder.instance.log = @log if @log
+  puts "Using net::dns::MDNSSD..."
 end
 
 unless @cmd
@@ -127,14 +154,12 @@ end
 
 case @cmd
 when :browse
-  pp( @cmd, @type, @domain )  if @debug
+  STDERR.puts( "#{@cmd}(#{@type}, #{@domain}) =>" )  if @debug
 
   fmt = "%-3.3s  %-10.10s   %-15.15s  %-20.20s\n"
   printf fmt, "Ifx", "Domain", "Service Type", "Instance Name"
 
   handle = DNSSD.browse(@type, @domain) do |reply|
-    pp reply if @debug
-
     printf fmt, "?", reply.domain, reply.type, reply.name
   end
 
@@ -143,17 +168,15 @@ when :browse
 
 
 when :lookup
-  pp( @cmd, @name, @type, @domain )  if @debug
+  STDERR.puts( "#{@cmd}(#{@name}, #{@type}, #{@domain}) =>" )  if @debug
 
-  fmt = "%-3.3s  %-10.10s   %-15.15s  %-20.20s %-20.20s %s\n"
-  printf fmt, "Ifx", "Domain", "Service Type", "Instance Name", "Location", "Text"
+  fmt = "%-3.3s  %-8.8s   %-19.19s  %-20.20s %-20.20s %s\n"
+  printf fmt, "Ttl", "Domain", "Service Type", "Instance Name", "Location", "Text"
 
   handle = DNSSD.resolve(@name, @type, @domain) do |reply|
-    pp reply if @debug
-
     location = "#{reply.target}:#{reply.port}"
-    text = reply.text_record.to_a.map { |kv| kv.join('=') }.join(', ')
-    printf fmt, "?", reply.domain, reply.type, reply.name, location, text
+    text = reply.text_record.to_a.map { |kv| "#{kv[0]}=#{kv[1].inspect}" }.join(', ')
+    printf fmt, reply.ttl, reply.domain, reply.type, reply.name, location, text
   end
 
   $stdin.gets
@@ -162,15 +185,13 @@ when :lookup
 when :register
   pp( @cmd, @name, @type, @domain, @port, @txt)  if @debug
 
-  fmt = "%-3.3s  %-10.10s   %-15.15s  %-20.20s %-20.20s %s\n"
-  printf fmt, "Ifx", "Domain", "Service Type", "Instance Name", "Location", "Text"
+  fmt = "%-3.3s  %-8.8s   %-19.19s  %-20.20s %-20.20s %s\n"
+  printf fmt, "Ttl", "Domain", "Service Type", "Instance Name", "Location", "Text"
 
   handle = DNSSD.register(@name, @type, @domain, @port, @txt) do |notice|
-    pp notice if @debug
-
     location = "#{Socket.gethostname}:#{@port}"
-    text = @txt.to_a.map { |kv| kv.join('=') }.join(', ')
-    printf fmt, "?", notice.domain, notice.type, notice.name, location, text
+    text = @txt.to_a.map { |kv| "#{kv[0]}=#{kv[1].inspect}" }.join(', ')
+    printf fmt, notice.ttl, notice.domain, notice.type, notice.name, location, text
   end
 
   $stdin.gets
