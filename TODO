@@ -1,14 +1,20 @@
 TODO
 
+- adding a question of '*' causes it to always be requeried
+
 - service advertising
+
+- answer unicast questions
+
+- add known answers to queries
+
+- merge 1.8-resolv.rb diffs into net/dns/resolv.rb
 
 - apis similar to public apis of dns-sd
 
 - dns-sd.rb command w/ same ifx as dns-sd, using both net/dns/mdns and dns-sd
 
 - reintegrate into resolver
-
-- add resolv.rb to net/dns/
 
 - release 0.2
 
