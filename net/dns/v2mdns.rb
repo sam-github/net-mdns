@@ -42,7 +42,6 @@ module Net
     end
 
     module MDNS
-
       class Answer
         # TOA - time of arrival (of an answer)
         attr_reader :toa, :name, :ttl, :data
@@ -98,7 +97,13 @@ module Net
         end
 
         def answers_for(name, type)
-          @cached[name][type]
+          answers = []
+          if(type == RR::ANY)
+            @cached[name].each { |rtype,rdata| answers += rdata }
+          else
+            answers += @cached[name][type]
+          end
+          answers
         end
 
         def asked?(name, type)
@@ -142,8 +147,12 @@ module Net
           @sock.fcntl(Fcntl::F_SETFD, 1)
 
           # Allow 5353 to be shared.
+          so_reuseport = 0x0200 # The definition on OS X, where it is required.
+          if Socket.constants.include? 'SO_REUSEPORT'
+            so_reuseport = Socket::SO_REUSEPORT
+          end
           begin
-            @sock.setsockopt(Socket::SOL_SOCKET, 0x0200, 1)
+            @sock.setsockopt(Socket::SOL_SOCKET, so_reuseport, 1)
           rescue
             @log.warn( "set SO_REUSEPORT raised #{$!}, try SO_REUSEADDR" )
             @sock.setsockopt(Socket::SOL_SOCKET,Socket::SO_REUSEADDR, 1)
@@ -191,7 +200,7 @@ module Net
                   # Skip QUs
                   next if (type::ClassValue >> 15) == 1
                   @cache.cache_question(name, type)
-                  @log.debug( "cache - add q #{name.inspect}/#{type.to_s} from net" )
+                  @log.debug( "cache - add q #{name.to_s}/#{type.to_s.sub(/.*source::/,'')} from net" )
                 end
 
                 next
@@ -254,7 +263,6 @@ module Net
         def start(query)
           @mutex.synchronize do
             begin
-              # TODO - return cached responses
               @queries << query
 
               if( query.name.to_s != '*' )
@@ -291,37 +299,51 @@ module Net
       end # Responder
 
 
-      # TODO - three kinds of Query
-      #  - one is just a handle around a Queue, you have to call #pop
-      #    to get answers
       #  - derived is one that calls proc in current thread
-      #  - also derived is one that calls proc in new thread, like DNS-SD?
       class Query
         attr_reader :name, :type, :queue
 
         def push(*args)
-          queue.push(*args)
+          @queue.push(*args)
+        end
+
+        def pop
+          @queue.pop
+        end
+
+        def length
+          @queue.length
         end
 
         def to_s
-          "q?#{name}/#{type.to_s.gsub(/Resolv::DNS::Resource::/, '')}"
+          "q?#{name}/#{type.to_s.sub(/.*source::/, '')}"
         end
 
         def inspect
-          to_s + "(#{queue.length})"
+          to_s + "(#{@queue.length})"
         end
 
-        def initialize(name, type = RR::ANY, &proc)
+        def initialize(name, type = RR::ANY)
           @name = Name.create(name)
           @type = type
           @queue = Queue.new
 
           Responder.instance.start(self)
+        end
+
+        def stop
+          Responder.instance.stop(self)
+        end
+      end # Query
+
+      class BackgroundQuery < Query
+        def initialize(name, type = RR::ANY, &proc)
+          super(name, type)
 
           @thread = Thread.new do
             begin
               loop do
-                answers = @queue.pop
+                answers = self.pop
 
                 proc.call(self, answers)
               end
@@ -339,7 +361,7 @@ module Net
         def stop
           @thread.stop
         end
-      end # Query
+      end # BackgroundQuery
 
     end
   end
@@ -372,29 +394,31 @@ def print_answers(q,answers)
 end
 
 =begin
-Net::DNS::MDNS::Query.new('*') do |q, answers|
+MDNS::BackgroundQuery.new('*') do |q, answers|
   print_answers(q, answers)
 end
 =end
 
-Net::DNS::MDNS::Query.new('_http._tcp.local.', Resolv::DNS::Resource::IN::ANY) do |q, answers|
+MDNS::BackgroundQuery.new('_http._tcp.local.', RR::PTR) do |q, answers|
   print_answers(q, answers)
 end
 
-
-Net::DNS::MDNS::Query.new('_ftp._tcp.local.', Resolv::DNS::Resource::IN::ANY) do |q, answers|
+MDNS::BackgroundQuery.new('_ftp._tcp.local.', RR::ANY) do |q, answers|
   print_answers(q, answers)
 end
 
 sleep 10
 
-Net::DNS::MDNS::Query.new('_ftp._tcp.local.', Resolv::DNS::Resource::IN::ANY) do |q, answers|
+pp MDNS::Responder.instance.cache
+
+MDNS::BackgroundQuery.new('_ftp._tcp.local.', RR::ANY) do |q, answers|
   print_answers(q, answers)
 end
 
-Net::DNS::MDNS::Query.new('_daap._tcp.local.', Resolv::DNS::Resource::IN::ANY) do |q, answers|
+MDNS::BackgroundQuery.new('_daap._tcp.local.', RR::ANY) do |q, answers|
   print_answers(q, answers)
 end
 
-Net::DNS::MDNS::Responder.instance.thread.join
+
+MDNS::Responder.instance.thread.join
 
