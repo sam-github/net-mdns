@@ -7,6 +7,13 @@ doc:
 	 rdoc -S -o doc net/dns
 	 open doc/index.html &
 
+
+doc-upload:
+	cd doc; scp -r . sam@rubyforge.org:/var/www/gforge-projects/vpim/mdns
+
+pkg-upload:
+	cd releases; scp $P.tgz sam@rubyforge.org:/var/www/gforge-projects/vpim/mdns/mdns.tgz
+
 .PHONY: tags
 tags:
 	exctags -R multicast.rb

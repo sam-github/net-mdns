@@ -17,7 +17,8 @@ class Resolv
   # Copyright::  Copyright (C) 2005 Sam Roberts
   # License::    May be distributed under the same terms as Ruby
   # Version::    0.0
-  # Homepage::   http://rubyforge.org/projects/dnssd
+  # Homepage::   http://vpim.rubyforge.org/mdns
+  # Download::   http://vpim.rubyforge.org/mdns/mdns.tgz
   #
   # == Summary
   # An extension to the standard 'resolv' resolver library that adds support
