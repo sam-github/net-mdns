@@ -368,6 +368,9 @@ module Net
 
         attr_reader :cache
         attr_reader :log
+        attr_reader :hostname
+        attr_reader :hostaddr
+        attr_reader :hostrr
 
         # Log messages to +log+. +log+ must be +nil+ (no logging) or an object
         # that responds to debug(), warn(), and error(). Default is a Logger to
@@ -402,6 +405,12 @@ module Net
 
           @services = []
 
+          @hostname = Name.create(Socket.gethostname)
+          @hostname.absolute = true
+          @hostaddr = Socket.gethostbyname(@hostname.to_s)[3]
+          @hostrr   = [ @hostname, 240, IN::A.new(@hostaddr) ]
+
+
           debug( "start" )
 
           # TODO - I'm not sure about how robust this is. A better way to find the default
@@ -411,7 +420,7 @@ module Net
           #   s.getsockname => struct sockaddr_in => ip_addr
           # But parsing a struct sockaddr_in is a PITA in ruby.
 
-          kINADDR_IFX = Socket.gethostbyname(Socket.gethostname)[3]
+          kINADDR_IFX = @hostaddr
 
           @sock = UDPSocket.new
 
@@ -492,8 +501,8 @@ module Net
                   # - record the question as asked
                   # - TODO flush any answers we have over 1 sec old (otherwise if a machine goes down, its
                   #    answers stay until there ttl, which can be very long!)
-                  msg.each_question do |name, type|
-                    next if (type::ClassValue >> 15) == 1
+                  msg.each_question do |name, type, unicast|
+                    next if unicast
 
                     debug( "++ q #{name.to_s}/#{DNS.rrname(type)}" )
 
@@ -501,16 +510,37 @@ module Net
                   end
 
                   # Answer questions for registered services:
+                  # - don't multicast answers to unicast questions
                   # - let each service add any records that answer the question
+                  # - delete duplicate answers
+                  # - delete known answers (see MDNS:7.1)
                   # - send an answer if there are any answers
                   amsg = Message.new(0)
+                  amsg.rd = 0
                   amsg.qr = 1
-                  msg.each_question do |name, type|
+                  amsg.aa = 1
+                  msg.each_question do |name, type, unicast|
+                    next if unicast
+
                     debug( "ask? #{name}/#{DNS.rrname(type)}" )
                     @services.each do |svc|
                       svc.answer_question(name, type, amsg)
                     end
                   end
+
+                  amsg.answer.uniq!
+
+                  amsg.answer.delete_if do |an|
+                    msg.answer.detect do |known|
+                      # Recall: an = [ name, ttl, data, cacheflush ]
+                      if(an[0] == known[0] && an[2] == known[2] && (an[1]/2) < known[1])
+                        true # an is a duplicate, and known is not about to expire
+                      else
+                        false
+                      end
+                    end
+                  end
+
                   amsg.answer.each do |an|
                     debug( "-> a #{an[0]} (#{an[1]}) #{an[2].to_s} #{an[3].inspect}" )
                   end
@@ -578,6 +608,9 @@ module Net
               @waketime = nil
 
               msg = Message.new(0)
+              msg.rd = 0
+              msg.qr = 0
+              msg.aa = 0
 
               now = Time.now.to_i
 
@@ -701,6 +734,8 @@ module Net
               if qu
                 qmsg = Message.new(0)
                 qmsg.rd = 0
+                qmsg.qr = 0
+                qmsg.aa = 0
                 qmsg.add_question(qu.name, qu.type)
                 
                 send(qmsg)
@@ -730,6 +765,8 @@ module Net
               if announce_answers.first
                 smsg = Message.new(0)
                 smsg.rd = 0
+                smsg.qr = 1
+                smsg.aa = 1
                 announce_answers.each do |a|
                   smsg.add_answer(*a)
                 end
@@ -854,34 +891,44 @@ module Net
         include Net::DNS
 
         # Questions we can answer:
+        # @instance:
         #   name.type.domain -> SRV, TXT
+        # @type:
         #   type.domain -> PTR:name.type.domain
+        # @enum:
         #   _services._dns-sd._udp.<domain> -> PTR:type.domain
         def answer_question(name, rtype, amsg)
           case name
           when @instance
+#           amsg.add_answer(@instance, @srvttl, @rrsrv)
+
             case rtype.object_id
             when IN::ANY.object_id
-              amsg.add_answer(@instance, @ttl, @rrsrv)
-              amsg.add_answer(@instance, @ttl, @rrtxt)
-
+              amsg.add_answer(@instance, @srvttl, @rrsrv)
+              amsg.add_answer(@instance, @srvttl, @rrtxt)
+ 
             when IN::SRV.object_id
-              amsg.add_answer(@instance, @ttl, @rrsrv)
-
+              amsg.add_answer(*@hostrr) if @hostrr
+              amsg.add_answer(@instance, @srvttl, @rrsrv)
+              amsg.add_answer(@instance, @srvttl, @rrtxt)
+              amsg.add_answer(@type,     @ptrttl, @rrptr)
+ 
             when IN::TXT.object_id
-              amsg.add_answer(@instance, @ttl, @rrtxt)
+              amsg.add_answer(@instance, @srvttl, @rrtxt)
             end
 
           when @type
             case rtype.object_id
             when IN::ANY.object_id, IN::PTR.object_id
-              amsg.add_answer(@type, @ttl, @rrptr)
+              amsg.add_answer(@type,     @ptrttl, @rrptr)
+#             amsg.add_answer(@instance, @srvttl, @rrsrv)
+#             amsg.add_answer(@instance, @srvttl, @rrtxt)
             end
 
           when @enum
             case rtype.object_id
             when IN::ANY.object_id, IN::PTR.object_id
-              amsg.add_answer(@type, @ttl, @rrenum)
+              amsg.add_answer(@type, @ptrttl, @rrenum)
             end
 
           end
@@ -916,20 +963,29 @@ module Net
           "#<#{self.class}: #{@instance} is #{@target}:#{@port}>"
         end
 
-        def initialize(name, type, port, txt = {}, target = Socket.gethostname, &proc)
+        def initialize(name, type, port, txt = {}, target = nil, &proc)
           # TODO - escape special characters
           @name = DNS::Name.create(name.to_str)
           @type = DNS::Name.create(type.to_str)
           @domain = DNS::Name.create('local')
           @port = port.to_int
-          @target = target.to_str
+          if target
+            @target = DNS::Name.create(target)
+            @hostrr = nil
+          else
+            @target = Responder.instance.hostname
+            @hostrr = Responder.instance.hostrr
+          end
 
           @txt = txt || {}
-          @ttl = 7200 # Arbitrary, but Apple seems to use this value.
+          @ttl = nil
           @priority = 0
           @weight = 0
 
           proc.call(self) if proc
+
+          @srvttl = @ttl ||  240
+          @ptrttl = @ttl || 7200
 
           @domain = Name.new(@domain.to_a, true)
           @type = @type + @domain
@@ -960,7 +1016,12 @@ module Net
         end
 
         def start
-          Responder.instance.service_start(self, [ [@type, @ttl, @rrptr] ])
+          Responder.instance.service_start(self, [
+               [@type, @ptrttl, @rrptr],
+               [@instance, @srvttl, @rrsrv],
+               [@instance, @srvttl, @rrtxt],
+               @hostrr
+            ].compact)
           self
         end
 
