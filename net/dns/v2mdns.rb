@@ -47,9 +47,10 @@ module Net
 
     module MDNS
       class Answer
+        attr_reader :name, :ttl, :data
         # TOA - time of arrival (of an answer)
-        attr_reader :name, :ttl, :data, :toa, :retries
-        attr_writer :retries
+        attr_reader :toa
+        attr_accessor :retries
 
         def initialize(name, ttl, data)
           @name = name
@@ -83,8 +84,7 @@ module Net
           @data.cacheflush?
         end
 
-        # TODO - should be to_s, so inspect can give all attributes?
-        def inspect
+        def to_s
           s = "#{name.to_s} (#{ttl}) "
           s << '!' if absolute?
           s << '-' if ttl == 0
@@ -136,8 +136,7 @@ module Net
           @lastq + r if r
         end
 
-        # TODO - should be to_s, so inspect can give all attributes?
-        def inspect
+        def to_s
           "#{@name.to_s}/#{DNS.rrname @type} (#{@retries})"
         end
       end
@@ -371,7 +370,7 @@ module Net
                   end
                   if amsg.answer.first
                     amsg.answer.each do |a|
-                      debug( "-> a #{a[0]} (#{a[1]}) #{a[2].inspect}" )
+                      debug( "-> a #{a[0]} (#{a[1]}) #{a[2].to_s}" )
                     end
                     send(amsg)
                   end
@@ -382,7 +381,7 @@ module Net
                   msg.each_answer do |n, ttl, data|
 
                     a = Answer.new(n, ttl, data)
-                    debug( "++ a #{ a.inspect }" )
+                    debug( "++ a #{ a }" )
                     a = @cache.cache_answer(a)
 
                     # If a wasn't cached, then its no newer than an answer we already have, so
@@ -396,7 +395,7 @@ module Net
                   @queries.each do |q|
                     answers = cached.select { |an| q.subscribes_to? an }
 
-                    debug( "push #{answers.length} to #{q.inspect}" )
+                    debug( "push #{answers.length} to #{q}" )
 
                     q.push answers
                   end
@@ -451,7 +450,7 @@ module Net
                   # Delete expired answers.
                   answers.delete_if do |an|
                     if an.expired?
-                      debug( "-- a #{an.inspect}" )
+                      debug( "-- a #{an}" )
                       true
                     end
                   end
@@ -460,7 +459,7 @@ module Net
                   answers.each do |an|
                     if an.refresh
                       unless @queries.detect { |q| q.subscribes_to? an }
-                        debug( "no refresh of: a #{an.inspect}" )
+                        debug( "no refresh of: a #{an}" )
                         next
                       end
                       if now >= an.refresh
@@ -479,7 +478,7 @@ module Net
                 # Delete questions no query subscribes to, and that don't need refreshing.
                 rtypes.delete_if do |rtype, qu|
                   if !qu.refresh || !@queries.detect { |q| q.subscribes_to? qu }
-                    debug( "no refresh of: q #{qu.inspect}" )
+                    debug( "no refresh of: q #{qu}" )
                     true
                   end
                 end
@@ -507,7 +506,7 @@ module Net
                 delay = @waketime - Time.now.to_i
                 delay = 1 if delay < 1
 
-                debug( "refresh in #{delay} sec for #{wakefor.inspect}" )
+                debug( "refresh in #{delay} sec for #{wakefor}" )
               else
                 delay = 0
               end
@@ -544,7 +543,7 @@ module Net
 
               answers = @cache.answers_for(query.name, query.type)
 
-              debug( "start query #{query.inspect}" )
+              debug( "start query #{query}" )
              
               # If it wasn't added, then we already are asking the question,
               # don't ask it again.
@@ -567,22 +566,26 @@ module Net
 
         def query_stop(query)
           @mutex.synchronize do
-            debug( "query #{query.inspect} - stop" )
+            debug( "query #{query} - stop" )
             @queries.delete(query)
           end
         end
 
-        def service_start(service)
+        def service_start(service, announce_answers = [])
           @mutex.synchronize do
             begin
               @services << service
 
               debug( "start service #{service.to_s}" )
 
-              smsg = Message.new(0)
-              smsg.rd = 0
-              service.answer_question(:startup, nil, smsg)
-              send(smsg) if smsg.answer.first
+              if announce_answers.first
+                smsg = Message.new(0)
+                smsg.rd = 0
+                announce_answers.each do |a|
+                  smsg.add_answer(*a)
+                end
+                send(smsg)
+              end
 
             rescue
               warn( "fail service #{service} - #{$!}" )
@@ -600,7 +603,6 @@ module Net
         end
 
       end # Responder
-
 
       #  - derived is one that calls proc in current thread
       class Query
@@ -626,16 +628,16 @@ module Net
           @queue.pop
         end
 
+        def each # :yield: Answer
+          yield pop
+        end
+
         def length
           @queue.length
         end
 
         def to_s
           "q?#{name}/#{DNS.rrname(type)}"
-        end
-
-        def inspect
-          to_s + "(#{@queue.length})"
         end
 
         def initialize(name, type = IN::ANY)
@@ -675,7 +677,7 @@ module Net
         end
 
         def stop
-          @thread.stop
+          @thread.kill
           self
         end
       end # BackgroundQuery
@@ -684,26 +686,22 @@ module Net
         include Net::DNS
 
         # Questions we can answer:
-        #   :startup -> PTR:name.type.domain (advertise our startup)
         #   name.type.domain -> SRV, TXT
         #   type.domain -> PTR:name.type.domain
         #   _services._dns-sd._udp.<domain> -> PTR:type.domain
         def answer_question(name, rtype, amsg)
           case name
-          when :startup
-            amsg.add_answer(@type, @ttl, @rrptr)
-
           when @instance
             case rtype.object_id
             when IN::ANY.object_id
               amsg.add_answer(@instance, @ttl, @rrsrv)
-              amsg.add_answer(@instance, @ttl, @rrtxt) if @rrtxt
+              amsg.add_answer(@instance, @ttl, @rrtxt)
 
             when IN::SRV.object_id
               amsg.add_answer(@instance, @ttl, @rrsrv)
 
             when IN::TXT.object_id
-              amsg.add_answer(@instance, @ttl, @rrtxt) if @rrtxt
+              amsg.add_answer(@instance, @ttl, @rrtxt)
             end
 
           when @type
@@ -779,11 +777,8 @@ module Net
           @rrsrv = IN::SRV.new(@priority, @weight, @port, @target)
 
           strings = @txt.map { |k,v| k + '=' + v }
-          if strings.first
-            @rrtxt = IN::TXT.new(*strings)
-          else 
-            @rrtxt = nil
-          end
+
+          @rrtxt = IN::TXT.new(*strings)
 
           # undefine_method "[]=", "ttl=", priority=, weight=
 
@@ -791,7 +786,7 @@ module Net
         end
 
         def start
-          Responder.instance.service_start(self)
+          Responder.instance.service_start(self, [ [@type, @ttl, @rrptr] ])
           self
         end
 
@@ -806,6 +801,7 @@ module Net
   end
 end
 
+if $0 == __FILE__
 
 include Net::DNS
 
@@ -870,11 +866,15 @@ print_answers( q, q.pop )
 q.stop
 =end
 
-svc = MDNS::Service.new('foobar', '_example._tcp', 9999)
+svc = MDNS::Service.new('julie', '_example._tcp', 0xdead) do |s|
+  s.ttl = 10
+end
 
 Signal.trap('USR1') do
   PP.pp( MDNS::Responder.instance.cache, $stderr )
 end
 
 sleep
+
+end
 
