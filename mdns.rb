@@ -61,7 +61,7 @@ You can use long names --browse, --lookup, and --register instead of -B, -L,
 and -R.
 
 Options:
-  -m,--mdnssd   Attempt to use 'net/dns/mdnssd', a pure-ruby DNS-SD resolver
+  -m,--mdnssd   Attempt to use 'net/dns/mdns-sd', a pure-ruby DNS-SD resolver
                 library (this is the default).
   -n,--dnssd    Attempt to use 'dnssd', the interface to the native ("-n")
                 DNS-SD resolver library APIs, "dns_sd.h" from Apple.
@@ -148,7 +148,7 @@ begin
   DNSSD.class
   puts "Using native DNSSD..."
 rescue NameError
-  require 'net/dns/mdnssd.rb'
+  require 'net/dns/mdns-sd'
   DNSSD = Net::DNS::MDNSSD
   Net::DNS::MDNS::Responder.instance.log = @log if @log
   puts "Using net::dns::MDNSSD..."

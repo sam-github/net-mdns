@@ -2,7 +2,7 @@
 # list of default resolvers queried when using Resolv#getaddress, and the other
 # Resolv module methods.
 
-require 'net/dns/mdns.rb'
+require 'net/dns/mdns'
 
 class Resolv
   # This is a bit of hack, but I want MDNS to be after Hosts, but it can't be
