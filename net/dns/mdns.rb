@@ -19,7 +19,7 @@ module Net
   module DNS
 
     #:main:Net::DNS::MDNS
-    #:title:net-mdns - multicast DNS and service discovery
+    #:title:net-mdns - multicast DNS and DNS service discovery
     #
     # Author::     Sam Roberts <sroberts@uniserve.com>
     # Copyright::  Copyright (C) 2005 Sam Roberts
