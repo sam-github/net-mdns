@@ -122,7 +122,6 @@ module Net
           ansrv, antxt = rrs[an.name][IN::SRV], rrs[an.name][IN::TXT]
 
           if ansrv && antxt
-            rrs.delete an.name
 #           puts "ansrv->#{ansrv.to_s}"
 #           puts "antxt->#{antxt.to_s}"
             yield ResolveReply.new( ansrv, antxt )
