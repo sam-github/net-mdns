@@ -13,7 +13,7 @@ module Net
 
     # = DNS-SD over mDNS
     #
-    # An implementation of DNS-SD using Net::DNS::MDNS.
+    # An implementation of DNS Service-Discovery (DNS-SD) using Net::DNS::MDNS.
     #
     # DNS-SD is described in draft-cheshire-dnsext-dns-sd.txt, see
     # http://www.dns-sd.org for more information. It is most often seen as part
@@ -22,7 +22,7 @@ module Net
     # These APIs accept and return a set of arguments which are documented once,
     # here, for convenience.
     #
-    # - type: DNSSD classifies services into types using a naming convention.
+    # - type: DNS-SD classifies services into types using a naming convention.
     #   That convention is <_service>.<_protocol>.  The underscores ("_") serve
     #   to differentiate from normal DNS names. Protocol is always one of
     #   "_tcp" or "_udp". The service is a short name, see the list at
@@ -59,7 +59,7 @@ module Net
         def initialize(an) # :nodoc:
           @interface = nil
           @fullname = an.name.to_s
-          @domain, @type, @name = DNSSD::Util.parse_name(an.data.name)
+          @domain, @type, @name = MDNSSD::Util.parse_name(an.data.name)
           @ttl = an.ttl
         end
       end
@@ -90,8 +90,8 @@ module Net
         def initialize(ansrv, antxt) # :nodoc:
           @interface = nil
           @fullname = ansrv.name.to_s
-          @domain, @type, @name = DNSSD::Util.parse_name(ansrv.name)
-          @target = ansrv.data.target
+          @domain, @type, @name = MDNSSD::Util.parse_name(ansrv.name)
+          @target = ansrv.data.target.to_s
           @port = ansrv.data.port
           @priority = ansrv.data.priority
           @weight = ansrv.data.weight
