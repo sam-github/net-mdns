@@ -92,8 +92,6 @@ dns-sd test mode results:
 
 Open resolv.rb issues:
 
-- push diffs back to ruby-core
-
 - Reverse DNS lookups are done by sock.recv, seems like its a problem for a
   DNS library...
 
@@ -107,9 +105,6 @@ Open resolv.rb issues:
 
 - Resolv::Hosts returns IPv6 addresses before IPv4, so Resolv.getaddress('localhost')
   is ::1 on my system - this is not good.
-
-- Resolv.getaddresses accepts a domain name, a string that looks like an IP addr (yielded
-  directly), but dies when it gets a Fixnum, which is a valid IP address for Socket calls.
 
 
 Open design issues:
