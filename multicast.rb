@@ -35,6 +35,9 @@ class Resolv
             return self.new(priority, weight, port, target)
           end
 
+          def inspect
+            "IN::SRV priority=#{priority} weight=#{weight} target=#{target}:#{port}"
+          end
         end
 
       end
