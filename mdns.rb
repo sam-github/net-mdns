@@ -196,7 +196,7 @@ when :register
   handle = DNSSD.register(@name, @type, @domain, @port, @txt) do |notice|
     location = "#{Socket.gethostname}:#{@port}"
     text = @txt.to_a.map { |kv| "#{kv[0]}=#{kv[1].inspect}" }.join(', ')
-    printf fmt, notice.flags.to_i, notice.domain, notice.type, notice.name, location, text
+    printf fmt, 'N/A', notice.domain, notice.type, notice.name, location, text
   end
 
   $stdin.gets
