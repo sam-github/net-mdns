@@ -8,7 +8,6 @@
 
 require 'ipaddr'
 require 'logger'
-require 'resolv'
 require 'singleton'
 
 require 'net/dns/resolvx'
@@ -85,7 +84,7 @@ module Net
 
         # TODO - should be to_s, so inspect can give all attributes?
         def inspect
-          s = "#{name.to_s} (#{ttl}) -> "
+          s = "#{name.to_s} (#{ttl}) "
           s << '!' if absolute?
           s << '-' if ttl == 0
           s << " #{DNS.rrname(data)}"
@@ -262,6 +261,8 @@ module Net
 
           @queries = []
 
+          @services = []
+
           debug( "start" )
 
           kINADDR_IFX = Socket.gethostbyname(Socket.gethostname)[3]
@@ -306,11 +307,19 @@ module Net
           @waketime = nil
 
           @cacher_thrd = Thread.new do
-            cacher_loop
+            begin
+              cacher_loop
+            rescue
+              error( "cacher_loop exited with #{$!}" )
+            end
           end
 
           @responder_thrd = Thread.new do
-            responder_loop
+            begin
+              responder_loop
+            rescue
+              error( "responder_loop exited with #{$!}\n#{$!.backtrace}" )
+            end
           end
         end
 
@@ -326,13 +335,13 @@ module Net
 
                 debug( "from #{from[3]}:#{from[1]} -> qr=#{msg.qr} qcnt=#{msg.question.size} acnt=#{msg.answer.size}" )
 
-                # When we see a QM:
-                #  - record the question as asked
-                #  - TODO flush any answers we have over 1 sec old (otherwise if a machine goes down, its
-                #    answers stay until there ttl, which can be very long!)
                 if( msg.query? )
+                  # Cache questions:
+                  # - ignore unicast queries
+                  # - record the question as asked
+                  # - TODO flush any answers we have over 1 sec old (otherwise if a machine goes down, its
+                  #    answers stay until there ttl, which can be very long!)
                   msg.each_question do |name, type|
-                    # Skip QUs
                     next if (type::ClassValue >> 15) == 1
 
                     debug( "++ q #{name.to_s}/#{DNS.rrname(type)}" )
@@ -340,31 +349,49 @@ module Net
                     @cache.cache_question(name, type)
                   end
 
-                  next
-                end
+                  # Answer questions for registered services:
+                  # - let each service add any records that answer the question
+                  # - send an answer if there are any answers
+                  amsg = Message.new(0)
+                  amsg.qr = 1
+                  msg.each_question do |name, type|
+                    debug( "ask? #{name}/#{DNS.rrname(type)}" )
+                    @services.each do |svc|
+                      svc.answer_question(name, type, amsg)
+                    end
+                  end
+                  if amsg.answer.first
+                    amsg.answer.each do |a|
+                      debug( "-> a #{a[0]} (#{a[1]}) #{a[2].inspect}" )
+                    end
+                    send(amsg)
+                  end
 
-                # Cache answers
-                cached = []
-                msg.each_answer do |n, ttl, data|
+                else
+                  # Cache answers:
+                  cached = []
+                  msg.each_answer do |n, ttl, data|
 
-                  a = Answer.new(n, ttl, data)
-                  debug( "++ a #{ a.inspect }" )
-                  a = @cache.cache_answer(a)
+                    a = Answer.new(n, ttl, data)
+                    debug( "++ a #{ a.inspect }" )
+                    a = @cache.cache_answer(a)
 
-                  # If a wasn't cached, then its no newer than an answer we already have, so
-                  # we won't report it.
-                  cached << a if a
+                    # If a wasn't cached, then its no newer than an answer we already have, so
+                    # we won't report it.
+                    cached << a if a
 
-                  wake_cacher_for(a)
-                end
+                    wake_cacher_for(a)
+                  end
 
-                # Push answers to Queries
-                @queries.each do |q|
-                  answers = cached.select { |an| q.subscribes_to? an }
+                  # Push answers to Queries:
+                  @queries.each do |q|
+                    answers = cached.select { |an| q.subscribes_to? an }
 
-                  debug( "push #{answers.length} to #{q.inspect}" )
+                    debug( "push #{answers.length} to #{q.inspect}" )
 
-                  q.push answers
+                    q.push answers
+                  end
+
                 end
 
               rescue DecodeError
@@ -497,7 +524,7 @@ module Net
           end
         end
 
-        def start(query)
+        def query_start(query)
           @mutex.synchronize do
             begin
               @queries << query
@@ -522,17 +549,44 @@ module Net
 
               query.push answers if answers.first
             rescue
-              warn( "fail query #{query.inspect} - #{$!}" )
+              warn( "fail query #{query} - #{$!}" )
               @queries.delete(query)
               raise
             end
           end
         end
 
-        def stop(query)
+        def query_stop(query)
           @mutex.synchronize do
             debug( "query #{query.inspect} - stop" )
             @queries.delete(query)
+          end
+        end
+
+        def service_start(service)
+          @mutex.synchronize do
+            begin
+              @services << service
+
+              debug( "start service #{service.to_s}" )
+
+              smsg = Message.new(0)
+              smsg.rd = 0
+              service.answer_question(:startup, nil, smsg)
+              send(smsg) if smsg.answer.first
+
+            rescue
+              warn( "fail service #{service} - #{$!}" )
+              @queries.delete(service)
+              raise
+            end
+          end
+        end
+
+        def service_stop(service)
+          @mutex.synchronize do
+            debug( "service #{service} - stop" )
+            @services.delete(service)
           end
         end
 
@@ -580,11 +634,11 @@ module Net
           @type = type
           @queue = Queue.new
 
-          Responder.instance.start(self)
+          Responder.instance.query_start(self)
         end
 
         def stop
-          Responder.instance.stop(self)
+          Responder.instance.query_stop(self)
           self
         end
       end # Query
@@ -606,7 +660,7 @@ module Net
               # Proc!
               $stderr.puts "query #{self} yield raised #{$!}"
             ensure
-              Responder.instance.stop(self)
+              Responder.instance.query_stop(self)
             end
           end
         end
@@ -617,7 +671,129 @@ module Net
         end
       end # BackgroundQuery
 
+      class Service
+        include Net::DNS
+
+        # Questions we can answer:
+        #   :startup -> PTR:name.type.domain (advertise our startup)
+        #   name.type.domain -> SRV, TXT
+        #   type.domain -> PTR:name.type.domain
+        #   _services._dns-sd._udp.<domain> -> PTR:type.domain
+        def answer_question(name, rtype, amsg)
+          case name
+          when :startup
+            amsg.add_answer(@type, @ttl, @rrptr)
+
+          when @instance
+            case rtype.id
+            when IN::ANY.id
+              amsg.add_answer(@instance, @ttl, @rrsrv)
+              amsg.add_answer(@instance, @ttl, @rrtxt)
+
+            when IN::SRV.id
+              amsg.add_answer(@instance, @ttl, @rrsrv)
+
+            when IN::TXT.id
+              amsg.add_answer(@instance, @ttl, @rrtxt)
+            end
+
+          when @type
+            case rtype.id
+            when IN::ANY.id, IN::PTR.id
+              amsg.add_answer(@type, @ttl, @rrptr)
+            end
+
+          when @enum
+            case rtype.id
+            when IN::ANY.id, IN::PTR.id
+              amsg.add_answer(@type, @ttl, @rrenum)
+            end
+
+          end
+        end
+
+        # Default - 7 days
+        def ttl=(secs)
+          @ttl = secs.to_int
+        end
+        # Default - 0
+        def priority=(secs)
+          @priority = secs.to_int
+        end
+        # Default - 0
+        def weight=(secs)
+          @weight = secs.to_int
+        end
+        # Default - .local
+        def domain=(domain)
+          @domain = DNS::Name.create(domain.to_str)
+        end
+        # Set key/value pairs in a TXT record associated with SRV.
+        def []=(key, value)
+          @txt[key.to_str] = value.to_str
+        end
+
+        def to_s
+          "MDNS::Service: #{@instance} is #{@target}:#{@port}>"
+        end
+
+        def inspect
+          "#<#{self.class}: #{@instance} is #{@target}:#{@port}>"
+        end
+
+        def initialize(name, type, port, txt = {}, target = Socket.gethostname, &proc)
+          # TODO - escape special characters
+          @name = DNS::Name.create(name.to_str)
+          @type = DNS::Name.create(type.to_str)
+          @domain = DNS::Name.create('local')
+          @port = port.to_int
+          @target = target.to_str
+
+          @txt = {}
+          @ttl = 7200 # Arbitrary, but Apple seems to use this value.
+          @priority = 0
+          @weight = 0
+
+          proc.call(self) if proc
+
+          @domain = Name.new(@domain.to_a, true)
+          @type = @type + @domain
+          @instance = @name + @type
+          @enum = Name.create('_services._dns-sd._udp.') + @domain
+
+          # build the RRs
+
+          @rrenum = IN::PTR.new(@type)
+
+          @rrptr = IN::PTR.new(@instance)
+
+          @rrsrv = IN::SRV.new(@priority, @weight, @port, @target)
+
+          strings = @txt.map { |k,v| k + '=' + v }
+          if strings.first
+            @rrtxt = IN::TXT.new(*strings)
+          else 
+            @rrtxt = nil
+          end
+
+          # undefine_method "[]=", "ttl=", priority=, weight=
+
+          start
+        end
+
+        def start
+          Responder.instance.service_start(self)
+          self
+        end
+
+        def stop
+          Responder.instance.service_stop(self)
+          self
+        end
+
+      end
     end
+
   end
 end
 
@@ -660,7 +836,7 @@ end
 
 questions = [
 # [ IN::ANY, '*'],
-  [ IN::PTR, '_http._tcp.local.' ],
+# [ IN::PTR, '_http._tcp.local.' ],
 # [ IN::SRV, 'Sam Roberts._http._tcp.local.' ],
 # [ IN::ANY, '_ftp._tcp.local.' ],
 # [ IN::ANY, '_daap._tcp.local.' ],
@@ -685,9 +861,11 @@ print_answers( q, q.pop )
 q.stop
 =end
 
+svc = MDNS::Service.new('foobar', '_example._tcp', 9999)
+
 Signal.trap('USR1') do
   PP.pp( MDNS::Responder.instance.cache, $stderr )
 end
 
-$stdin.gets
+sleep
 
