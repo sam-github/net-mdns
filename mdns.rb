@@ -1,4 +1,4 @@
-#!/opt/local/bin/ruby -w
+#!/usr/local/bin/ruby18 -w
 
 $:.unshift(File.dirname($0))
 
@@ -21,6 +21,8 @@ Usage: mdns [options] name [record-type]
 
 Options
   -h,--help      Print this helpful message.
+  -t,--type      Query for this specific type.
+  -r,--recur     Recursive query.
   -d,--debug     Print debug information.
 
 Supported record types are:
@@ -32,11 +34,13 @@ Examples:
 EOF
 
 opt_debug = nil
+opt_recur = nil
 opt_type = Resolv::DNS::Resource::IN::ANY
 
 opts = GetoptLong.new(
   [ "--help",    "-h",              GetoptLong::NO_ARGUMENT ],
   [ "--type",    "-t",              GetoptLong::REQUIRED_ARGUMENT],
+  [ "--recur",   "-r",              GetoptLong::NO_ARGUMENT ],
   [ "--debug",   "-d",              GetoptLong::NO_ARGUMENT ]
 )
 
@@ -44,6 +48,7 @@ opts.each do |opt, arg|
   case opt
     when "--help"  then puts HELP; exit 0
     when "--debug" then opt_debug = true
+    when "--recur" then opt_recur = true
     when "--type"  then opt_type = rrmap[arg]
   end
 end
@@ -77,17 +82,18 @@ ARGV.each do |n|
 
 # r.each_resource(argv0, opt_type) do |rr| # BUG - this never times out...
   r.getresources(argv0, opt_type).each do |rr|
-    case rr
-    when Resolv::DNS::Resource::IN::PTR
-      n = rr.name
+    pp rr
 
-      puts "type=#{argv0} instance=#{n}"
+    if opt_recur
+      case rr
+      when Resolv::DNS::Resource::IN::PTR
+        n = rr.name
 
-      r.each_resource(n, Resolv::DNS::Resource::IN::ANY) do |rr1|
-        pp rr1
+        r.each_resource(n, Resolv::DNS::Resource::IN::ANY) do |rr1|
+          pp rr1
+        end
+      # TODO - A query for SRV.target
       end
-    else
-      pp rr
     end
   end
 end
