@@ -1,7 +1,5 @@
 TODO
 
-- document
-
 - mdns.rb user interface: search for multiple paths, move 'type' to a -t arg
 
 - package
@@ -59,6 +57,9 @@ Projects:
 
 Open design issues
 
+ - DNS::Name should have to_str to advertise that it can be converted into a string?
+   --> net.http can't be used with return values of SRV.target...
+
  - case equality?
 
 
@@ -72,6 +73,8 @@ Open design issues
 
    or maybe when '*.example.com'...
 
+ - maybe I should allow the port to be configurable, so mDNS can run on other
+   ports?
 
  - rename mdns.rb net/dns/multicast.rb?
 
