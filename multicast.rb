@@ -4,6 +4,13 @@ require 'resolv'
 
 
 class Resolv
+  def self.default_resolvers
+    DefaultResolver.resolvers
+  end
+
+  # The resolvers supported.
+  attr_reader :resolvers
+
   class DNS
     class Resource
       module IN
@@ -47,19 +54,6 @@ end
 
 
 class Resolv
-  # The default resolvers. They default to:
-  #   [Hosts.new, DNS.new]
-  #
-  # To enable mDNS with the default resolvers, do:
-  #   Resolv.default_resolvers.push( Resolv::MDNS.new )
-  #
-  def self.default_resolvers
-    DefaultResolver.resolvers
-  end
-
-  # The resolvers supported.
-  attr_reader :resolvers
-
   class DNS
     class Config
       attr_reader :ndots
