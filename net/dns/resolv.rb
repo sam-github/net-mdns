@@ -1,5 +1,11 @@
 # resolv.rb is copied from the ruby library, where it is maintained
-# by Tanaka Akira.
+# by Tanaka Akira. It contains modifications required by Net::DNS::MDNS,
+# some of which have been accepted into ruby 1.8's cvs, and the others I
+# hope will be accepted.
+#
+# Until this is accepted AND released in ruby 1.8.x, though, I still need a
+# copy of resolv.rb in net-mdns so that net-mdns can be used without needing to
+# install the head of the ruby 1.8 branch from CVS.
 
 =begin
 = resolv library
@@ -1186,7 +1192,7 @@ class Resolv
         end
 
         def put_string(d)
-          raise ArgumentError, "BUG - fails if d.length is greater than 255" if d.length > 255
+          raise ArgumentError, "strings longer than 255 characters cannot be encoded" if d.length > 255
           self.put_pack("C", d.length)
           @data << d
         end
@@ -1573,8 +1579,20 @@ class Resolv
 
         # TXT resource records must have one or more strings, but the
         # string may be zero-length.
+        #
+        # If only the +first_string+ is supplied, it may be longer than 255
+        # characters (internally, it will split into multiple
+        # character-strings). If multiple strings are supplied, each string
+        # must not be longer than 255 characters.
         def initialize(first_string = '', *rest_strings)
-          @strings = [first_string, *rest_strings].compact
+          if first_string.length > 255
+            raise ArgumentError, 'TXT strings are longer than 255 characters' if rest_strings.first
+
+            @strings = []
+            first_string.scan(/.{1,255}/) { |s| @strings << s }
+          else
+            @strings = [first_string, *rest_strings].compact
+          end
         end
 
         # Returns an array of all the strings making up the resource data.
@@ -1583,8 +1601,8 @@ class Resolv
         # individual string has the form: "key=value".
         attr_reader :strings
 
-        # Returns the resource data as a single string.
-        
+        # Returns the resource data as a single string. DNS uses multiple
+        # character strings to represent a single long TXT data value.
         def data
           @strings.join
         end
