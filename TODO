@@ -1,25 +1,41 @@
 TODO
 
-- we are seeing our own questions... good thing?
+- service advertising
 
-- we aren't seeing cached answers... bad thing!
+- apis similar to public apis of dns-sd
 
-- need a unicast-respose bit for query classes in resolv.rb
+- dns-sd.rb command w/ same ifx as dns-sd, using both net/dns/mdns and dns-sd
 
-- raa
+- reintegrate into resolver
 
-- upload
+- add resolv.rb to net/dns/
 
-- TXT not returning multiple strings
-
-- resolv.conf looks correct, but I can't resolv www.google.ca!
-
-- Name#<< - append label(s) to a Name
+- release 0.2
 
 
-Q can I bind my ifx to a local address?
+Cleanups (mdns):
 
-Q can I recv unicast responses?
+- Use my #equal?, the DNS libs == doesn't work worth beans. This will avoid the
+  need for absolute names as Query.new args.
+
+- filter answers that have already been seen?
+
+- let Query.new take a block, and yield itself, or yield with every answer?
+
+- Query#stop, start, restart
+
+- Answer#inspect -> Answer#to_s
+
+- make code easier to read
+
+- errors can escape the sweep and responder loops... ok?
+
+
+Cleanup (resolv.rb):
+
+- Name#<< - append label(s) to a Name?
+
+- put copy into net/dns/
 
 
 Goals:
@@ -43,7 +59,6 @@ b)
   - rinda?
   - client/server in test/unit
 
-
 Projects:
 
   - use Message.decode to dump details of tcpdump logs
@@ -56,6 +71,8 @@ Projects:
 
 
 Open design issues
+
+- look at perl's Net::DNS - http://www.net-dns.org
 
 - net classes that do socketopts, so you don't have to pack the structs yourself! or maybe
   implement the 8 functions of Stevens?
