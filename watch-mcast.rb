@@ -12,6 +12,16 @@ def ip_mreq(maddr, mifx = "0.0.0.0")
   IPAddr.new(maddr).hton + IPAddr.new(mifx).hton
 end
 
+class Resolv
+  class DNS
+    class Name
+      def inspect
+        to_s + (absolute? ? '.' : '')
+      end
+    end
+  end
+end
+
 sock = UDPSocket.new
 
 sock.setsockopt(Socket::SOL_SOCKET,Socket::SO_REUSEADDR, 1)
@@ -24,8 +34,15 @@ loop do
 
   reply, from = sock.recvfrom(9000)
 
-  pp Resolv::DNS::Message.decode(reply)
+# puts "--"
+# pp reply
+# puts "++"
 
+  msg = Resolv::DNS::Message.decode(reply)
+
+  pp msg
+
+# pp msg.answer
+  
 end
-
 
