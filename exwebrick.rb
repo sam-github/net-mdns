@@ -17,11 +17,36 @@ class HelloServlet < WEBrick::HTTPServlet::AbstractServlet
   end
 end
 
-server = WEBrick::HTTPServer.new( :Port => 8080 )
+# This may seem convoluted... but if there are multiple address families
+# available, like AF_INET6 and AF_INET, this should create multiple TCPServer
+# sockets for them.
+families = Socket.getaddrinfo(nil, 1, Socket::AF_UNSPEC, Socket::SOCK_STREAM, 0, Socket::AI_PASSIVE)
+
+listeners = []
+port = 0
+
+families.each do |af, one, dns, addr|
+  p port, addr
+  listeners << TCPServer.new(addr, port)
+  port = listeners.first.addr[1] unless port != 0
+end
+
+listeners.each do |s|
+  puts "listen on #{s.addr.inspect}"
+end
+
+# This will dynamically allocate multiple TCPServers, each on a different port.
+server = WEBrick::HTTPServer.new( :Port => 0 )
+
+# So we replace them with our TCPServer sockets which are all on the same
+# (dynamically assigned) port.
+server.listeners.each do |s| s.close end
+server.listeners.replace listeners
+server.config[:Port] = port
 
 server.mount( '/hello/', HelloServlet )
 
-handle = DNSSD.register("hello", '_http._tcp', 'local', 8080, 'path' => '/hello/')
+handle = DNSSD.register("hello", '_http._tcp', 'local', port, 'path' => '/hello/')
 
 ['INT', 'TERM'].each { |signal| 
   trap(signal) { server.shutdown; handle.stop; }
