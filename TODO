@@ -2,27 +2,39 @@ TODO
 
 Release: 0.1
 
-- implement flags, particularly add/remove flags
-
-- deal with dots and spaces, escaping DNS-SD names
-
-- reintegrate into resolver
-
-- dns-sd test modes... useful to test us?
+- dns-sd test modes:
+   -A  ok, but don't support -Q so don't see HINFO add/update/remove
+   -U  ok
+   -N  ?
+   -T  ?
+   -M  ?
+   -I  ?
 
 - implement a MDNSSD api for DNSServiceQueryRecord, and mdns.rb -Q
+
+- reintegrate into resolver, using Query API?
+
+- don't register a service that already exists
+
+- implement flags, particularly add/remove flags
 
 
 Release: 0.2
 
+- set cacheflush bits, as appropriate, for service registration
+
 - when we see a question, flush answers over a few seconds old from cache
     .. and do we notify queries that the answers are being deleted, too?
+
+- escape/parse DNS-SD names ...
 
 - Add #to_s to the RR types.
 
 - Add #to_s the *classes* of the RR types ("IN::TXT", ...)
 
-- HINFO service
+- HINFO RR service
+
+- A RR service
 
 - wildcard answering services
 
@@ -35,7 +47,6 @@ Release: 0.2
 - DNS packet dumper
 
 - move hierarchal DNS Name comparison operators to an optional file.
-
 
 - let Query.new take a block, and yield itself, or yield with every answer?
 
