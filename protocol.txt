@@ -9987,3 +9987,248 @@ D, [2005-02-20T22:06:07.044534 #12063] DEBUG -- : push 0 to q?_http._tcp.local/I
 D, [2005-02-20T22:06:36.712197 #12063] DEBUG -- : query q?_http._tcp.local/IN::PTR(0) - stop
 net/dns/v2mdns.rb:692:in `sleep': Interrupt
 	from net/dns/v2mdns.rb:692
+D, [2005-03-13T14:27:16.659210 #9541] DEBUG -- : start query q?*/IN::ANY with qu nil
+D, [2005-03-13T14:27:16.817964 #9541] DEBUG -- : from 192.168.123.154:56230 -> qr=0 qcnt=1 acnt=0
+D, [2005-03-13T14:27:16.818364 #9541] DEBUG -- : ++ q ensemble.local/IN::AAAA
+D, [2005-03-13T14:27:16.818718 #9541] DEBUG -- : ask? ensemble.local/IN::AAAA
+D, [2005-03-13T14:27:17.067577 #9541] DEBUG -- : from 192.168.123.154:56230 -> qr=0 qcnt=1 acnt=0
+D, [2005-03-13T14:27:17.068000 #9541] DEBUG -- : ++ q ensemble.local/IN::AAAA
+D, [2005-03-13T14:27:17.068357 #9541] DEBUG -- : ask? ensemble.local/IN::AAAA
+D, [2005-03-13T14:27:17.318941 #9541] DEBUG -- : from 192.168.123.154:56232 -> qr=0 qcnt=1 acnt=0
+D, [2005-03-13T14:27:17.319881 #9541] DEBUG -- : ++ q ensemble.local.local/IN::AAAA
+D, [2005-03-13T14:27:17.320448 #9541] DEBUG -- : ask? ensemble.local.local/IN::AAAA
+D, [2005-03-13T14:27:17.568960 #9541] DEBUG -- : from 192.168.123.154:56232 -> qr=0 qcnt=1 acnt=0
+D, [2005-03-13T14:27:17.569389 #9541] DEBUG -- : ++ q ensemble.local.local/IN::AAAA
+D, [2005-03-13T14:27:17.569758 #9541] DEBUG -- : ask? ensemble.local.local/IN::AAAA
+D, [2005-03-13T14:27:17.819592 #9541] DEBUG -- : from 192.168.123.154:56232 -> qr=0 qcnt=1 acnt=0
+D, [2005-03-13T14:27:17.820024 #9541] DEBUG -- : ++ q ensemble.local.local/IN::AAAA
+D, [2005-03-13T14:27:17.820391 #9541] DEBUG -- : ask? ensemble.local.local/IN::AAAA
+D, [2005-03-13T14:27:18.070034 #9541] DEBUG -- : from 192.168.123.154:56232 -> qr=0 qcnt=1 acnt=0
+D, [2005-03-13T14:27:18.070432 #9541] DEBUG -- : ++ q ensemble.local.local/IN::AAAA
+D, [2005-03-13T14:27:18.070794 #9541] DEBUG -- : ask? ensemble.local.local/IN::AAAA
+D, [2005-03-13T14:27:33.011288 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-03-13T14:27:33.011740 #9541] DEBUG -- : ++ q Test._testupdate._tcp.local/IN::ANY
+D, [2005-03-13T14:27:33.012125 #9541] DEBUG -- : ask? Test._testupdate._tcp.local/IN::ANY
+D, [2005-03-13T14:27:33.261642 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-03-13T14:27:33.262058 #9541] DEBUG -- : ++ q Test._testupdate._tcp.local/IN::ANY
+D, [2005-03-13T14:27:33.262427 #9541] DEBUG -- : ask? Test._testupdate._tcp.local/IN::ANY
+D, [2005-03-13T14:27:33.511476 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-03-13T14:27:33.511930 #9541] DEBUG -- : ++ q Test._testupdate._tcp.local/IN::ANY
+D, [2005-03-13T14:27:33.512315 #9541] DEBUG -- : ask? Test._testupdate._tcp.local/IN::ANY
+D, [2005-03-13T14:27:33.764628 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=5
+D, [2005-03-13T14:27:33.765173 #9541] DEBUG -- : ++ a ensemble.local (240) ! IN::A 192.168.123.154
+D, [2005-03-13T14:27:33.765553 #9541] DEBUG -- :  cached
+D, [2005-03-13T14:27:33.765912 #9541] DEBUG -- : ++ a Test._testupdate._tcp.local (240) ! IN::SRV ensemble.local:4660
+D, [2005-03-13T14:27:33.768424 #9541] DEBUG -- :  cached
+D, [2005-03-13T14:27:33.769151 #9541] DEBUG -- : ++ a Test._testupdate._tcp.local (240) ! IN::TXT "First String", ...
+D, [2005-03-13T14:27:33.770338 #9541] DEBUG -- :  cached
+D, [2005-03-13T14:27:33.771093 #9541] DEBUG -- : ++ a _services._dns-sd._udp.local (7200)  IN::PTR _testupdate._tcp.local
+D, [2005-03-13T14:27:33.772205 #9541] DEBUG -- :  cached
+D, [2005-03-13T14:27:33.772615 #9541] DEBUG -- : ++ a _testupdate._tcp.local (7200)  IN::PTR Test._testupdate._tcp.local
+D, [2005-03-13T14:27:33.773620 #9541] DEBUG -- :  cached
+D, [2005-03-13T14:27:33.774045 #9541] DEBUG -- : push 5 to q?*/IN::ANY
+D, [2005-03-13T14:27:33.778040 #9541] DEBUG -- : sweep begin
+D, [2005-03-13T14:27:33.781312 #9541] DEBUG -- : refresh in 192 sec for ensemble.local (240) ! IN::A 192.168.123.154
+D, [2005-03-13T14:27:33.783337 #9541] DEBUG -- : sweep end
+D, [2005-03-13T14:27:34.763892 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=5
+D, [2005-03-13T14:27:34.764468 #9541] DEBUG -- : ++ a ensemble.local (240) ! IN::A 192.168.123.154
+D, [2005-03-13T14:27:34.765154 #9541] DEBUG -- : ++ a Test._testupdate._tcp.local (240) ! IN::SRV ensemble.local:4660
+D, [2005-03-13T14:27:34.765867 #9541] DEBUG -- : ++ a Test._testupdate._tcp.local (240) ! IN::TXT "First String", ...
+D, [2005-03-13T14:27:34.766561 #9541] DEBUG -- : ++ a _services._dns-sd._udp.local (7200)  IN::PTR _testupdate._tcp.local
+D, [2005-03-13T14:27:34.767157 #9541] DEBUG -- : ++ a _testupdate._tcp.local (7200)  IN::PTR Test._testupdate._tcp.local
+D, [2005-03-13T14:27:34.767666 #9541] DEBUG -- : push 0 to q?*/IN::ANY
+D, [2005-03-13T14:27:34.768363 #9541] DEBUG -- : sweep begin
+D, [2005-03-13T14:27:34.770415 #9541] DEBUG -- : refresh in 192 sec for ensemble.local (240) ! IN::A 192.168.123.154
+D, [2005-03-13T14:27:34.770621 #9541] DEBUG -- : sweep end
+D, [2005-03-13T14:27:36.763652 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=5
+D, [2005-03-13T14:27:36.764231 #9541] DEBUG -- : ++ a ensemble.local (240) ! IN::A 192.168.123.154
+D, [2005-03-13T14:27:36.764986 #9541] DEBUG -- : ++ a Test._testupdate._tcp.local (240) ! IN::SRV ensemble.local:4660
+D, [2005-03-13T14:27:36.765981 #9541] DEBUG -- : ++ a Test._testupdate._tcp.local (240) ! IN::TXT "First String", ...
+D, [2005-03-13T14:27:36.766654 #9541] DEBUG -- : ++ a _services._dns-sd._udp.local (7200)  IN::PTR _testupdate._tcp.local
+D, [2005-03-13T14:27:36.767249 #9541] DEBUG -- : ++ a _testupdate._tcp.local (7200)  IN::PTR Test._testupdate._tcp.local
+D, [2005-03-13T14:27:36.767765 #9541] DEBUG -- : push 0 to q?*/IN::ANY
+D, [2005-03-13T14:27:36.768426 #9541] DEBUG -- : sweep begin
+D, [2005-03-13T14:27:36.770468 #9541] DEBUG -- : refresh in 192 sec for ensemble.local (240) ! IN::A 192.168.123.154
+D, [2005-03-13T14:27:36.770795 #9541] DEBUG -- : sweep end
+D, [2005-03-13T14:27:40.012374 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-03-13T14:27:40.013189 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x58a0c0>
+D, [2005-03-13T14:27:40.013539 #9541] DEBUG -- :  cached
+D, [2005-03-13T14:27:40.013870 #9541] DEBUG -- : push 1 to q?*/IN::ANY
+D, [2005-03-13T14:27:40.764079 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=6
+D, [2005-03-13T14:27:40.764658 #9541] DEBUG -- : ++ a ensemble.local (240) ! IN::A 192.168.123.154
+D, [2005-03-13T14:27:40.765410 #9541] DEBUG -- : ++ a Test._testupdate._tcp.local (240) ! IN::SRV ensemble.local:4660
+D, [2005-03-13T14:27:40.766311 #9541] DEBUG -- : ++ a Test._testupdate._tcp.local (240) ! IN::TXT "First String", ...
+D, [2005-03-13T14:27:40.766956 #9541] DEBUG -- : ++ a _services._dns-sd._udp.local (7200)  IN::PTR _testupdate._tcp.local
+D, [2005-03-13T14:27:40.767544 #9541] DEBUG -- : ++ a _testupdate._tcp.local (7200)  IN::PTR Test._testupdate._tcp.local
+D, [2005-03-13T14:27:40.768120 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x585b38>
+D, [2005-03-13T14:27:40.768654 #9541] DEBUG -- : push 0 to q?*/IN::ANY
+D, [2005-03-13T14:27:42.761527 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-03-13T14:27:42.762035 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x584dc8>
+D, [2005-03-13T14:27:42.762763 #9541] DEBUG -- : push 0 to q?*/IN::ANY
+D, [2005-03-13T14:27:45.014625 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=2
+D, [2005-03-13T14:27:45.015257 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x583b1c>
+D, [2005-03-13T14:27:45.015756 #9541] DEBUG -- :  cached
+D, [2005-03-13T14:27:45.016122 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x5834dc>
+D, [2005-03-13T14:27:45.017803 #9541] DEBUG -- :  cached
+D, [2005-03-13T14:27:45.018235 #9541] DEBUG -- : push 2 to q?*/IN::ANY
+D, [2005-03-13T14:27:45.019812 #9541] DEBUG -- : sweep begin
+D, [2005-03-13T14:27:45.023759 #9541] DEBUG -- : -> q Test._testupdate._tcp.local IN::HINFO
+D, [2005-03-13T14:27:45.030915 #9541] DEBUG -- : refresh in 1 sec for #<Net::DNS::MDNS::Answer:0x583b1c>
+D, [2005-03-13T14:27:45.034204 #9541] DEBUG -- : sweep end
+D, [2005-03-13T14:27:45.038418 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-03-13T14:27:45.041158 #9541] DEBUG -- : ++ q Test._testupdate._tcp.local/IN::HINFO
+D, [2005-03-13T14:27:45.043198 #9541] DEBUG -- : ask? Test._testupdate._tcp.local/IN::HINFO
+D, [2005-03-13T14:27:46.013323 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-03-13T14:27:46.013855 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x58050c>
+D, [2005-03-13T14:27:46.014643 #9541] DEBUG -- : push 0 to q?*/IN::ANY
+D, [2005-03-13T14:27:46.039653 #9541] DEBUG -- : sweep begin
+D, [2005-03-13T14:27:46.041032 #9541] DEBUG -- : -> q Test._testupdate._tcp.local IN::HINFO
+D, [2005-03-13T14:27:46.043555 #9541] DEBUG -- : refresh in 1 sec for #<Net::DNS::MDNS::Answer:0x583b1c>
+D, [2005-03-13T14:27:46.044967 #9541] DEBUG -- : sweep end
+D, [2005-03-13T14:27:46.046180 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-03-13T14:27:46.047223 #9541] DEBUG -- : ++ q Test._testupdate._tcp.local/IN::HINFO
+D, [2005-03-13T14:27:46.047653 #9541] DEBUG -- : ask? Test._testupdate._tcp.local/IN::HINFO
+D, [2005-03-13T14:27:47.057235 #9541] DEBUG -- : sweep begin
+D, [2005-03-13T14:27:47.058056 #9541] DEBUG -- : -- a #<Net::DNS::MDNS::Answer:0x583b1c>
+D, [2005-03-13T14:27:47.059118 #9541] DEBUG -- : refresh in 185 sec for ensemble.local (240) ! IN::A 192.168.123.154
+D, [2005-03-13T14:27:47.059291 #9541] DEBUG -- : sweep end
+D, [2005-03-13T14:27:48.014435 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-03-13T14:27:48.014920 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x57c560>
+D, [2005-03-13T14:27:48.015650 #9541] DEBUG -- : push 0 to q?*/IN::ANY
+D, [2005-03-13T14:27:48.765544 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=5
+D, [2005-03-13T14:27:48.766290 #9541] DEBUG -- : ++ a ensemble.local (240) ! IN::A 192.168.123.154
+D, [2005-03-13T14:27:48.767212 #9541] DEBUG -- : ++ a Test._testupdate._tcp.local (240) ! IN::SRV ensemble.local:4660
+D, [2005-03-13T14:27:48.768177 #9541] DEBUG -- : ++ a Test._testupdate._tcp.local (240) ! IN::TXT "First String", ...
+D, [2005-03-13T14:27:48.768833 #9541] DEBUG -- : ++ a _services._dns-sd._udp.local (7200)  IN::PTR _testupdate._tcp.local
+D, [2005-03-13T14:27:48.769421 #9541] DEBUG -- : ++ a _testupdate._tcp.local (7200)  IN::PTR Test._testupdate._tcp.local
+D, [2005-03-13T14:27:48.770050 #9541] DEBUG -- : push 0 to q?*/IN::ANY
+D, [2005-03-13T14:27:55.021119 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-03-13T14:27:55.021649 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x577a4c>
+D, [2005-03-13T14:27:55.022119 #9541] DEBUG -- :  cached
+D, [2005-03-13T14:27:55.022456 #9541] DEBUG -- : push 1 to q?*/IN::ANY
+D, [2005-03-13T14:27:56.021075 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-03-13T14:27:56.021626 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x576a34>
+D, [2005-03-13T14:27:56.022281 #9541] DEBUG -- : push 0 to q?*/IN::ANY
+D, [2005-03-13T14:27:58.021308 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-03-13T14:27:58.021839 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x575cc4>
+D, [2005-03-13T14:27:58.022580 #9541] DEBUG -- : push 0 to q?*/IN::ANY
+D, [2005-03-13T14:28:00.022942 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=2
+D, [2005-03-13T14:28:00.023483 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x574a18>
+D, [2005-03-13T14:28:00.024078 #9541] DEBUG -- :  cached
+D, [2005-03-13T14:28:00.024443 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x5743d8>
+D, [2005-03-13T14:28:00.026177 #9541] DEBUG -- :  cached
+D, [2005-03-13T14:28:00.026610 #9541] DEBUG -- : push 2 to q?*/IN::ANY
+D, [2005-03-13T14:28:00.028180 #9541] DEBUG -- : sweep begin
+D, [2005-03-13T14:28:00.032614 #9541] DEBUG -- : -> q Test._testupdate._tcp.local IN::HINFO
+D, [2005-03-13T14:28:00.038910 #9541] DEBUG -- : refresh in 1 sec for #<Net::DNS::MDNS::Answer:0x574a18>
+D, [2005-03-13T14:28:00.042958 #9541] DEBUG -- : sweep end
+D, [2005-03-13T14:28:00.046039 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-03-13T14:28:00.048356 #9541] DEBUG -- : ++ q Test._testupdate._tcp.local/IN::HINFO
+D, [2005-03-13T14:28:00.050998 #9541] DEBUG -- : ask? Test._testupdate._tcp.local/IN::HINFO
+D, [2005-03-13T14:28:01.023045 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-03-13T14:28:01.023597 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x57141c>
+D, [2005-03-13T14:28:01.024489 #9541] DEBUG -- : push 0 to q?*/IN::ANY
+D, [2005-03-13T14:28:01.047204 #9541] DEBUG -- : sweep begin
+D, [2005-03-13T14:28:01.048572 #9541] DEBUG -- : -> q Test._testupdate._tcp.local IN::HINFO
+D, [2005-03-13T14:28:01.051105 #9541] DEBUG -- : refresh in 1 sec for #<Net::DNS::MDNS::Answer:0x574a18>
+D, [2005-03-13T14:28:01.052570 #9541] DEBUG -- : sweep end
+D, [2005-03-13T14:28:01.053776 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-03-13T14:28:01.054818 #9541] DEBUG -- : ++ q Test._testupdate._tcp.local/IN::HINFO
+D, [2005-03-13T14:28:01.055245 #9541] DEBUG -- : ask? Test._testupdate._tcp.local/IN::HINFO
+D, [2005-03-13T14:28:02.064807 #9541] DEBUG -- : sweep begin
+D, [2005-03-13T14:28:02.065638 #9541] DEBUG -- : -- a #<Net::DNS::MDNS::Answer:0x574a18>
+D, [2005-03-13T14:28:02.066668 #9541] DEBUG -- : refresh in 178 sec for ensemble.local (240) ! IN::A 192.168.123.154
+D, [2005-03-13T14:28:02.066840 #9541] DEBUG -- : sweep end
+D, [2005-03-13T14:28:03.023108 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-03-13T14:28:03.023763 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x56d470>
+D, [2005-03-13T14:28:03.024531 #9541] DEBUG -- : push 0 to q?*/IN::ANY
+D, [2005-03-13T14:28:04.761574 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=5
+D, [2005-03-13T14:28:04.762153 #9541] DEBUG -- : ++ a ensemble.local (240) ! IN::A 192.168.123.154
+D, [2005-03-13T14:28:04.762901 #9541] DEBUG -- : ++ a Test._testupdate._tcp.local (240) ! IN::SRV ensemble.local:4660
+D, [2005-03-13T14:28:04.763784 #9541] DEBUG -- : ++ a Test._testupdate._tcp.local (240) ! IN::TXT "First String", ...
+D, [2005-03-13T14:28:04.764435 #9541] DEBUG -- : ++ a _services._dns-sd._udp.local (7200)  IN::PTR _testupdate._tcp.local
+D, [2005-03-13T14:28:04.765024 #9541] DEBUG -- : ++ a _testupdate._tcp.local (7200)  IN::PTR Test._testupdate._tcp.local
+D, [2005-03-13T14:28:04.765531 #9541] DEBUG -- : push 0 to q?*/IN::ANY
+D, [2005-03-13T14:28:10.024336 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-03-13T14:28:10.024928 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x56895c>
+D, [2005-03-13T14:28:10.025417 #9541] DEBUG -- :  cached
+D, [2005-03-13T14:28:10.025752 #9541] DEBUG -- : push 1 to q?*/IN::ANY
+D, [2005-03-13T14:28:11.024462 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-03-13T14:28:11.025013 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x567944>
+D, [2005-03-13T14:28:11.025670 #9541] DEBUG -- : push 0 to q?*/IN::ANY
+D, [2005-03-13T14:28:13.023723 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-03-13T14:28:13.024243 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x566bd4>
+D, [2005-03-13T14:28:13.024969 #9541] DEBUG -- : push 0 to q?*/IN::ANY
+D, [2005-03-13T14:28:15.025445 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=2
+D, [2005-03-13T14:28:15.025978 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x565928>
+D, [2005-03-13T14:28:15.026472 #9541] DEBUG -- :  cached
+D, [2005-03-13T14:28:15.026833 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x5652e8>
+D, [2005-03-13T14:28:15.028532 #9541] DEBUG -- :  cached
+D, [2005-03-13T14:28:15.028962 #9541] DEBUG -- : push 2 to q?*/IN::ANY
+D, [2005-03-13T14:28:15.030537 #9541] DEBUG -- : sweep begin
+D, [2005-03-13T14:28:15.034612 #9541] DEBUG -- : -> q Test._testupdate._tcp.local IN::HINFO
+D, [2005-03-13T14:28:15.041012 #9541] DEBUG -- : refresh in 1 sec for #<Net::DNS::MDNS::Answer:0x565928>
+D, [2005-03-13T14:28:15.044962 #9541] DEBUG -- : sweep end
+D, [2005-03-13T14:28:15.048222 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-03-13T14:28:15.050567 #9541] DEBUG -- : ++ q Test._testupdate._tcp.local/IN::HINFO
+D, [2005-03-13T14:28:15.053636 #9541] DEBUG -- : ask? Test._testupdate._tcp.local/IN::HINFO
+D, [2005-03-13T14:28:16.025324 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-03-13T14:28:16.025881 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x56232c>
+D, [2005-03-13T14:28:16.026665 #9541] DEBUG -- : push 0 to q?*/IN::ANY
+D, [2005-03-13T14:28:16.049381 #9541] DEBUG -- : sweep begin
+D, [2005-03-13T14:28:16.050849 #9541] DEBUG -- : -> q Test._testupdate._tcp.local IN::HINFO
+D, [2005-03-13T14:28:16.053396 #9541] DEBUG -- : refresh in 1 sec for #<Net::DNS::MDNS::Answer:0x565928>
+D, [2005-03-13T14:28:16.054848 #9541] DEBUG -- : sweep end
+D, [2005-03-13T14:28:16.056065 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-03-13T14:28:16.057118 #9541] DEBUG -- : ++ q Test._testupdate._tcp.local/IN::HINFO
+D, [2005-03-13T14:28:16.057544 #9541] DEBUG -- : ask? Test._testupdate._tcp.local/IN::HINFO
+D, [2005-03-13T14:28:17.067092 #9541] DEBUG -- : sweep begin
+D, [2005-03-13T14:28:17.067908 #9541] DEBUG -- : -- a #<Net::DNS::MDNS::Answer:0x565928>
+D, [2005-03-13T14:28:17.068929 #9541] DEBUG -- : refresh in 179 sec for ensemble.local (240) ! IN::A 192.168.123.154
+D, [2005-03-13T14:28:17.069104 #9541] DEBUG -- : sweep end
+D, [2005-03-13T14:28:18.025385 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-03-13T14:28:18.025900 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x55e380>
+D, [2005-03-13T14:28:18.026636 #9541] DEBUG -- : push 0 to q?*/IN::ANY
+D, [2005-03-13T14:28:25.028049 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-03-13T14:28:25.028610 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x55d3b8>
+D, [2005-03-13T14:28:25.029120 #9541] DEBUG -- :  cached
+D, [2005-03-13T14:28:25.029455 #9541] DEBUG -- : push 1 to q?*/IN::ANY
+D, [2005-03-13T14:28:26.029392 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-03-13T14:28:26.029946 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x55c3a0>
+D, [2005-03-13T14:28:26.030599 #9541] DEBUG -- : push 0 to q?*/IN::ANY
+D, [2005-03-13T14:28:28.028597 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-03-13T14:28:28.029138 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x55b630>
+D, [2005-03-13T14:28:28.029880 #9541] DEBUG -- : push 0 to q?*/IN::ANY
+D, [2005-03-13T14:28:30.030374 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=2
+D, [2005-03-13T14:28:30.030908 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x55a384>
+D, [2005-03-13T14:28:30.031404 #9541] DEBUG -- :  cached
+D, [2005-03-13T14:28:30.031763 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x559d44>
+D, [2005-03-13T14:28:30.033460 #9541] DEBUG -- :  cached
+D, [2005-03-13T14:28:30.033892 #9541] DEBUG -- : push 2 to q?*/IN::ANY
+D, [2005-03-13T14:28:30.035476 #9541] DEBUG -- : sweep begin
+D, [2005-03-13T14:28:30.039571 #9541] DEBUG -- : -> q Test._testupdate._tcp.local IN::HINFO
+D, [2005-03-13T14:28:30.046618 #9541] DEBUG -- : refresh in 1 sec for #<Net::DNS::MDNS::Answer:0x55a384>
+D, [2005-03-13T14:28:30.050423 #9541] DEBUG -- : sweep end
+D, [2005-03-13T14:28:30.053652 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-03-13T14:28:30.056405 #9541] DEBUG -- : ++ q Test._testupdate._tcp.local/IN::HINFO
+D, [2005-03-13T14:28:30.058754 #9541] DEBUG -- : ask? Test._testupdate._tcp.local/IN::HINFO
+D, [2005-03-13T14:28:31.030724 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-03-13T14:28:31.031279 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x556d88>
+D, [2005-03-13T14:28:31.032067 #9541] DEBUG -- : push 0 to q?*/IN::ANY
+D, [2005-03-13T14:28:31.054816 #9541] DEBUG -- : sweep begin
+D, [2005-03-13T14:28:31.056172 #9541] DEBUG -- : -> q Test._testupdate._tcp.local IN::HINFO
+D, [2005-03-13T14:28:31.058466 #9541] DEBUG -- : refresh in 1 sec for #<Net::DNS::MDNS::Answer:0x55a384>
+D, [2005-03-13T14:28:31.059805 #9541] DEBUG -- : sweep end
+D, [2005-03-13T14:28:31.060953 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-03-13T14:28:31.061968 #9541] DEBUG -- : ++ q Test._testupdate._tcp.local/IN::HINFO
+D, [2005-03-13T14:28:31.062389 #9541] DEBUG -- : ask? Test._testupdate._tcp.local/IN::HINFO
+D, [2005-03-13T14:28:32.072021 #9541] DEBUG -- : sweep begin
+D, [2005-03-13T14:28:32.072849 #9541] DEBUG -- : -- a #<Net::DNS::MDNS::Answer:0x55a384>
+D, [2005-03-13T14:28:32.073882 #9541] DEBUG -- : refresh in 164 sec for ensemble.local (240) ! IN::A 192.168.123.154
+D, [2005-03-13T14:28:32.074055 #9541] DEBUG -- : sweep end
+D, [2005-03-13T14:28:33.030329 #9541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-03-13T14:28:33.030896 #9541] DEBUG -- : ++ a #<Net::DNS::MDNS::Answer:0x552ddc>
+D, [2005-03-13T14:28:33.031754 #9541] DEBUG -- : push 0 to q?*/IN::ANY
+D, [2005-03-13T14:28:35.395624 #9541] DEBUG -- : query q?*/IN::ANY - stop
+net/dns/v2mdns.rb:923:in `sleep': Interrupt
+	from net/dns/v2mdns.rb:923
