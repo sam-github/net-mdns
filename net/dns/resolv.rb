@@ -914,7 +914,7 @@ class Resolv
       end
     end
 
-    module OpCode
+    module OpCode # :nodoc:
       Query = 0
       IQuery = 1
       Status = 2
@@ -922,7 +922,7 @@ class Resolv
       Update = 5
     end
 
-    module RCode
+    module RCode # :nodoc:
       NoError = 0
       FormErr = 1
       ServFail = 2
@@ -1093,7 +1093,7 @@ class Resolv
       end
     end
 
-    class Message
+    class Message # :nodoc:
       @@identifier = -1
 
       def initialize(id = (@@identifier += 1) & 0xffff)
@@ -1133,21 +1133,25 @@ class Resolv
         @question << [Name.create(name), typeclass, unicast]
       end
 
-      # Target proc can accept either +name, typeclass+ as block arguments
-      # (DNS-style), or +name, typeclass, unicast+ (mDNS-style).
+      # Can accept either |name, typeclass| as block arguments
+      # (backwards-compatible/DNS-style), or |name, typeclass, unicast|
+      # (mDNS-style).
       def each_question # :yields: name, typeclass, unicast
-        @question.each { |ary|
+        @question.each {|ary|
           yield ary
         }
       end
 
-      def add_answer(name, ttl, data)
+      def add_answer(name, ttl, data, cacheflush = false)
         @answer << [Name.create(name), ttl, data]
       end
 
-      def each_answer
-        @answer.each {|name, ttl, data|
-          yield name, ttl, data
+      # Can accept either |name, ttl, data| as block arguments
+      # (backwards-compatible/DNS-style), or |name, ttl, data, cacheflush|
+      # (mDNS-style).
+      def each_answer # :yields: name, ttl, data, cacheflush
+        @answer.each {|ary|
+          yield ary
         }
       end
 
@@ -1193,15 +1197,17 @@ class Resolv
             @authority.length,
             @additional.length)
           @question.each {|q|
-            name, typeclass = q
+            name, typeclass, unicast = q
+            hibit = unicast ? 0x80 : 0x00
             msg.put_name(name)
-            msg.put_pack('nn', typeclass::TypeValue, typeclass::ClassValue)
+            msg.put_pack('nn', typeclass::TypeValue, typeclass::ClassValue|hibit)
           }
           [@answer, @authority, @additional].each {|rr|
             rr.each {|r|
-              name, ttl, data = r
+              name, ttl, data, cacheflush = r
+              hibit = cacheflush ? 0x80 : 0x00
               msg.put_name(name)
-              msg.put_pack('nnN', data.class::TypeValue, data.class::ClassValue, ttl)
+              msg.put_pack('nnN', data.class::TypeValue, data.class::ClassValue|hibit, ttl)
               msg.put_length16 {data.encode_rdata(msg)}
             }
           }
@@ -1289,7 +1295,7 @@ class Resolv
             o.add_question(name, typeclass, unicast)
           }
           (1..ancount).each {
-            name, ttl, data = msg.get_rr
+            name, ttl, data, cacheflush = msg.get_rr
             o.add_answer(name, ttl, data)
           }
           (1..nscount).each {
@@ -1414,16 +1420,8 @@ class Resolv
           type, klass, ttl = self.get_unpack('nnN')
           typeclass = Resource.get_class(type, klass % 0x8000)
           data = self.get_length16 {typeclass.decode_rdata(self)}
-          if (klass >> 15) == 1
-            def data.cacheflush?
-              true
-            end
-          else
-            def data.cacheflush?
-              false
-            end
-          end
-          return name, ttl, data
+          cacheflush = (klass >> 15) == 1
+          return name, ttl, data, cacheflush
         end
       end
     end

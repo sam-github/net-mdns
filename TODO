@@ -2,15 +2,11 @@ TODO
 
 Release: 0.1
 
-- fix #get_rr so it returns cacheflush in array, as #get_question does
-
-- deal with lower/upper and comparison problem of text hash
-
 - implement flags, particularly add/remove flags
 
-- deal with dots and spaces
+- deal with dots and spaces, escaping DNS-SD names
 
-- when we see a question, flush answers over few seconds old from cache
+- when we see a question, flush answers over a few seconds old from cache
     .. and do we notify queries that the answers are being deleted, too?
 
 - reintegrate into resolver
@@ -21,6 +17,8 @@ Release: 0.1
 
 
 Release: 0.2
+
+- deal with lower/upper and comparison problem of text hash
 
 - Add #to_s to the RR types.
 

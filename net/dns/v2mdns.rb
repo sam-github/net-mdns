@@ -47,15 +47,16 @@ module Net
 
     module MDNS
       class Answer
-        attr_reader :name, :ttl, :data
+        attr_reader :name, :ttl, :data, :cacheflush
         # TOA - time of arrival (of an answer)
         attr_reader :toa
         attr_accessor :retries
 
-        def initialize(name, ttl, data)
+        def initialize(name, ttl, data, cacheflush)
           @name = name
           @ttl = ttl
           @data = data
+          @cacheflush = cacheflush
           @toa = Time.now.to_i
           @retries = 0
         end
@@ -81,7 +82,7 @@ module Net
         end
 
         def absolute?
-          @data.cacheflush?
+          @cacheflush
         end
 
         def to_s
@@ -385,19 +386,17 @@ module Net
                       svc.answer_question(name, type, amsg)
                     end
                   end
-                  if amsg.answer.first
-                    amsg.answer.each do |an|
-                      debug( "-> a #{an[0]} (#{an[1]}) #{an[2].to_s}" )
-                    end
-                    send(amsg)
+                  amsg.answer.each do |an|
+                    debug( "-> a #{an[0]} (#{an[1]}) #{an[2].to_s} #{an[3].inspect}" )
                   end
+                  send(amsg) if amsg.answer.first
 
                 else
                   # Cache answers:
                   cached = []
-                  msg.each_answer do |n, ttl, data|
+                  msg.each_answer do |n, ttl, data, cacheflush|
 
-                    a = Answer.new(n, ttl, data)
+                    a = Answer.new(n, ttl, data, cacheflush)
                     debug( "++ a #{ a }" )
                     a = @cache.cache_answer(a)
                     debug( " cached" ) if a
