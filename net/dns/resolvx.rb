@@ -65,9 +65,13 @@ class Resolv
     module Label
 
       class Str
-        # Duck-type to String.
+        # Str is-a String, allow it to be compared to one.
         def to_str
           return @string
+        end
+        # Case-insensitive comparison.
+        def <=>(s)
+          @downcase <=> s.downcase
         end
       end
 
