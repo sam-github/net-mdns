@@ -44,36 +44,61 @@ module Net
     module MDNS
       class Answer
         # TOA - time of arrival (of an answer)
-        attr_reader :toa, :name, :ttl, :data
+        attr_reader :name, :ttl, :data, :toa, :retries
+        attr_writer :retries
 
         def initialize(name, ttl, data)
           @name = name
           @ttl = ttl
           @data = data
-          @toa = Time.now
+          @toa = Time.now.to_i
+          @retries = 0
         end
 
         def type
           data.class
         end
 
+        def refresh
+          # Percentage points are from mDNS
+          percent = [80,85,90,95][retries]
+
+          # TODO - add a 2% of TTL jitter
+          toa + ttl * percent / 100 if percent
+        end
+
+        def expiry
+          toa + (ttl == 0 ? 1 : ttl)
+        end
+
+        def expired?
+          true if Time.now.to_i > expiry
+        end
+
+        def absolute?
+          @data.cacheflush?
+        end
+
+        # TODO - should be to_s, so inspect can give all attributes?
         def inspect
+          flags = ''
+          flags << '!' if absolute?
+          flags << '-' if ttl == 0
           case data
           when RR::A
-            "#{name.inspect} (#{ttl}) -> A   #{data.address.to_s}"
+            "#{name.to_s} (#{ttl}) -> #{flags} A   #{data.address.to_s}"
           when RR::PTR
-            "#{name.inspect} (#{ttl}) -> PTR #{data.name}"
+            "#{name.to_s} (#{ttl}) -> #{flags} PTR #{data.name}"
           when RR::SRV
-            "#{name.inspect} (#{ttl}) -> SRV #{data.target}:#{data.port}"
+            "#{name.to_s} (#{ttl}) -> #{flags} SRV #{data.target}:#{data.port}"
           when RR::TXT
-            "#{name.inspect} (#{ttl}) -> TXT #{data.strings.inspect}"
+            "#{name.to_s} (#{ttl}) -> #{flags} TXT #{data.strings.inspect}"
           else
-            "#{name.inspect} (#{ttl}) -> ??? #{data.inspect}"
+            "#{name.to_s} (#{ttl}) -> #{flags} ??? #{data.inspect}"
           end
         end
       end
 
-      # TODO - Will need to synchronize access!!!
       class Cache
         # asked: Hash[Name] -> Hash[Resource] -> Time (that question was asked)
         attr_reader :asked
@@ -91,14 +116,37 @@ module Net
           @asked[name][type] = Time.now
         end
 
-        def cache_answer(answer)
-          # FIXME - don't duplicate answers, and flush answers if mdnsbit is set!
-          @cached[answer.name][answer.type] << answer
+        # Return cached answer, or nil if answer wasn't cached.
+        def cache_answer(an)
+          answers = @cached[an.name][an.type]
+
+          if( an.absolute? )
+            # Replace answers older than a ~1 sec [mDNS]
+            now_m1 = Time.now.to_i - 1
+            answers.delete_if { |a| a.toa < now_m1 }
+          end
+
+          old_an = answers.detect { |a| a.name == an.name && a.data == an.data }
+
+          if !old_an
+            answers << an
+          else
+            if( an.ttl == 0 || an.expiry > old_an.expiry)
+              answers.delete( old_an )
+              answers << an
+            else
+              an = nil
+            end
+          end
+
+          an
         end
 
         def answers_for(name, type)
           answers = []
-          if(type == RR::ANY)
+          if( name.to_s == '*' )
+            @cached.keys.each { |n| answers += answers_for(n, type) }
+          elsif( type == RR::ANY )
             @cached[name].each { |rtype,rdata| answers += rdata }
           else
             answers += @cached[name][type]
@@ -107,6 +155,8 @@ module Net
         end
 
         def asked?(name, type)
+          return true if name.to_s == '*'
+
           t = @asked[name][type] || @asked[name][RR::ANY]
 
           # TODO - true if (Time.now - t) < some threshold...
@@ -126,16 +176,27 @@ module Net
 
         attr_reader :thread
         attr_reader :cache
+        attr_reader :log
+
+        def debug(*args)
+          @log.debug( *args )
+        end
+        def warn(*args)
+          @log.warn( *args )
+        end
+        def error(*args)
+          @log.error( *args )
+        end
 
         def initialize
+          @log = Logger.new(STDERR)
+          @log.level = Logger::DEBUG
+
           @mutex = Mutex.new
 
           @cache = Cache.new
 
           @queries = []
-
-          @log = Logger.new(STDERR)
-          @log.level = Logger::DEBUG
 
           @log.debug( "start" )
 
@@ -176,6 +237,14 @@ module Net
           # Bind to our port.
           @sock.bind(Socket::INADDR_ANY, Port)
 
+          # Start resonder and cacheing threads.
+
+          @waketime = nil
+
+          @sweep_thrd = Thread.new do
+            sweep_loop
+          end
+
           @thread = Thread.new do
             responder_loop
           end
@@ -186,37 +255,44 @@ module Net
             # from is [ AF_INET, port, name, addr ]
             reply, from = @sock.recvfrom(UDPSize)
 
-            begin
-              msg =  Message.decode(reply)
+            @mutex.synchronize do
 
-              @log.debug( "from #{from[3]}:#{from[1]} -> qr=#{msg.qr} qcnt=#{msg.question.size} acnt=#{msg.answer.size}" )
+              begin
+                msg =  Message.decode(reply)
 
+                @log.debug( "from #{from[3]}:#{from[1]} -> qr=#{msg.qr} qcnt=#{msg.question.size} acnt=#{msg.answer.size}" )
 
-              # When we see a QM:
-              #  - record the question as asked
-              #  - flush any answers we have?
-              if( msg.query? )
-                msg.each_question do |name, type|
-                  # Skip QUs
-                  next if (type::ClassValue >> 15) == 1
-                  @cache.cache_question(name, type)
-                  @log.debug( "cache - add q #{name.to_s}/#{type.to_s.sub(/.*source::/,'')} from net" )
+                # When we see a QM:
+                #  - record the question as asked
+                #  - TODO flush any answers we have over 1 sec old (otherwise if a machine goes down, its
+                #    answers stay until there ttl, which can be very long!)
+                if( msg.query? )
+                  msg.each_question do |name, type|
+                    # Skip QUs
+                    next if (type::ClassValue >> 15) == 1
+                    @log.debug( "++ q #{name.to_s}/#{type.to_s.sub(/.*source::/,'')}" )
+                      @cache.cache_question(name, type)
+                  end
+
+                  next
                 end
 
-                next
-              end
+                # Cache answers
+                msg.each_answer do |n, ttl, data|
+                  a = Answer.new(n, ttl, data)
+                  @log.debug( "++ a #{ a.inspect }" )
+                  a = @cache.cache_answer(a)
 
-              # Cache answers
-              msg.each_answer do |n, ttl, data|
-                a = Answer.new(n, ttl, data)
-                @cache.cache_answer(a)
-                @log.debug( "++  #{ a.inspect }" )
-              end
+                  if a
+                    # wake sweeper if cached answer needs refreshing before current waketime
+                    if( !@waketime || a.refresh < @waketime )
+                      @waketime = a.refresh
+                      @sweep_thrd.wakeup
+                    end
+                  end
+                end
 
-              @mutex.synchronize do
-                
-#               @log.debug( "active queries=#{@queries.length}" )
-
+                # Push answers to Queries
                 @queries.each do |q|
                   answers = []
 
@@ -232,11 +308,77 @@ module Net
                     q.queue.push(answers.map { |a| Answer.new(*a) } )
                   end
                 end
+
+              rescue DecodeError
+                @log.warn( "decode error: #{reply.inspect}" )
               end
-            rescue DecodeError
-              @log.warn( "mDNS decode error: #{reply.inspect}" )
+
+            end # end sync
+          end # end loop
+        end
+
+        def sweep_loop
+          delay = 0
+
+          loop do
+
+            sleep(delay)
+
+            @mutex.synchronize do
+              debug( "sweep begin" )
+
+              @waketime = nil
+
+              questions = Message.new(0)
+              now = Time.now.to_i
+
+              # next Answer needing refresh
+              sweep = nil
+
+              @cache.cached.each do |name,rtypes|
+                qtype = []
+
+                rtypes.each do |rtype, answers|
+                  answers.delete_if do |a|
+                    r = a.expired?
+                    debug( "-- a #{a.inspect}" ) if r
+                    r
+                  end
+                  answers.each do |a|
+                    if a.refresh
+                      if now >= a.refresh
+                        a.retries += 1
+                        qtype << a.data.class
+                      end
+                      if !sweep || a.refresh < sweep.refresh
+                        sweep = a
+                      end
+                    end
+                  end
+                end
+
+                qtype.uniq.each do |q|
+                  debug( "-> q #{name} #{q.to_s.sub(/.*source::/, '')}" )
+                  questions.add_question(name, q)
+                end
+              end
+
+              send(questions)
+
+              @waketime = sweep.refresh if sweep
+
+              if @waketime
+                delay = @waketime - Time.now.to_i
+                delay = 1 if delay < 1
+              else
+                delay = 0 # forever (until Thread#wake)
+              end
+
+              debug( "refresh in #{delay} sec for #{sweep.inspect}" )
+
+              debug( "sweep end" )
             end
-          end
+          end # end loop
         end
 
         def send(msg)
@@ -247,10 +389,15 @@ module Net
           end
 
           # TODO - ensure this doesn't cause DNS lookup for a dotted IP
-          @sock.send(msg, 0, Addr, Port)
+          begin
+            @sock.send(msg, 0, Addr, Port)
+          rescue
+            @log.error( "send msg failed: #{$!}" )
+            raise
+          end
         end
 
-
+        # 
 
         # '*' is a pseudo-query, it will match any Answers, but can't be used
         # to send a Query.
@@ -265,22 +412,20 @@ module Net
             begin
               @queries << query
 
-              if( query.name.to_s != '*' )
-                asked = @cache.asked?(query.name, query.type)
-                answers = @cache.answers_for(query.name, query.type)
+              asked = @cache.asked?(query.name, query.type)
+              answers = @cache.answers_for(query.name, query.type)
 
-                @log.debug( "query #{query.inspect} - start asked?=#{asked ? "y" : "n"} answers#=#{answers.size}" )
-               
-                unless asked
-                  qmsg = Message.new
-                  qmsg.rd = 0
-                  qmsg.add_question(query.name, query.type)
-                  
-                  send(qmsg)
-                end
-
-                query.push answers if answers.first
+              @log.debug( "query #{query.inspect} - start asked?=#{asked ? "y" : "n"} answers#=#{answers.size}" )
+             
+              unless asked
+                qmsg = Message.new(0)
+                qmsg.rd = 0
+                qmsg.add_question(query.name, query.type)
+                
+                send(qmsg)
               end
+
+              query.push answers if answers.first
             rescue
               @log.warn( "query #{query.inspect} - start failed: #{$!}" )
               @queries.delete(query)
@@ -393,6 +538,10 @@ def print_answers(q,answers)
   end
 end
 
+Signal.trap('USR1') do
+  PP.pp( MDNS::Responder.instance.cache, $stderr )
+end
+
 =begin
 MDNS::BackgroundQuery.new('*') do |q, answers|
   print_answers(q, answers)
@@ -407,9 +556,7 @@ MDNS::BackgroundQuery.new('_ftp._tcp.local.', RR::ANY) do |q, answers|
   print_answers(q, answers)
 end
 
-sleep 10
-
-pp MDNS::Responder.instance.cache
+sleep 4
 
 MDNS::BackgroundQuery.new('_ftp._tcp.local.', RR::ANY) do |q, answers|
   print_answers(q, answers)
@@ -419,6 +566,9 @@ MDNS::BackgroundQuery.new('_daap._tcp.local.', RR::ANY) do |q, answers|
   print_answers(q, answers)
 end
 
+MDNS::BackgroundQuery.new('ensemble.local.', RR::A) do |q, answers|
+  print_answers(q, answers)
+end
 
 MDNS::Responder.instance.thread.join
 
