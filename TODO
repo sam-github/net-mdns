@@ -1,5 +1,19 @@
 TODO
 
+- dns-sd.rb command w/ same ifx as dns-sd, using both net/dns/mdns and dns-sd/port mdns.rb to dns-sd
+
+- deal with dots and spaces
+
+- deal with needing the TXT record before we can call it a service...
+
+- Query: don't report answers multiple times
+
+- Query: report start/stop
+
+- dns-sd -B: what are the flags?
+
+- DNSSD.browse() - can't tell difference between add and remove?
+
 - don't cache questions
 
 - don't cache our own answers
@@ -8,22 +22,18 @@ TODO
 
 - adding a question of '*' causes it to always be requeried
 
-- add known answers to queries
-
 - merge 1.8-resolv.rb diffs into net/dns/resolv.rb
 
 - apis similar to public apis of dns-sd
-
-- dns-sd.rb command w/ same ifx as dns-sd, using both net/dns/mdns and dns-sd
 
 - reintegrate into resolver
 
 - release 0.2
 
-- dns-sd bugs: weird placement of dots.
-
 
 Should do:
+
+- add known answers to queries
 
 - answer unicast questions
 
@@ -32,17 +42,13 @@ Should do:
 
 Cleanups (mdns):
 
-- have Query filter answers that have already been seen?
-
 - let Query.new take a block, and yield itself, or yield with every answer?
 
 - Query#stop, start, restart
 
-- Answer#inspect -> Answer#to_s
-
 - make code easier to read
 
-- errors can escape the sweep and responder loops... ok?
+- errors can escape the sweep and responder loops... ok? NO
 
 
 Cleanup (resolv.rb):
