@@ -31,9 +31,10 @@ module Net
 
       # TODO - derive both from a common Reply
       class BrowseReply
-        attr_reader :interface, :name, :type, :domain
+        attr_reader :interface, :name, :type, :domain, :fullname
         def initialize(an)
           @interface = nil
+          @fullname = ansrv.name.to_s
           @domain, @type, @name = DNSSD.name_parse(an.data.name)
         end
       end
@@ -52,17 +53,21 @@ module Net
       end
 
       class ResolveReply
-        # priority? weight?
-        attr_reader :interface, :name, :type, :domain, :target, :port, :text_record, :fullname
+        attr_reader :interface, :name, :type, :domain, :fullname, :target, :port, :priority, :weight, :text_record
         def initialize(ansrv, antxt)
           @interface = nil
           @fullname = ansrv.name.to_s
           @domain, @type, @name = DNSSD.name_parse(ansrv.name)
           @target = ansrv.data.target
           @port = ansrv.data.port
+          @priority = ansrv.data.priority
+          @weight = ansrv.data.weight
 
-          # FIXME - a class to parse the strings
-          @text_record = antxt.data.strings
+          @text_record = {}
+          antxt.data.strings.each do |kv|
+            kv.match(/([^=]+)=([^=]+)/)
+            @text_record[$1] = $2
+          end
         end
       end
 
@@ -72,8 +77,8 @@ module Net
         dnsname << DNS::Name.create(domain)
         dnsname.absolute = true
 
-        # This is a bit of a pain, but we can't report an instance of a service
-        # until we have both a SRV and a TXT resource record for it.
+        # This may look a bit painful, but we can't report an instance of a
+        # service until we have both a SRV and a TXT resource record for it.
 
         rrs = Hash.new { |h,k| h[k] = Hash.new }
 
@@ -83,8 +88,6 @@ module Net
 
             ansrv, antxt = rrs[an.name][IN::SRV], rrs[an.name][IN::TXT]
 
-#           puts "#{an} -> #{ansrv} #{antxt}"
-
             if ansrv && antxt
               rrs.delete an.name
               yield ResolveReply.new( ansrv, antxt )
@@ -92,6 +95,28 @@ module Net
           end
         end
         q
+      end
+
+      class RegisterReply
+        attr_reader :name, :type, :domain
+        def initialize(name, type, domain)
+          @name, @type, @domain = name, type, domain
+        end
+      end
+
+      def self.register(name, type, domain, port, txt, *ignored)
+        dnsname = DNS::Name.create(name)
+        dnsname << DNS::Name.create(type)
+        dnsname << DNS::Name.create(domain)
+        dnsname.absolute = true
+
+        s = MDNS::Service.new(name, type, port, txt) do |s|
+          s.domain = domain
+        end
+
+        yield RegisterReply.new(name, type, domain)
+
+        s
       end
 
     end

@@ -35,34 +35,40 @@ Apple's dns-sd options:
 
 @recursive = false
 @domain = 'local'
-@type = '_http._tcp'
+@type = nil
 @name = nil
-@port = 9999
-@host = Socket.gethostname
-@ip   = nil # TODO
+@port = nil
+@txt  = {}
 
 @cmd = nil
 
 
 HELP =<<EOF
 Usage: 
-  mdns -b        <Type> <Domain>         (Browse for service instances)
-  mdns -l <Name> <Type> <Domain>           (Look up a service instance)
+  mdns -B        <Type> [Domain]         (Browse for service instances)
+  mdns -L <Name> <Type> [Domain]           (Look up a service instance)
+  mdns -R <Name> <Type> [Domain] <Port> [<TXT>...] (Register a service)
 
-Many arguments are optional and have defaults:
-  Type     - #{@type}
-  Domain   - #{@domain}
+[Domain] is optional for -B, -L, and -R, it defaults to "local".
+
+[<TXT>...] is optional for -R, it can be a series of key=value pairs.
+
+You can use long names --browse, --lookup, and --register instead of -B, -L,
+and -R.
 
 Examples:
-  mdns -b _daap._tcp                      (Browse for iTunes instances)
+  mdns -B _daap._tcp
+  mdns -L sam _daap._tcp
+  mdns -R me _example._tcp local 4321 key=value key2=value2
 EOF
 
 opts = GetoptLong.new(
   [ "--debug",    "-d",               GetoptLong::NO_ARGUMENT ],
   [ "--help",     "-h",               GetoptLong::NO_ARGUMENT ],
 
-  [ "--browse",    "-b",              GetoptLong::NO_ARGUMENT ],
-  [ "--lookup",    "-l",              GetoptLong::NO_ARGUMENT ]
+  [ "--browse",    "-B",              GetoptLong::NO_ARGUMENT ],
+  [ "--lookup",    "-L",              GetoptLong::NO_ARGUMENT ],
+  [ "--register",  "-R",              GetoptLong::NO_ARGUMENT ]
 )
 
 opts.each do |opt, arg|
@@ -77,14 +83,31 @@ opts.each do |opt, arg|
 
   when "--browse"
     @cmd = :browse
-    @type   = ARGV.shift || @type
+    @type   = ARGV.shift
     @domain = ARGV.shift || @domain
 
   when "--lookup"
     @cmd = :lookup
-    @name   = ARGV.shift || @name
-    @type   = ARGV.shift || @type
+    @name   = ARGV.shift
+    @type   = ARGV.shift
     @domain = ARGV.shift || @domain
+
+  when "--register"
+    @cmd = :register
+    @name   = ARGV.shift
+    @type   = ARGV.shift
+    @port   = ARGV.shift
+    if @port.to_i == 0
+      @domain = @port
+      @port = ARGV.shift.to_i
+    else
+      @port = @port.to_i
+    end
+    ARGV.each do |kv|
+      kv.match(/([^=]+)=([^=]+)/)
+      @txt[$1] = $2
+    end
+    ARGV.replace([])
   end
 end
 
@@ -100,27 +123,39 @@ when :browse
   fmt = "%-3.3s  %-10.10s   %-15.15s  %-20.20s\n"
   printf fmt, "Ifx", "Domain", "Service Type", "Instance Name"
 
-  q = DNSSD.browse(@type, @domain) do |reply|
+  handle = DNSSD.browse(@type, @domain) do |reply|
     printf fmt, "?", reply.domain, reply.type, reply.name
   end
 
   $stdin.gets
-  q.stop
+  handle.stop
 
 
 when :lookup
   fmt = "%-3.3s  %-10.10s   %-15.15s  %-20.20s %-20.20s %s\n"
   printf fmt, "Ifx", "Domain", "Service Type", "Instance Name", "Location", "Text"
 
-  q = DNSSD.resolve(@name, @type, @domain) do |reply|
+  handle = DNSSD.resolve(@name, @type, @domain) do |reply|
     location = "#{reply.target}:#{reply.port}"
-    text = reply.text_record.map { |s| s.inspect }.join(', ')
+    text = reply.text_record.to_a.map { |kv| kv.join('=') }.join(', ')
     printf fmt, "?", reply.domain, reply.type, reply.name, location, text
   end
 
   $stdin.gets
-  q.stop
+  handle.stop
 
+when :register
+  fmt = "%-3.3s  %-10.10s   %-15.15s  %-20.20s %-20.20s %s\n"
+  printf fmt, "Ifx", "Domain", "Service Type", "Instance Name", "Location", "Text"
+
+  handle = DNSSD.register(@name, @type, @domain, @port, @txt) do |notice|
+    location = "#{Socket.gethostname}:#{@port}"
+    text = @txt.to_a.map { |kv| kv.join('=') }.join(', ')
+    printf fmt, "?", notice.domain, notice.type, notice.name, location, text
+  end
+
+  $stdin.gets
+  handle.stop
 
 end
 
