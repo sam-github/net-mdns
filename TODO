@@ -1,10 +1,12 @@
 TODO
 
+- don't cache questions
+
+- don't cache our own answers
+
+- get ifx address from something other than reverse lookup of hostname
+
 - adding a question of '*' causes it to always be requeried
-
-- service advertising
-
-- answer unicast questions
 
 - add known answers to queries
 
@@ -18,13 +20,19 @@ TODO
 
 - release 0.2
 
+- dns-sd bugs: weird placement of dots.
+
+
+Should do:
+
+- answer unicast questions
+
+- DNS packet dumper
+
 
 Cleanups (mdns):
 
-- Use my #equal?, the DNS libs == doesn't work worth beans. This will avoid the
-  need for absolute names as Query.new args.
-
-- filter answers that have already been seen?
+- have Query filter answers that have already been seen?
 
 - let Query.new take a block, and yield itself, or yield with every answer?
 
@@ -40,8 +48,6 @@ Cleanups (mdns):
 Cleanup (resolv.rb):
 
 - Name#<< - append label(s) to a Name?
-
-- put copy into net/dns/
 
 
 Goals:
