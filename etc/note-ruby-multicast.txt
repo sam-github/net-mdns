@@ -1,0 +1,125 @@
+
+IP_ADD_MEMBERSHIP struct ip_mreq
+
+struct ip_mreq {
+   maddr       (addr)
+   INADDR_ANY  (chosen ifx)
+   }
+
+IP_MULTICAST_TTL u_char
+
+   defaults to 1
+
+
+IP_MULTICAST_LOOP
+
+  default is on
+
+  should be on
+
+
+Basic#setsockopt level, optname, optval
+
+  unp uses level=IPPROTO_IP, ruby?
+
+  optname=IP_ADD_MEMBERSHIP
+
+
+sockfd = socket(AF_INET, SOCK_DGRAM, 0 /* IP */)
+int on = 1;
+setsocketopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on))
+sa = mcast-addr:port
+bind(sockfd, sa, salen)
+setsockopt(sockfd, IPPROTO_IP, IP_ADD_MEMBERSHIP)
+
+
+
+Thanks Dan!  It worked beautifully.  Changing "host" to "addr" (OK, that 
+was dumb on my part), getting rid of the connect, and doing 
+IP_ADD_MEMBERSHIP after bind fixed all my current woes.  Here's with your 
+corrections as it runs on the Redhat Linux box...
+
+--- begin ----------------------------------------
+require 'socket'
+
+port  = 1212
+addr  = '228.5.6.8'
+host  = Socket.gethostname
+maddr = addr.split('.').collect! { |b| b.to_i }.pack('CCCC')
+mreq  = maddr + Socket.gethostbyname(host)[3]
+
+sock  = UDPSocket.new
+sock.setsockopt(Socket::SOL_SOCKET,Socket::SO_REUSEADDR, 1)
+sock.bind(addr, port)
+
+sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_ADD_MEMBERSHIP, mreq)
+
+# Check send ...
+sock.send('Hello', 0, addr, port)
+sock.send('World', 0, addr, port)
+
+# Check listen ...
+count=0
+5.times {
+  count += 1
+  p "COUNT = #{count}"
+  p sock.recvfrom(8)
+}
+
+sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_DROP_MEMBERSHIP, mreq)
+
+exit( 0 )
+--- end ------------------------------------------
+
+
+I got your program running under solaris. Solaris has some alignment 
+padding in the sockaddr struct, so the [4..7] is needed. I added 
+address reuse, though on *BSD it should be SO_REUSEPORT which is not a 
+ruby constant; for Solaris SO_REUSEADDR works.
+
+The only thing I materially changed was to remove the connect and put 
+the add_membership after the bind.
+
+Hope this works for you.
+
+Dan
+
+
+require 'socket'
+
+port  = 1212
+addr  = '228.5.6.8'
+host  = Socket.gethostname
+maddr = addr.split('.').collect! { |b| b.to_i }.pack('CCCC')
+
+# mreq from netinet/in.h
+# in_addr multicast address
+# in_addr local IP address of interface
+
+sa=(Socket.gethostbyname(host)[3])[4..7]
+
+mreq  = maddr + sa
+
+sock  = UDPSocket.new
+sock.setsockopt(Socket::SOL_SOCKET,Socket::SO_REUSEADDR,1)
+sock.bind(addr, port)
+
+sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_ADD_MEMBERSHIP, mreq)
+
+# Check send ...
+sock.send('Hello', 0,addr,port)
+sock.send('World', 0,addr,port)
+
+# Check listen ...
+count=0
+5.times {
+   count += 1
+   p "COUNT = #{count}"
+   p sock.recvfrom(8)
+}
+
+sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_DROP_MEMBERSHIP, mreq)
+
+exit( 0 )
+
+

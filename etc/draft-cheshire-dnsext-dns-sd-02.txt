@@ -677,6 +677,9 @@ Internet Draft       DNS-Based Service Discovery      14th February 2004
    The format of each constituent string within the DNS TXT record is a
    single length byte, followed by 0-255 bytes of text data.
 
+Note: RFC1035 says ONE or more strings, DNS-SD says ZERO or more, this
+is not consistent.
+
    These format rules are defined in Section 3.3.14 of RFC 1035, and are
    not specific to DNS-SD. DNS-SD simply specifies a usage convention
    for what data should be stored in those constituent strings.

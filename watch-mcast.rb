@@ -2,8 +2,9 @@
 
 require 'socket'
 require 'ipaddr'
-require 'resolv'
 require 'pp'
+
+require 'net/dns/resolv'
 
 Addr = "224.0.0.251"
 Port = 5353
@@ -34,9 +35,11 @@ loop do
 
   reply, from = sock.recvfrom(9000)
 
-# puts "--"
-# pp reply
-# puts "++"
+  if false
+    puts "--"
+    pp reply
+    puts "++"
+  end
 
   msg = Resolv::DNS::Message.decode(reply)
 

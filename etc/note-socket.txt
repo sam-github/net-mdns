@@ -1,0 +1,133 @@
+// Sets up a send/receive socket.
+// If mDNSIPPort port is non-zero, then it's a multicast socket on the specified interface
+// If mDNSIPPort port is zero, then it's a randomly assigned port number, used for sending unicast queries
+mDNSlocal int SetupSocket(struct sockaddr *intfAddr, mDNSIPPort port, int interfaceIndex, int *sktPtr)
+	{
+	int err = 0;
+	static const int kOn = 1;
+	static const int kIntTwoFiveFive = 255;
+	static const unsigned char kByteTwoFiveFive = 255;
+	
+	(void) interfaceIndex;	// This parameter unused on plaforms that don't have IPv6
+	assert(intfAddr != NULL);
+	assert(sktPtr != NULL);
+	assert(*sktPtr == -1);
+
+	// Open the socket...
+	if       (intfAddr->sa_family == AF_INET) *sktPtr = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
+#if HAVE_IPV6
+	else if (intfAddr->sa_family == AF_INET6) *sktPtr = socket(PF_INET6, SOCK_DGRAM, IPPROTO_UDP);
+#endif
+	else return EINVAL;
+
+	if (*sktPtr < 0) { err = errno; perror("socket"); }
+
+	// ... with a shared UDP port, if it's for multicast receiving
+	if (err == 0 && port.NotAnInteger)
+		{
+		#if defined(SO_REUSEPORT)
+			err = setsockopt(*sktPtr, SOL_SOCKET, SO_REUSEPORT, &kOn, sizeof(kOn));
+		#elif defined(SO_REUSEADDR)
+			err = setsockopt(*sktPtr, SOL_SOCKET, SO_REUSEADDR, &kOn, sizeof(kOn));
+		#else
+			#error This platform has no way to avoid address busy errors on multicast.
+		#endif
+		if (err < 0) { err = errno; perror("setsockopt - SO_REUSExxxx"); }
+		}
+
+	// We want to receive destination addresses and interface identifiers.
+	if (intfAddr->sa_family == AF_INET)
+		{
+		struct ip_mreq imr;
+		struct sockaddr_in bindAddr;
+		if (err == 0)
+			{
+			#if defined(IP_PKTINFO)									// Linux
+				err = setsockopt(*sktPtr, IPPROTO_IP, IP_PKTINFO, &kOn, sizeof(kOn));
+				if (err < 0) { err = errno; perror("setsockopt - IP_PKTINFO"); }
+			#elif defined(IP_RECVDSTADDR) || defined(IP_RECVIF)		// BSD and Solaris
+				#if defined(IP_RECVDSTADDR)
+					err = setsockopt(*sktPtr, IPPROTO_IP, IP_RECVDSTADDR, &kOn, sizeof(kOn));
+					if (err < 0) { err = errno; perror("setsockopt - IP_RECVDSTADDR"); }
+				#endif
+				#if defined(IP_RECVIF)
+					if (err == 0)
+						{
+						err = setsockopt(*sktPtr, IPPROTO_IP, IP_RECVIF, &kOn, sizeof(kOn));
+						if (err < 0) { err = errno; perror("setsockopt - IP_RECVIF"); }
+						}
+				#endif
+			#else
+				#warning This platform has no way to get the destination interface information -- will only work for single-homed hosts
+			#endif
+			}
+	#if defined(IP_RECVTTL)									// Linux
+		if (err == 0)
+			{
+			err = setsockopt(*sktPtr, IPPROTO_IP, IP_RECVTTL, &kOn, sizeof(kOn));
+			if (err < 0) { err = errno; perror("setsockopt - IP_RECVTTL"); }
+			}
+	#endif
+
+		// Add multicast group membership on this interface
+		if (err == 0 && port.NotAnInteger)
+			{
+			imr.imr_multiaddr.s_addr = AllDNSLinkGroupv4.NotAnInteger;
+			imr.imr_interface        = ((struct sockaddr_in*)intfAddr)->sin_addr;
+			err = setsockopt(*sktPtr, IPPROTO_IP, IP_ADD_MEMBERSHIP, &imr, sizeof(imr));
+			if (err < 0) { err = errno; perror("setsockopt - IP_ADD_MEMBERSHIP"); }
+			}
+
+		// Specify outgoing interface too
+		if (err == 0 && port.NotAnInteger)
+			{
+			err = setsockopt(*sktPtr, IPPROTO_IP, IP_MULTICAST_IF, &((struct sockaddr_in*)intfAddr)->sin_addr, sizeof(struct in_addr));
+			if (err < 0) { err = errno; perror("setsockopt - IP_MULTICAST_IF"); }
+			}
+
+		// Per the mDNS spec, send unicast packets with TTL 255
+		if (err == 0)
+			{
+			err = setsockopt(*sktPtr, IPPROTO_IP, IP_TTL, &kIntTwoFiveFive, sizeof(kIntTwoFiveFive));
+			if (err < 0) { err = errno; perror("setsockopt - IP_TTL"); }
+			}
+
+		// and multicast packets with TTL 255 too
+		// There's some debate as to whether IP_MULTICAST_TTL is an int or a byte so we just try both.
+		if (err == 0)
+			{
+			err = setsockopt(*sktPtr, IPPROTO_IP, IP_MULTICAST_TTL, &kByteTwoFiveFive, sizeof(kByteTwoFiveFive));
+			if (err < 0 && errno == EINVAL)
+				err = setsockopt(*sktPtr, IPPROTO_IP, IP_MULTICAST_TTL, &kIntTwoFiveFive, sizeof(kIntTwoFiveFive));
+			if (err < 0) { err = errno; perror("setsockopt - IP_MULTICAST_TTL"); }
+			}
+
+		// And start listening for packets
+		if (err == 0)
+			{
+			bindAddr.sin_family      = AF_INET;
+			bindAddr.sin_port        = port.NotAnInteger;
+			bindAddr.sin_addr.s_addr = INADDR_ANY; // Want to receive multicasts AND unicasts on this socket
+			err = bind(*sktPtr, (struct sockaddr *) &bindAddr, sizeof(bindAddr));
+			if (err < 0) { err = errno; perror("bind"); fflush(stderr); }
+			}
+		} // endif (intfAddr->sa_family == AF_INET)
+
+
+	// Set the socket to non-blocking.
+	if (err == 0)
+		{
+		err = fcntl(*sktPtr, F_GETFL, 0);
+		if (err < 0) err = errno;
+		else
+			{
+			err = fcntl(*sktPtr, F_SETFL, err | O_NONBLOCK);
+			if (err < 0) err = errno;
+			}
+		}
+
+	// Clean up
+	if (err != 0 && *sktPtr != -1) { assert(close(*sktPtr) == 0); *sktPtr = -1; }
+	assert( (err == 0) == (*sktPtr != -1) );
+	return err;
+	}

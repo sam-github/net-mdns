@@ -1,18 +1,3 @@
-> Maybe you should be aware that there could be another responder 
-> running on your machine using the port 5353 on the multicast address. 
-> In that case you can not announce services.
- 
-  Actually, with multicast addresses, you can have multiple applications 
-  on the same machine listening to the multicast address 
-  224.0.0.251:5353.  The disadvantage is that they would all have their 
-  own separate caches.  That"s why it"s better to have a daemon that 
-  allows for a shared cache, but an application developer can safely 
-  compile the responder directly into their application if they choose to.
-        
-???
-
-
-
 How to call tcpdump:
 
   sudo /opt/local/sbin/tcpdump -n -t -X -l -s 256

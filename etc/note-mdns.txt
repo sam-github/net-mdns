@@ -1,0 +1,147 @@
+
+Things we don't do:
+
+  - Known answer suppression
+
+  - IP TTL
+
+  - send QU packets on startup
+
+  - TC bit handling
+
+  - multiple interfaces
+
+  - don't consider a DNS TTL of 0 to be 1
+
+Things to take care of from the draft:
+
+-  Any DNS query for a name ending with "254.169.in-addr.arpa." MUST
+   be sent to the mDNS multicast address 224.0.0.251.
+
+-  All Multicast DNS responses (including responses sent via unicast)
+   MUST be sent with IP TTL set to 255.
+
+-  A host sending Multicast DNS queries to a link-local destination address
+   (including the 224.0.0.251 link-local multicast address) MUST verify that
+   the IP TTL in response packets is 255, and silently discard any response
+   packets where the IP TTL is not 255. See the IP_RECVTTL socket option.
+
+-  Multicast DNS is a new protocol and doesn't (yet) have old buggy
+   legacy implementations to constrain the design choices. Accordingly,
+   it adopts the obvious simple solution: all names in Multicast DNS are
+   encoded using UTF-8 [RFC 2279].
+
+QU - unicast response requested
+QM - multicast response requested
+
+- retransmit query
+
+- when retransmit query for which has some responses, implement Known Answer Suppression, s7.1
+
+- interval between first two queries > 1sec, double for next queries
+
+--> why would you ever ask the same question again?
+
+- discard cached answers when TTL expires, requery the record BEFORE TTL expires. requery
+  at 80%, 85, 90, 95% of TTL + random addition of 2% of TTL
+
+- on startup, send QU pkts
+   What is startup? Maybe keep a record of all questions. If the question has never
+   been asked, then ask for unicast response. Need to add to that question cache
+   QM questions we see... because thats the same as us asking the question, in that
+   we will see and cache all the current answers.
+
+- when responding to QU: if not multicast answer to that question within 1/4 of TTL
+  of answer, multicast answer... else unicast answer.
+
+- if you ask questions for which you know answers, add known answers to the
+  Answer Section, with the TTL being the remaining TTL
+
+- don't respond to QM if your answer is in the QM, and the TTL in the QM is
+  more than half the real value
+
+- do NOT cache answers seen in the known answer section of queries
+
+- if there are too many known answers to put in a query, use the TC bit -> this
+  leads to s7.2, and its multi-pkt protocol. too complex for now
+
+- responses do not contain questions
+
+- responses to questions should be delayed by rnd time in the 20-120 ms range, unless
+  the answer is something only this host knows (like a SRV and TXT record for a service
+  we have previously guaranteed to be unique) --> might as well always delay
+
+- never multicast an answer if it has been sent within the last second
+
+- s8.1 covers legacy unicast responses...
+
+- handle multiple questions in a msg by sending multiple responses in a msg
+
+- when recv answer with TTL of zero, record TTL as 1, so other answers may be seen
+  in meantime with longer TTL
+
+- if cacheflush bit of answer is set, don't add answer to cache, replace all other
+  answers with this answer - but only if those answers are MORE than 1 second old
+
+- if you see a question twice, and one of your cached answers is for that question, but
+  you see no answer, you MAY flush your answer from your cache, its gone stale
+
+- do I need to support multiple IFXs?
+
+Startup:
+
+- s9.1 assumes that there are records advertised at startup or wake from sleep...
+  we won't have any services at startup, and we don't know about wake from sleep!
+
+
+
+--> will bits of ruby code every advertise a service, while another bit looks for it?
+
+--> do we hear our own questions?
+
+Pkt format:
+
+- discard responses where IP TTL is not 255
+- set response pkt IP TTL to 255
+
+
+ID should be zero for multicast questions
+
+19.2. QR (Query/Response) Bit
+
+   In query messages, MUST be zero.
+
+19.3. OPCODE
+
+   In both multicast query and multicast response messages, MUST be zero
+   (only standard queries are currently supported over multicast, unless
+   other queries are allowed by future IETF Standards Action).
+
+19.4. AA (Authoritative Answer) Bit
+
+   In query messages, the Authoritative Answer bit MUST be zero on
+   transmission, and MUST be ignored on reception.
+
+19.6. RD (Recursion Desired) Bit
+
+   In both multicast query and multicast response messages, the
+   Recursion Desired bit SHOULD be zero on transmission, and MUST be
+   ignored on reception.
+
+19.7. RA (Recursion Available) Bit
+
+   In both multicast query and multicast response messages, the
+   Recursion Available bit MUST be zero on transmission, and MUST be
+   ignored on reception.
+
+19.8. Z (Zero) Bit
+
+   In both query and response messages, the Zero bit MUST be zero on
+   transmission, and MUST be ignored on reception.
+
+19.9. AD (Authentic Data) Bit [RFC 2535]
+
+   In query messages the Authentic Data bit MUST be zero on
+   transmission, and MUST be ignored on reception.
+
+

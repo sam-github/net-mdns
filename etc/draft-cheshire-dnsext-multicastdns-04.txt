@@ -535,6 +535,10 @@ Internet Draft               Multicast DNS            14th February 2004
    intervals between subsequent queries MUST double.
 
 
+Q - each time? 1, 2, 4, 8 or 1,2,2,2,2
+
+Q - why would you ever ask a question again?
+
 6.3 Continuous Querying
 
    In One-Shot Queries, with either a single or multiple responses,
@@ -590,6 +594,10 @@ Internet Draft               Multicast DNS            14th February 2004
    this process repeats for as long as the Multicast DNS Querier has an
    ongoing interest in the record. If after four queries no answer is
    received, the record is deleted when it reaches 100% of its lifetime.
+
+Q - how does this interact with the suggestion in s10.3 that if you see two
+questions for a record you have cached, and no answers, then you may delete
+your cached record?
 
    To avoid the case where multiple Multicast DNS Queriers on a network
    all issue their queries simultaneously, a random variation of 2% of
@@ -683,7 +691,11 @@ Internet Draft               Multicast DNS            14th February 2004
     suppress their superfluous query, as described in "Duplicate
     Question Suppression" below.
 
+Q - You only make an initial QU query when cache is empty (6.5), so why would
+there be an initial QU query?
 
+Q - If cache flush bit is set, isn't the info in the cache unique and
+up-to-date, why issue any query at all?
 
 
 
@@ -710,6 +722,9 @@ Internet Draft               Multicast DNS            14th February 2004
    When a Multicast DNS Querier sends a query to which it already knows
    some answers, it populates the Answer Section of the DNS message with
    those answers.
+
+Q - I assume from below that the TTL in these known answers must be
+the "remaining" TTL, not the TTL received with the answer.
 
    A Multicast DNS Responder SHOULD NOT answer a Multicast DNS Query if
    the answer it would give is already included in the Answer Section
@@ -962,6 +977,12 @@ Internet Draft               Multicast DNS            14th February 2004
    changed in some relevant way, it MUST perform the two startup steps
    below.
 
+Q - confusing, the two startup steps are spread of 9.1-9.4, four sections?
+
+Q - if your responder has zero answers on startup, does this mean I can
+totally ignore the following? I.e., these are algs ONLY for startup,
+when after startup an App wishes to register a service, how to do so
+is covered later?
 
 9.1 Probing
 
