@@ -629,7 +629,9 @@ module Net
         end
 
         def each # :yield: Answer
-          yield pop
+          loop do
+            yield pop
+          end
         end
 
         def length
