@@ -129,6 +129,8 @@ when :browse
   printf fmt, "Ifx", "Domain", "Service Type", "Instance Name"
 
   handle = DNSSD.browse(@type, @domain) do |reply|
+    pp reply if @debug
+
     printf fmt, "?", reply.domain, reply.type, reply.name
   end
 
@@ -143,6 +145,8 @@ when :lookup
   printf fmt, "Ifx", "Domain", "Service Type", "Instance Name", "Location", "Text"
 
   handle = DNSSD.resolve(@name, @type, @domain) do |reply|
+    pp reply if @debug
+
     location = "#{reply.target}:#{reply.port}"
     text = reply.text_record.to_a.map { |kv| kv.join('=') }.join(', ')
     printf fmt, "?", reply.domain, reply.type, reply.name, location, text
@@ -158,6 +162,8 @@ when :register
   printf fmt, "Ifx", "Domain", "Service Type", "Instance Name", "Location", "Text"
 
   handle = DNSSD.register(@name, @type, @domain, @port, @txt) do |notice|
+    pp notice if @debug
+
     location = "#{Socket.gethostname}:#{@port}"
     text = @txt.to_a.map { |kv| kv.join('=') }.join(', ')
     printf fmt, "?", notice.domain, notice.type, notice.name, location, text
