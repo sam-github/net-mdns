@@ -73,10 +73,6 @@ unless Resolv::DNS::Resource::IN.constants.include? 'SRV'
               return self.new(priority, weight, port, target)
             end
 
-            # Do I want this?
-            def inspect
-              "IN::SRV priority=#{priority} weight=#{weight} target=#{target}:#{port}"
-            end
           end
 
 
@@ -209,4 +205,33 @@ class Resolv
     end
   end
 end
+
+class Resolv
+  class DNS
+    class Resource
+      module IN
+
+        class SRV
+          def inspect
+            "IN::SRV priority=#{priority} weight=#{weight} target=#{target}:#{port}"
+          end
+        end
+
+        class TXT
+          def inspect
+            "IN::TXT data=#{data}"
+          end
+        end
+
+        class PTR
+          def inspect
+            "IN::PTR name=#{name}"
+          end
+        end
+
+      end
+    end
+  end
+end
+
 
