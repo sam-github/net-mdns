@@ -69,12 +69,15 @@ Options:
   -d,--debug    Print debug messages to stderr.
 
 Examples:
-  mdns -B _daap._tcp
-  mdns -L sam _daap._tcp
+  mdns -B _http._tcp
+  mdns -L "My Music" _daap._tcp
   mdns -R me _example._tcp local 4321 key=value key2=value2
 
-Apple's dns-sd offers some test modes, these queries work for them:
-  mdns -L Test _testupdate._tcp  (dns-sd -A)
+These work with the test modes of Apple's dns-sd utility:
+  mdns -L Test _testupdate._tcp     (for dns-sd -A, -U, -N)
+  mdns -L Test _testlargetxt._tcp   (for dns-sd -T)
+  mdns -L Test _testdualtxt._tcp    (for dns-sd -M)
+  mdns -L Test _testtxt._tcp        (for dns-sd -I)
 
 EOF
 
