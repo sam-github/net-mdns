@@ -54,13 +54,17 @@ class Resolv
     class Name
       def <<(arg)
         arg = Name.create(arg)
-        @labels << arg.to_a
+        @labels.concat(arg.to_a)
         @absolute = arg.absolute?
       end
 
       def +(arg)
         arg = Name.create(arg)
         Name.new(@labels + arg.to_a, arg.absolute?)
+      end
+
+      def absolute=(abs)
+        @absolute = abs ? true : false
       end
 
       def equal?(name)
