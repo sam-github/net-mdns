@@ -13,7 +13,7 @@ module Net
     module DNSSD
 
       # DNS-SD names look like;
-      #  [<instance>.]<_service>.<_protocol>.<domain>
+      #   [<instance>.]<_service>.<_protocol>.<domain>
       # for example:
       #   _http._tcp.local
       #   guest._http._tcp.local
@@ -24,7 +24,7 @@ module Net
       #  [ <domain>, <type> ]
       # or
       #  [ <domain>, <type>, <instance>]
-      def self.name_parse(dnsname)
+      def self.name_parse(dnsname) #:nodoc:
         domain, t1, t0, name = dnsname.to_a.reverse.map {|n| n.to_s}
         [ domain, t0 + '.' + t1, name].compact
       end
