@@ -1571,15 +1571,16 @@ class Resolv
       class TXT < Resource
         TypeValue = 16
 
-        def initialize(first_string = nil, *rest_strings)
+        # TXT resource records must have one or more strings, but the
+        # string may be zero-length.
+        def initialize(first_string = '', *rest_strings)
           @strings = [first_string, *rest_strings].compact
         end
 
         # Returns an array of all the strings making up the resource data.
         # There may be multiple strings if this is a mDNS record or if the
         # resource data is longer than 255 bytes. In the case of mDNS, each
-        # individual string has the form of:
-        #   key "=" value
+        # individual string has the form: "key=value".
         attr_reader :strings
 
         # Returns the resource data as a single string.
