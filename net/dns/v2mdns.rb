@@ -12,19 +12,7 @@ require 'net/dns/resolvx'
 require 'logger'
 require 'singleton'
 
-require 'pp'
-module Kernel
-  def to_pp
-    s = PP.pp(self, '')
-    s.chomp!
-    s
-  end
-end
-
-
 BasicSocket.do_not_reverse_lookup = true
-$stdout.sync = true
-$stderr.sync = true
 
 module Net
   module DNS
@@ -278,10 +266,15 @@ module Net
                 end
 
                 # Cache answers
+                cached = []
                 msg.each_answer do |n, ttl, data|
                   a = Answer.new(n, ttl, data)
                   @log.debug( "++ a #{ a.inspect }" )
                   a = @cache.cache_answer(a)
+
+                  # If a wasn't cached, then its no newer than an answer we already have, so
+                  # we won't report it.
+                  cached << a if a
 
                   if a
                     # wake sweeper if cached answer needs refreshing before current waketime
@@ -296,17 +289,11 @@ module Net
                 @queries.each do |q|
                   answers = []
 
-                  if( q.name.to_s == '*' )
-                    msg.each_answer { |n, ttl, data| answers.push [ n, ttl, data] }
-                  else
-                    msg.extract_resources(q.name, q.type) { |n, ttl, data| answers.push [n, ttl, data] }
-                  end
+                  cached.each { |a| answers.push a if q.subscribes_to? a }
 
                   @log.debug( "push #{answers.length} to #{q.inspect}" )
 
-                  if( answers.first )
-                    q.queue.push(answers.map { |a| Answer.new(*a) } )
-                  end
+                  q.queue.push answers if answers.first
                 end
 
               rescue DecodeError
@@ -452,8 +439,18 @@ module Net
       class Query
         attr_reader :name, :type, :queue
 
+        def subscribes_to?(an)
+          if( name.to_s == '*' || name == an.name )
+            if( type == RR::ANY || type == an.type )
+              return true
+            end
+          end
+          false
+        end
+
         def push(*args)
           @queue.push(*args)
+          self
         end
 
         def pop
@@ -482,6 +479,7 @@ module Net
 
         def stop
           Responder.instance.stop(self)
+          self
         end
       end # Query
 
@@ -509,6 +507,7 @@ module Net
 
         def stop
           @thread.stop
+          self
         end
       end # BackgroundQuery
 
@@ -517,6 +516,11 @@ module Net
 end
 
 include Net::DNS
+
+$stdout.sync = true
+$stderr.sync = true
+
+require 'pp'
 
 # I don't want lines of this report intertwingled.
 $print_mutex = Mutex.new
@@ -546,7 +550,6 @@ end
 MDNS::BackgroundQuery.new('*') do |q, answers|
   print_answers(q, answers)
 end
-=end
 
 MDNS::BackgroundQuery.new('_http._tcp.local.', RR::PTR) do |q, answers|
   print_answers(q, answers)
@@ -565,6 +568,7 @@ end
 MDNS::BackgroundQuery.new('_daap._tcp.local.', RR::ANY) do |q, answers|
   print_answers(q, answers)
 end
+=end
 
 MDNS::BackgroundQuery.new('ensemble.local.', RR::A) do |q, answers|
   print_answers(q, answers)

@@ -12,51 +12,17 @@ class Resolv
 
     class Message
 
+      # Is message a query?
       def query?
         qr == 0
       end
 
+      # Is message a response/
       def response?
-        qr == 1
-      end
-
-      def extract_resources(name, typeclass)
-        msg = self
-        if typeclass < DNS::Resource::ANY
-          n0 = DNS::Name.create(name)
-          msg.each_answer {|n, ttl, data|
-            yield n, ttl, data if n0 == n
-          }
-          # FIXME - should return here
-        end
-        yielded = false
-        n0 = DNS::Name.create(name)
-        msg.each_answer {|n, ttl, data|
-          if n0 == n
-            case data
-            when typeclass
-              yield n, ttl, data
-              yielded = true
-            when DNS::Resource::CNAME
-              n0 = data.name
-              # FIXME - Would this be a good place for a 'restart'?
-            end
-          end
-        }
-        # FIXME - by returning here, you miss records with the CNAME.
-        return if yielded
-        msg.each_answer {|n, ttl, data|
-          if n0 == n
-            case data
-            when typeclass
-              yield n, ttl, data
-            end
-          end
-        }
+        !query?
       end
 
     end
-
 
   end
 end
@@ -177,37 +143,6 @@ class Resolv
     end
   end
 end
-
-=begin
-class Resolv
-  class DNS
-    class Resource
-      module IN
-
-        class SRV
-          def inspect
-            "IN::SRV priority=#{priority} weight=#{weight} target=#{target}:#{port}"
-          end
-        end
-
-        class TXT
-          def inspect
-            "IN::TXT data=#{strings.inspect}"
-          end
-        end
-
-        class PTR
-          def inspect
-            "IN::PTR name=#{name}"
-          end
-        end
-
-      end
-    end
-  end
-end
-
-=end
 
 unless Resolv::DNS::Resource::IN.constants.include? 'SRV'
 
