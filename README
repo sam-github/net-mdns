@@ -1,0 +1,14 @@
+Installation
+
+The standard way, with the setupt.rb script.
+
+See:
+
+  ruby setup.rb --help
+
+or
+
+  # ruby setupt.rb all (may require root privilege)
+
+See http://dnssd.rubyforge.org/net-mdns for more information.
+

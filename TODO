@@ -5,8 +5,14 @@ Release: 0.0  "proof of concept" - done
 
 Release: 0.1  "make it work"
 
-- reintegrate into resolver
 
+- document
+
+- package
+
+- make mdns.rb work with DNSSD (it is using r.ttl!)
+
+- try the Resolv::MDNS examples
 
 
 Release: 0.2  "do the right thing"

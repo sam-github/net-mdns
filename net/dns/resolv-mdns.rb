@@ -10,6 +10,87 @@ require 'net/dns/resolvx'
 require 'net/dns/mdns'
 
 class Resolv
+  # == Address Lookups
+  # Requiring 'net/dns/mdns-resolv' causes a Resolv::MDNS resolver to be added
+  # to list of default resolvers queried when using Resolv#getaddress, and the
+  # other Resolv module methods.
+  #
+  # It can be used by doing:
+  #   require 'net/dns/resolv-mdns'
+  #   Resolv.getaddress('localhost') # resolved using Resolv::Hosts("/etc/hosts")
+  #   Resolv.getaddress('www.example.com') # resolved using Resolv::DNS
+  #   Resolv.getaddress('example.local') # resolved using Resolv::MDNS
+  # Using this approach means that both global DNS names and local names can be
+  # resolved.  When doing this, you may also consider doing:
+  #   require 'resolv-replace'
+  # This has the effect of replacing the default ruby implementation of address
+  # lookup in IPSocket, TCPSocket, UDPSocket, and SOCKSocket with
+  # Resolv.getaddress, so (if 'net/dns/mdns-resolv' has been required) the
+  # standard libraries TCP/IP classes will use mDNS for name lookups in the .local domain.
+  #
+  # = Example
+  #   require 'net/http'
+  #   require 'net/dns/resolv-mdns'
+  #   
+  #   # Address lookup
+  #   
+  #   begin
+  #   puts Resolv.getaddress('example.local')
+  #   rescue Resolv::ResolvError
+  #     puts "no such address!"
+  #   end
+  #   
+  #   # Service discovery
+  #   
+  #   mdns = Resolv::MDNS.new
+  #   
+  #   mdns.each_resource('_http._tcp.local', Resolv::DNS::Resource::IN::PTR) do |rrhttp|
+  #     service = rrhttp.name
+  #     host = nil
+  #     port = nil
+  #     path = '/'
+  #   
+  #     rrsrv = mdns.getresource(rrhttp.name, Resolv::DNS::Resource::IN::SRV)
+  #     host, port = rrsrv.target.to_s, rrsrv.port
+  #     rrtxt = mdns.getresource(rrhttp.name, Resolv::DNS::Resource::IN::TXT)
+  #     if  rrtxt.data =~ /path=(.*)/
+  #       path = $1
+  #     end
+  #   
+  #     http = Net::HTTP.new(host, port)
+  #   
+  #     headers = http.head(path)
+  #   
+  #     puts "#{service[0]} on #{host}:#{port}#{path} was last-modified #{headers['last-modified']}"
+  #   end
+  #   
+  # == Service Discovery (DNS-SD)
+  #
+  # Service discovery consists of 2 stages:
+  # - enumerating the names of the instances of the service
+  # - resolving the instance names
+  #
+  # The Net::DNS::MDNSSD API is better documented and easier to use for DNS-SD,
+  # but here's some information on using the Resolv APIs for DNS-SD.
+  #
+  # = Service Enumeration
+  #
+  # To do this query the pointer records (Resolv::DNS::Resource::IN::PTR) for
+  # names of the form _svc._prot.local. The values of svc and prot for common
+  # services can be found at http://www.dns-sd.org/ServiceTypes.html.
+  # The first label of the name returned is suitable for display to peoplem, and
+  # should be unique in the network.
+  #
+  # = Service Resolution
+  #
+  # In order to resolve a service name query the service record
+  # (Resolv::DNS::Resource::IN::SRV) for the name. The service record contains
+  # a host and port to connect to. The host name will have to be resolved to an
+  # address. This can be done explicitly using mDNS or, if resolv-replace has
+  # been required, it will be done by the standard library.  In addition, some
+  # services put "extra" information about the service in a text
+  # (Resolv::DNS::Resource::IN::TXT) record associated with the service name.
+  # The format of the text record is service-specific.
   class MDNS
 
     # How many seconds to wait before assuming all responses have been seen.

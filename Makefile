@@ -7,17 +7,15 @@ default:
 doc:
 	 rdoc18 -S -o doc net/dns/*.rb
 	 open doc/index.html &
+	 cp TODO doc/TODO
+	 cp mdns.rb doc/mdns.txt
+	 cp v1mdns.rb doc/v1mdns.txt
+	 cp v1demo.rb doc/v1demo.txt
 
 doc-upload:
-	cd doc; scp -r . sam@rubyforge.org:/var/www/gforge-projects/vpim/mdns
+	cd doc; scp -r . sam@rubyforge.org:/var/www/gforge-projects/dnssd/net-mdns
 
-pkg-upload:
-	cd releases; scp $P.tgz sam@rubyforge.org:/var/www/gforge-projects/vpim/mdns/mdns.tgz
-
-dnsdiff:
-	diff ../ruby/lib/resolv.rb net/dns/resolv.rb
-
-submit: release pkg-upload doc-upload
+submit: release doc-upload
 
 .PHONY: tags
 tags:

@@ -10,6 +10,7 @@ require 'ipaddr'
 require 'logger'
 require 'singleton'
 
+require 'net/dns'
 require 'net/dns/resolvx'
 
 BasicSocket.do_not_reverse_lookup = true
@@ -17,34 +18,103 @@ BasicSocket.do_not_reverse_lookup = true
 module Net
   module DNS
 
-    Message      = Resolv::DNS::Message
-    Name         = Resolv::DNS::Name
-    DecodeError  = Resolv::DNS::DecodeError
-
-    module IN
-      A      = Resolv::DNS::Resource::IN::A
-      AAAA   = Resolv::DNS::Resource::IN::AAAA
-      ANY    = Resolv::DNS::Resource::IN::ANY
-      CNAME  = Resolv::DNS::Resource::IN::CNAME
-      HINFO  = Resolv::DNS::Resource::IN::HINFO
-      MINFO  = Resolv::DNS::Resource::IN::MINFO
-      MX     = Resolv::DNS::Resource::IN::MX
-      NS     = Resolv::DNS::Resource::IN::NS
-      PTR    = Resolv::DNS::Resource::IN::PTR
-      SOA    = Resolv::DNS::Resource::IN::SOA
-      SRV    = Resolv::DNS::Resource::IN::SRV
-      TXT    = Resolv::DNS::Resource::IN::TXT
-      WKS    = Resolv::DNS::Resource::IN::WKS
-    end
-
-    # Returns the resource record name of +rr+ as a short string ("IN::A",
-    # ...).
-    def self.rrname(rr)
-      rr = rr.class unless rr.class == Class
-      rr = rr.to_s.sub(/.*Resource::/, '')
-      rr = rr.to_s.sub(/.*DNS::/, '')
-    end
-
+    #:main:Net::DNS::MDNS
+    #:title:net-mdns - multicast DNS and service discovery
+    #
+    # Author::     Sam Roberts <sroberts@uniserve.com>
+    # Copyright::  Copyright (C) 2005 Sam Roberts
+    # License::    May be distributed under the same terms as Ruby
+    # Version::    0.1
+    # Homepage::   http://dnssd.rubyforge.org/net-mdns
+    # Download::   http://rubyforge.org/frs/?group_id=316
+    #
+    # == Summary
+    #
+    # An implementation of a multicast DNS (mDNS) responder.  mDNS is an
+    # extension of hierarchical, unicast DNS to link-local multicast. It is
+    # most widely known because it is part of Apple's OS X where it is used to
+    # do service discovery and address lookups over local networks.
+    #
+    # net-mdns consists of:
+    # - Resolv::MDNS: an extension to the 'resolv' resolver library that adds
+    #   support for multicast DNS.
+    # - Net::DNS::MDNSSD: a high-level API for browsing, resolving, and advertising
+    #   services using DNS-SD over mDNS that aims to be compatible with DNSSD, see
+    #   be below for more information.
+    # - Net::DNS::MDNS: the low-level APIs and mDNS responder at the core of
+    #   Resolv::MDNS and Net::DNS::MDNSSD. Its not particularly documented at the present.
+    #
+    # net-mdns can be used for:
+    # - name to address lookups on local networks
+    # - address to name lookups on local networks
+    # - discovery of services on local networks
+    # - advertisement of services on local networks
+    #
+    # == For More Information
+    #
+    # See the following:
+    # - draft-cheshire-dnsext-multicastdns-04.txt for a description of mDNS
+    # - RFC 2782 for a description of DNS SRV records
+    # - draft-cheshire-dnsext-dns-sd-02.txt for a description of how to
+    #   use SRV, PTR, and TXT records for service discovery
+    # - http://www.dns-sd.org
+    # - http://dnssd.rubyforge.org - for DNSSD, a C extension for communicating
+    #   with Apple's mDNSResponder daemon.
+    #
+    # == Comparison to the DNS-SD Extension
+    #
+    # The DNS-SD project at http://dnssd.rubyforge.org/wiki/wiki.pl is another
+    # approach to mDNS and service discovery.
+    #
+    # DNS-SD is a compiled ruby extension implemented on top of the dns_sd.h APIs
+    # published by Apple. These APIs work by contacting a local mDNS daemon
+    # (through unix domain sockets) and should be more efficient since they
+    # use a daemon written in C by a dedicated team at Apple.
+    #
+    # Currently, the only thing I'm aware of net-mdns doing that DNS-SD
+    # doesn't is integrate into the standard library so that link-local domain
+    # names can be used throughout the standard networking classes, and allow
+    # querying of arbitrary DNS record types. There is no reason DNS-SD can't
+    # do this, it just needs to wrap DNSServiceQueryRecord() and expose it, and
+    # that will happen sometime soon.
+    #
+    # Since net-mdns doesn't do significantly more than DNSSD, why would you be
+    # interested in it?
+    #
+    # The DNS-SD extension requires the dns_sd.h C language APIs for the Apple
+    # mDNS daemon. Installing the Apple responder can be quite difficult, and
+    # requires a running daemon.  It also requires compiling the extension. If
+    # you need a pure ruby implementation, or if building DNS-SD turns out to be
+    # difficult for you, net-mdns may be useful to you.
+    #
+    # == Samples
+    # 
+    # There are a few command line utilities in the samples/ directory:
+    # - link:mdns.txt, mdns.rb is a command line interface for to Net::DNS::MDNSSD (or to DNSSD)
+    # - link:v1demo.txt, v1demo.rb is a sample provided by Ben Giddings showing
+    #   the call sequences to use with Resolv::MDNS for service resolution. This
+    #   predates Net::DNS::MDNSSD, so while its a great sample, you might want
+    #   to look at mdns.rb instead.
+    # - link:v1mdns.txt, v1mdns.rb is a low-level utility for exercising Resolv::MDNS.
+    # 
+    # == TODO
+    #
+    # See link:TODO.
+    #
+    # == Thanks
+    #
+    # - to Tanaka Akira for resolv.rb, I learned a lot about meta-programming
+    #   and ruby idioms from it, as well as getting an almost-complete
+    #   implementation of the DNS message format and a resolver framework I
+    #   could plug mDNS support into.
+    #
+    # - to Charles Mills for letting me add net-mdns to DNS-SD's Rubyforge
+    #   project when he hardly knew me, and hadn't even seen any code yet.
+    #
+    # == Author
+    # 
+    # Any feedback, questions, problems, etc., please contact me, Sam Roberts,
+    # via dnssd-developers@rubyforge.org, or directly.
     module MDNS
       class Answer
         attr_reader :name, :ttl, :data, :cacheflush
