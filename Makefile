@@ -33,6 +33,8 @@ test:
 
 diff:
 	diff -u ../ruby/lib/resolv.rb net/dns/resolv.rb
+	diff -u ../ruby/lib/resolv-replace.rb net/dns/resolv-replace.rb
+
 
 ri:
 	rdoc18 -f ri net/dns/mdns.rb
