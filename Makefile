@@ -1,10 +1,12 @@
 # $Id:$
 
-default: test
+default:
+
+TAGSRC = net/dns/v2mdns.rb net/dns/resolvx.rb resolv.rb
 
 .PHONY: doc
 doc:
-	 rdoc18 -S -o doc net/dns
+	 rdoc18 -S -o doc $(TAGSRC)
 	 open doc/index.html &
 
 doc-upload:
@@ -14,8 +16,6 @@ pkg-upload:
 	cd releases; scp $P.tgz sam@rubyforge.org:/var/www/gforge-projects/vpim/mdns/mdns.tgz
 
 submit: release pkg-upload doc-upload
-
-TAGSRC = net/dns/v2mdns.rb net/dns/resolvx.rb resolv.rb
 
 .PHONY: tags
 tags:
