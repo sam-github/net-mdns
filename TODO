@@ -1,6 +1,10 @@
 TODO
 
-- bug in each_resource inside each_resource... figure it out, or remove the timeout?
+- we are seeing our own questions... good thing?
+
+- we aren't seeing cached answers... bad thing!
+
+- need a unicast-respose bit for query classes in resolv.rb
 
 - raa
 
@@ -11,6 +15,11 @@ TODO
 - resolv.conf looks correct, but I can't resolv www.google.ca!
 
 - Name#<< - append label(s) to a Name
+
+
+Q can I bind my ifx to a local address?
+
+Q can I recv unicast responses?
 
 
 Goals:
@@ -100,67 +109,5 @@ questions:
   queries to occure for its peer IP address...
 
     Related: run ga using -r resolv-replace, see if ruby does the CNAME thing...
-
-
-Things to take care of from the draft:
-
--  Any DNS query for a name ending with "254.169.in-addr.arpa." MUST
-   be sent to the mDNS multicast address 224.0.0.251.
-
--  All Multicast DNS responses (including responses sent via unicast)
-   MUST be sent with IP TTL set to 255.
-
--  A host sending Multicast DNS queries to a link-local destination address
-   (including the 224.0.0.251 link-local multicast address) MUST verify that
-   the IP TTL in response packets is 255, and silently discard any response
-   packets where the IP TTL is not 255. See the IP_RECVTTL socket option.
-
--  Multicast DNS is a new protocol and doesn't (yet) have old buggy
-   legacy implementations to constrain the design choices. Accordingly,
-   it adopts the obvious simple solution: all names in Multicast DNS are
-   encoded using UTF-8 [RFC 2279].
-
--  Multicast DNS Messages carried by UDP may be up to the IP MTU of the
-   physical interface, less the space required for the IP header (20
-   bytes for IPv4; 40 bytes for IPv6) and the UDP header (8 bytes).
-
-   --> does Message truncate?
-
-19.2. QR (Query/Response) Bit
-
-   In query messages, MUST be zero.
-
-19.3. OPCODE
-
-   In both multicast query and multicast response messages, MUST be zero
-   (only standard queries are currently supported over multicast, unless
-   other queries are allowed by future IETF Standards Action).
-
-19.4. AA (Authoritative Answer) Bit
-
-   In query messages, the Authoritative Answer bit MUST be zero on
-   transmission, and MUST be ignored on reception.
-
-19.6. RD (Recursion Desired) Bit
-
-   In both multicast query and multicast response messages, the
-   Recursion Desired bit SHOULD be zero on transmission, and MUST be
-   ignored on reception.
-
-19.7. RA (Recursion Available) Bit
-
-   In both multicast query and multicast response messages, the
-   Recursion Available bit MUST be zero on transmission, and MUST be
-   ignored on reception.
-
-19.8. Z (Zero) Bit
-
-   In both query and response messages, the Zero bit MUST be zero on
-   transmission, and MUST be ignored on reception.
-
-19.9. AD (Authentic Data) Bit [RFC 2535]
-
-   In query messages the Authentic Data bit MUST be zero on
-   transmission, and MUST be ignored on reception.
 
 
