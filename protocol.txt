@@ -6751,3 +6751,449 @@ D, [2005-02-10T23:07:15.412548 #4191] DEBUG -- : query q?_ftp._tcp.local/IN::ANY
 D, [2005-02-10T23:07:15.413365 #4191] DEBUG -- : query q?_http._tcp.local/IN::PTR(0) - stop
 net/dns/v2mdns.rb:567:in `join': Interrupt
 	from net/dns/v2mdns.rb:567
+D, [2005-02-11T23:10:10.813088 #4532] DEBUG -- : start
+D, [2005-02-11T23:10:12.548573 #4532] DEBUG -- : =sweep begin
+D, [2005-02-11T23:10:12.550913 #4532] DEBUG -- :   next reresh: nil
+D, [2005-02-11T23:10:12.741679 #4532] DEBUG -- : =sweep end
+D, [2005-02-11T23:10:12.743086 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:10:12.746194 #4532] DEBUG -- : query q?_http._tcp.local/IN::PTR(0) - start asked?=n answers#=0
+D, [2005-02-11T23:10:12.973993 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:10:12.974752 #4532] DEBUG -- : =sweep begin
+D, [2005-02-11T23:10:12.978086 #4532] DEBUG -- : ++ q _http._tcp.local/IN::PTR
+D, [2005-02-11T23:10:12.979320 #4532] DEBUG -- :   next reresh: nil
+D, [2005-02-11T23:10:13.171945 #4532] DEBUG -- : =sweep end
+D, [2005-02-11T23:10:13.180990 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:10:13.183473 #4532] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - start asked?=n answers#=0
+D, [2005-02-11T23:10:13.184420 #4532] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR Sam Roberts' Web Site._http._tcp.local
+D, [2005-02-11T23:10:13.375012 #4532] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR Julie Lebel's Web Site._http._tcp.local
+D, [2005-02-11T23:10:13.375778 #4532] DEBUG -- : =sweep begin
+D, [2005-02-11T23:10:13.379375 #4532] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR guest's Web Site._http._tcp.local
+D, [2005-02-11T23:10:13.380611 #4532] DEBUG -- :   next reresh: _http._tcp.local (7200) ->  PTR Sam Roberts' Web Site._http._tcp.local
+D, [2005-02-11T23:10:13.382616 #4532] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR ensemble._http._tcp.local
+D, [2005-02-11T23:10:13.569795 #4532] DEBUG -- : =sweep end
+D, [2005-02-11T23:10:13.573657 #4532] DEBUG -- : push 4 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:10:13.577076 #4532] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:10:13.579820 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:10:13.582769 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:10:13.584518 #4532] DEBUG -- : ++ q _ftp._tcp.local/IN::ANY
+D, [2005-02-11T23:10:13.589377 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:10:13.592250 #4532] DEBUG -- : ++ a _ftp._tcp.local (7200) ->  PTR ensemble._ftp._tcp.local
+D, [2005-02-11T23:10:13.596356 #4532] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:10:13.600013 #4532] DEBUG -- : push 1 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:10:13.608405 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:10:17.389329 #4532] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - start asked?=y answers#=1
+D, [2005-02-11T23:10:17.391733 #4532] DEBUG -- : query q?_daap._tcp.local/IN::ANY(0) - start asked?=n answers#=0
+D, [2005-02-11T23:10:17.582859 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:10:17.584048 #4532] DEBUG -- : query q?ensemble.local/IN::A(0) - start asked?=n answers#=0
+D, [2005-02-11T23:10:17.587438 #4532] DEBUG -- : ++ q _daap._tcp.local/IN::ANY
+D, [2005-02-11T23:10:17.784952 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:10:17.785989 #4532] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:10:17.806677 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:10:17.807462 #4532] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:10:17.808157 #4532] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:10:17.810117 #4532] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:10:17.810660 #4532] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:10:17.811072 #4532] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:10:17.811469 #4532] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:10:17.813849 #4532] DEBUG -- : =sweep begin
+D, [2005-02-11T23:10:17.816756 #4532] DEBUG -- :   next reresh: ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:10:18.035341 #4532] DEBUG -- : =sweep end
+D, [2005-02-11T23:10:18.039207 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:11:05.050665 #4532] DEBUG -- : =sweep begin
+D, [2005-02-11T23:11:05.051498 #4532] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:11:05.052356 #4532] DEBUG -- :   next reresh: ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:11:05.242811 #4532] DEBUG -- : =sweep end
+D, [2005-02-11T23:11:05.244625 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:11:05.246800 #4532] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:11:05.248018 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:11:05.248474 #4532] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:11:05.249081 #4532] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:11:05.249524 #4532] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:11:05.249941 #4532] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:11:05.250356 #4532] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:11:05.250744 #4532] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:11:08.256756 #4532] DEBUG -- : =sweep begin
+D, [2005-02-11T23:11:08.258018 #4532] DEBUG -- :   next reresh: ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:11:08.445382 #4532] DEBUG -- : =sweep end
+D, [2005-02-11T23:11:08.446605 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:11:53.457128 #4532] DEBUG -- : =sweep begin
+D, [2005-02-11T23:11:53.457954 #4532] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:11:53.458815 #4532] DEBUG -- :   next reresh: ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:11:53.646673 #4532] DEBUG -- : =sweep end
+D, [2005-02-11T23:11:53.648593 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:11:53.650801 #4532] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:11:53.652164 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:11:53.652765 #4532] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:11:53.653393 #4532] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:11:53.653846 #4532] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:11:53.654260 #4532] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:11:53.654663 #4532] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:11:53.655117 #4532] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:11:56.660734 #4532] DEBUG -- : =sweep begin
+D, [2005-02-11T23:11:56.661986 #4532] DEBUG -- :   next reresh: ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:11:56.906928 #4532] DEBUG -- : =sweep end
+D, [2005-02-11T23:11:56.908258 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:12:41.918844 #4532] DEBUG -- : =sweep begin
+D, [2005-02-11T23:12:41.919681 #4532] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:12:41.920536 #4532] DEBUG -- :   next reresh: ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:12:42.110464 #4532] DEBUG -- : =sweep end
+D, [2005-02-11T23:12:42.112019 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:12:42.114159 #4532] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:12:42.115450 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:12:42.115909 #4532] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:12:42.116509 #4532] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:12:42.116965 #4532] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:12:42.117381 #4532] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:12:42.117807 #4532] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:12:42.118193 #4532] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:12:44.124207 #4532] DEBUG -- : =sweep begin
+D, [2005-02-11T23:12:44.125452 #4532] DEBUG -- :   next reresh: ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:12:44.315268 #4532] DEBUG -- : =sweep end
+D, [2005-02-11T23:12:44.316706 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:13:30.327315 #4532] DEBUG -- : =sweep begin
+D, [2005-02-11T23:13:30.328188 #4532] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:13:30.329047 #4532] DEBUG -- :   next reresh: ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:13:30.515818 #4532] DEBUG -- : =sweep end
+D, [2005-02-11T23:13:30.517497 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:13:30.519675 #4532] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:13:30.520975 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:13:30.521442 #4532] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:13:30.522050 #4532] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:13:30.522501 #4532] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:13:30.522919 #4532] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:13:30.523329 #4532] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:13:30.523717 #4532] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:13:33.529686 #4532] DEBUG -- : =sweep begin
+D, [2005-02-11T23:13:33.531020 #4532] DEBUG -- :   next reresh: ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:13:33.720373 #4532] DEBUG -- : =sweep end
+D, [2005-02-11T23:13:33.722015 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:14:18.733424 #4532] DEBUG -- : =sweep begin
+D, [2005-02-11T23:14:18.734299 #4532] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:14:18.735163 #4532] DEBUG -- :   next reresh: ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:14:18.927027 #4532] DEBUG -- : =sweep end
+D, [2005-02-11T23:14:18.928697 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:14:18.930862 #4532] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:14:18.932165 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:14:18.932636 #4532] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:14:18.933246 #4532] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:14:18.933709 #4532] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:14:18.934131 #4532] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:14:18.934538 #4532] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:14:18.934923 #4532] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:14:21.940836 #4532] DEBUG -- : =sweep begin
+D, [2005-02-11T23:14:21.942104 #4532] DEBUG -- :   next reresh: ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:14:22.134769 #4532] DEBUG -- : =sweep end
+D, [2005-02-11T23:14:22.136065 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:15:06.146677 #4532] DEBUG -- : =sweep begin
+D, [2005-02-11T23:15:06.147513 #4532] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:15:06.148367 #4532] DEBUG -- :   next reresh: ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:15:06.338021 #4532] DEBUG -- : =sweep end
+D, [2005-02-11T23:15:06.339486 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:15:06.341568 #4532] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:15:06.342866 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:15:06.343326 #4532] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:15:06.343925 #4532] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:15:06.344375 #4532] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:15:06.344792 #4532] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:15:06.345196 #4532] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:15:06.345624 #4532] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:15:09.351539 #4532] DEBUG -- : =sweep begin
+D, [2005-02-11T23:15:09.352825 #4532] DEBUG -- :   next reresh: ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:15:09.545322 #4532] DEBUG -- : =sweep end
+D, [2005-02-11T23:15:09.546610 #4532] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:15:52.214557 #4532] DEBUG -- : query q?ensemble.local/IN::A(0) - stop
+D, [2005-02-11T23:15:52.215603 #4532] DEBUG -- : query q?_daap._tcp.local/IN::ANY(0) - stop
+D, [2005-02-11T23:15:52.216422 #4532] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - stop
+D, [2005-02-11T23:15:52.217253 #4532] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - stop
+D, [2005-02-11T23:15:52.218089 #4532] DEBUG -- : query q?_http._tcp.local/IN::PTR(0) - stop
+net/dns/v2mdns.rb:570:in `join': Interrupt
+	from net/dns/v2mdns.rb:570
+D, [2005-02-11T23:15:54.207825 #4533] DEBUG -- : start
+D, [2005-02-11T23:15:55.947510 #4533] DEBUG -- : sweep begin
+D, [2005-02-11T23:15:56.138293 #4533] DEBUG -- : refresh in 0 sec for nil
+D, [2005-02-11T23:15:56.139681 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:15:56.142082 #4533] DEBUG -- : sweep end
+D, [2005-02-11T23:15:56.144162 #4533] DEBUG -- : query q?_http._tcp.local/IN::PTR(0) - start asked?=n answers#=0
+D, [2005-02-11T23:15:56.334726 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:15:56.335568 #4533] DEBUG -- : sweep begin
+D, [2005-02-11T23:15:56.339069 #4533] DEBUG -- : ++ q _http._tcp.local/IN::PTR
+D, [2005-02-11T23:15:56.590017 #4533] DEBUG -- : refresh in 0 sec for nil
+D, [2005-02-11T23:15:56.593072 #4533] DEBUG -- : sweep end
+D, [2005-02-11T23:15:56.602626 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:15:56.605362 #4533] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - start asked?=n answers#=0
+D, [2005-02-11T23:15:56.606337 #4533] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR Sam Roberts' Web Site._http._tcp.local
+D, [2005-02-11T23:15:56.799628 #4533] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR Julie Lebel's Web Site._http._tcp.local
+D, [2005-02-11T23:15:56.800518 #4533] DEBUG -- : sweep begin
+D, [2005-02-11T23:15:56.804295 #4533] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR guest's Web Site._http._tcp.local
+D, [2005-02-11T23:15:56.991873 #4533] DEBUG -- : refresh in 5760 sec for _http._tcp.local (7200) ->  PTR Sam Roberts' Web Site._http._tcp.local
+D, [2005-02-11T23:15:56.994403 #4533] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR ensemble._http._tcp.local
+D, [2005-02-11T23:15:56.995293 #4533] DEBUG -- : sweep end
+D, [2005-02-11T23:15:57.002031 #4533] DEBUG -- : push 4 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:15:57.006932 #4533] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:15:57.009841 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:15:57.016407 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:15:57.020194 #4533] DEBUG -- : ++ q _ftp._tcp.local/IN::ANY
+D, [2005-02-11T23:15:57.030011 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:15:57.032311 #4533] DEBUG -- : ++ a _ftp._tcp.local (7200) ->  PTR ensemble._ftp._tcp.local
+D, [2005-02-11T23:15:57.035074 #4533] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:15:57.037435 #4533] DEBUG -- : push 1 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:15:57.041914 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:16:00.814147 #4533] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - start asked?=y answers#=1
+D, [2005-02-11T23:16:00.816544 #4533] DEBUG -- : query q?_daap._tcp.local/IN::ANY(0) - start asked?=n answers#=0
+D, [2005-02-11T23:16:01.007821 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:16:01.008993 #4533] DEBUG -- : query q?ensemble.local/IN::A(0) - start asked?=n answers#=0
+D, [2005-02-11T23:16:01.013793 #4533] DEBUG -- : ++ q _daap._tcp.local/IN::ANY
+D, [2005-02-11T23:16:01.207947 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:16:01.208687 #4533] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:16:01.228203 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:16:01.228974 #4533] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:16:01.229755 #4533] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:16:01.231713 #4533] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:16:01.232244 #4533] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:16:01.232771 #4533] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:16:01.233186 #4533] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:16:01.235609 #4533] DEBUG -- : sweep begin
+D, [2005-02-11T23:16:01.424328 #4533] DEBUG -- : refresh in 48 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:16:01.425954 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:16:01.429936 #4533] DEBUG -- : sweep end
+D, [2005-02-11T23:16:49.441549 #4533] DEBUG -- : sweep begin
+D, [2005-02-11T23:16:49.442389 #4533] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:16:49.632699 #4533] DEBUG -- : refresh in 3 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:16:49.635571 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:16:49.638691 #4533] DEBUG -- : sweep end
+D, [2005-02-11T23:16:49.639602 #4533] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:16:49.643377 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:16:49.643912 #4533] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:16:49.644627 #4533] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:16:49.645097 #4533] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:16:49.645528 #4533] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:16:49.645940 #4533] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:16:49.646577 #4533] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:16:52.652773 #4533] DEBUG -- : sweep begin
+D, [2005-02-11T23:16:52.841994 #4533] DEBUG -- : refresh in 45 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:16:52.843259 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:16:52.844900 #4533] DEBUG -- : sweep end
+D, [2005-02-11T23:17:37.854640 #4533] DEBUG -- : sweep begin
+D, [2005-02-11T23:17:37.855406 #4533] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:17:38.043274 #4533] DEBUG -- : refresh in 2 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:17:38.044778 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:17:38.046368 #4533] DEBUG -- : sweep end
+D, [2005-02-11T23:17:38.047236 #4533] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:17:38.050149 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:17:38.050637 #4533] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:17:38.051250 #4533] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:17:38.051699 #4533] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:17:38.052118 #4533] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:17:38.052527 #4533] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:17:38.052930 #4533] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:17:40.059402 #4533] DEBUG -- : sweep begin
+D, [2005-02-11T23:17:40.250093 #4533] DEBUG -- : refresh in 46 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:17:40.251362 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:17:40.253464 #4533] DEBUG -- : sweep end
+D, [2005-02-11T23:18:26.265028 #4533] DEBUG -- : sweep begin
+D, [2005-02-11T23:18:26.265799 #4533] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:18:26.452215 #4533] DEBUG -- : refresh in 3 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:18:26.453781 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:18:26.455394 #4533] DEBUG -- : sweep end
+D, [2005-02-11T23:18:26.456271 #4533] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:18:26.459383 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:18:26.459923 #4533] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:18:26.460555 #4533] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:18:26.461046 #4533] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:18:26.461476 #4533] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:18:26.461905 #4533] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:18:26.462301 #4533] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:18:29.468404 #4533] DEBUG -- : sweep begin
+D, [2005-02-11T23:18:29.657631 #4533] DEBUG -- : refresh in 45 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:18:29.658891 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:18:29.660435 #4533] DEBUG -- : sweep end
+D, [2005-02-11T23:19:14.670278 #4533] DEBUG -- : sweep begin
+D, [2005-02-11T23:19:14.671053 #4533] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:19:14.858785 #4533] DEBUG -- : refresh in 3 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:19:14.860308 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:19:14.861872 #4533] DEBUG -- : sweep end
+D, [2005-02-11T23:19:14.862729 #4533] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:19:14.865796 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:19:14.866297 #4533] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:19:14.866909 #4533] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:19:14.867368 #4533] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:19:14.867791 #4533] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:19:14.868203 #4533] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:19:14.868607 #4533] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:19:17.874784 #4533] DEBUG -- : sweep begin
+D, [2005-02-11T23:19:18.063145 #4533] DEBUG -- : refresh in 44 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:19:18.064332 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:19:18.065898 #4533] DEBUG -- : sweep end
+D, [2005-02-11T23:20:02.075766 #4533] DEBUG -- : sweep begin
+D, [2005-02-11T23:20:02.076536 #4533] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:20:02.265485 #4533] DEBUG -- : refresh in 3 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:20:02.266986 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:20:02.268564 #4533] DEBUG -- : sweep end
+D, [2005-02-11T23:20:02.269468 #4533] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:20:02.272502 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:20:02.273001 #4533] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:20:02.273617 #4533] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:20:02.274068 #4533] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:20:02.274494 #4533] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:20:02.274910 #4533] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:20:02.275320 #4533] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:20:05.281554 #4533] DEBUG -- : sweep begin
+D, [2005-02-11T23:20:05.470175 #4533] DEBUG -- : refresh in 45 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:20:05.471447 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:20:05.473033 #4533] DEBUG -- : sweep end
+D, [2005-02-11T23:20:50.482923 #4533] DEBUG -- : sweep begin
+D, [2005-02-11T23:20:50.483694 #4533] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:20:50.726310 #4533] DEBUG -- : refresh in 3 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:20:50.727829 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:20:50.729438 #4533] DEBUG -- : sweep end
+D, [2005-02-11T23:20:50.730303 #4533] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:20:50.733330 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:20:50.733834 #4533] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:20:50.734454 #4533] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:20:50.734912 #4533] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:20:50.735342 #4533] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:20:50.735755 #4533] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:20:50.736168 #4533] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:20:53.742374 #4533] DEBUG -- : sweep begin
+D, [2005-02-11T23:20:53.933771 #4533] DEBUG -- : refresh in 45 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:20:53.935018 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:20:53.936611 #4533] DEBUG -- : sweep end
+D, [2005-02-11T23:21:38.946450 #4533] DEBUG -- : sweep begin
+D, [2005-02-11T23:21:38.947236 #4533] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:21:39.184489 #4533] DEBUG -- : refresh in 2 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:21:39.186053 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:21:39.187657 #4533] DEBUG -- : sweep end
+D, [2005-02-11T23:21:39.188529 #4533] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:21:39.191577 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:21:39.192090 #4533] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:21:39.192717 #4533] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:21:39.193178 #4533] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:21:39.193612 #4533] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:21:39.194046 #4533] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:21:39.194440 #4533] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:21:41.200698 #4533] DEBUG -- : sweep begin
+D, [2005-02-11T23:21:41.388309 #4533] DEBUG -- : refresh in 46 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:21:41.389573 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:21:41.391132 #4533] DEBUG -- : sweep end
+D, [2005-02-11T23:22:27.400941 #4533] DEBUG -- : sweep begin
+D, [2005-02-11T23:22:27.401744 #4533] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:22:27.591363 #4533] DEBUG -- : refresh in 3 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:22:27.592885 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:22:27.594467 #4533] DEBUG -- : sweep end
+D, [2005-02-11T23:22:27.595332 #4533] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:22:27.598395 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:22:27.599006 #4533] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:22:27.599650 #4533] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:22:27.600110 #4533] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:22:27.600575 #4533] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:22:27.601048 #4533] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:22:27.601460 #4533] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:22:30.607418 #4533] DEBUG -- : sweep begin
+D, [2005-02-11T23:22:30.795313 #4533] DEBUG -- : refresh in 45 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:22:30.796581 #4533] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:22:30.798146 #4533] DEBUG -- : sweep end
+D, [2005-02-11T23:22:34.112404 #4533] DEBUG -- : query q?ensemble.local/IN::A(0) - stop
+D, [2005-02-11T23:22:34.113477 #4533] DEBUG -- : query q?_daap._tcp.local/IN::ANY(0) - stop
+D, [2005-02-11T23:22:34.114300 #4533] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - stop
+D, [2005-02-11T23:22:34.115138 #4533] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - stop
+D, [2005-02-11T23:22:34.115961 #4533] DEBUG -- : query q?_http._tcp.local/IN::PTR(0) - stop
+net/dns/v2mdns.rb:572:in `join': Interrupt
+	from net/dns/v2mdns.rb:572
+D, [2005-02-11T23:22:40.277465 #4541] DEBUG -- : start
+D, [2005-02-11T23:22:42.009487 #4541] DEBUG -- : sweep begin
+D, [2005-02-11T23:22:42.197755 #4541] DEBUG -- : refresh in 0 sec for nil
+D, [2005-02-11T23:22:42.200126 #4541] DEBUG -- : sweep end
+D, [2005-02-11T23:22:42.201297 #4541] DEBUG -- : query q?_http._tcp.local/IN::PTR(0) - start asked?=n answers#=0
+D, [2005-02-11T23:22:42.387392 #4541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:22:42.390804 #4541] DEBUG -- : sweep begin
+D, [2005-02-11T23:22:42.578299 #4541] DEBUG -- : refresh in 0 sec for nil
+D, [2005-02-11T23:22:42.578713 #4541] DEBUG -- : sweep end
+D, [2005-02-11T23:22:42.579904 #4541] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - start asked?=n answers#=0
+D, [2005-02-11T23:22:42.778518 #4541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:22:42.781249 #4541] DEBUG -- : ++ q _http._tcp.local/IN::PTR
+D, [2005-02-11T23:22:42.782209 #4541] DEBUG -- : sweep begin
+D, [2005-02-11T23:22:42.969569 #4541] DEBUG -- : refresh in 0 sec for nil
+D, [2005-02-11T23:22:42.969985 #4541] DEBUG -- : sweep end
+D, [2005-02-11T23:22:42.978916 #4541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:22:42.981180 #4541] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR Sam Roberts' Web Site._http._tcp.local
+D, [2005-02-11T23:22:42.981774 #4541] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR Julie Lebel's Web Site._http._tcp.local
+D, [2005-02-11T23:22:42.983706 #4541] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR guest's Web Site._http._tcp.local
+D, [2005-02-11T23:22:42.984478 #4541] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR ensemble._http._tcp.local
+D, [2005-02-11T23:22:42.985473 #4541] DEBUG -- : push 4 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:22:42.987964 #4541] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:22:42.990318 #4541] DEBUG -- : sweep begin
+D, [2005-02-11T23:22:43.180807 #4541] DEBUG -- : refresh in 5759 sec for _http._tcp.local (7200) ->  PTR Sam Roberts' Web Site._http._tcp.local
+D, [2005-02-11T23:22:43.183091 #4541] DEBUG -- : sweep end
+D, [2005-02-11T23:22:46.791610 #4541] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - start asked?=n answers#=0
+D, [2005-02-11T23:22:46.980377 #4541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:22:46.983846 #4541] DEBUG -- : query q?_daap._tcp.local/IN::ANY(0) - start asked?=n answers#=0
+D, [2005-02-11T23:22:47.172824 #4541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:22:47.175855 #4541] DEBUG -- : ++ q _ftp._tcp.local/IN::ANY
+D, [2005-02-11T23:22:47.176973 #4541] DEBUG -- : query q?ensemble.local/IN::A(0) - start asked?=n answers#=0
+D, [2005-02-11T23:22:47.420524 #4541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:22:47.423885 #4541] DEBUG -- : ++ a _ftp._tcp.local (7200) ->  PTR ensemble._ftp._tcp.local
+D, [2005-02-11T23:22:47.424681 #4541] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:22:47.425281 #4541] DEBUG -- : push 1 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:22:47.427971 #4541] DEBUG -- : push 1 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:22:47.432066 #4541] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:22:47.460765 #4541] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:22:47.464686 #4541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:22:47.467242 #4541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:22:47.473344 #4541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:22:47.476399 #4541] DEBUG -- : ++ q _ftp._tcp.local/IN::ANY
+D, [2005-02-11T23:22:47.481861 #4541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:22:47.482526 #4541] DEBUG -- : ++ a _ftp._tcp.local (7200) ->  PTR ensemble._ftp._tcp.local
+D, [2005-02-11T23:22:47.483379 #4541] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:22:47.483923 #4541] DEBUG -- : push 1 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:22:47.485852 #4541] DEBUG -- : push 1 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:22:47.491266 #4541] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:22:47.494881 #4541] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:22:47.499727 #4541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:22:47.502198 #4541] DEBUG -- : ++ q _daap._tcp.local/IN::ANY
+D, [2005-02-11T23:22:47.510116 #4541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:22:47.513171 #4541] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:22:47.515137 #4541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:22:47.515740 #4541] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:22:47.516591 #4541] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:22:47.519029 #4541] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:22:47.519577 #4541] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:22:47.519997 #4541] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:22:47.520405 #4541] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:22:47.522382 #4541] DEBUG -- : sweep begin
+D, [2005-02-11T23:22:47.712319 #4541] DEBUG -- : refresh in 48 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:22:47.715577 #4541] DEBUG -- : sweep end
+D, [2005-02-11T23:22:47.718453 #4541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:23:35.728099 #4541] DEBUG -- : sweep begin
+D, [2005-02-11T23:23:35.728943 #4541] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:23:35.913933 #4541] DEBUG -- : refresh in 3 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:23:35.915458 #4541] DEBUG -- : sweep end
+D, [2005-02-11T23:23:35.916714 #4541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:23:35.917979 #4541] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:23:35.919346 #4541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:23:35.919823 #4541] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:23:35.920406 #4541] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:23:35.920844 #4541] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:23:35.921253 #4541] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:23:35.921654 #4541] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:23:35.922036 #4541] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:23:38.927881 #4541] DEBUG -- : sweep begin
+D, [2005-02-11T23:23:39.117143 #4541] DEBUG -- : refresh in 44 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:23:39.118645 #4541] DEBUG -- : sweep end
+D, [2005-02-11T23:23:39.119694 #4541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:24:23.129326 #4541] DEBUG -- : sweep begin
+D, [2005-02-11T23:24:23.130174 #4541] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:24:23.372694 #4541] DEBUG -- : refresh in 3 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:24:23.374273 #4541] DEBUG -- : sweep end
+D, [2005-02-11T23:24:23.375558 #4541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:24:23.376854 #4541] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:24:23.378173 #4541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:24:23.378648 #4541] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:24:23.379229 #4541] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:24:23.379667 #4541] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:24:23.380081 #4541] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:24:23.380481 #4541] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:24:23.380860 #4541] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:24:26.386877 #4541] DEBUG -- : sweep begin
+D, [2005-02-11T23:24:26.599234 #4541] DEBUG -- : refresh in 45 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:24:26.601744 #4541] DEBUG -- : sweep end
+D, [2005-02-11T23:24:26.603150 #4541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
