@@ -1,21 +1,19 @@
 TODO
 
-Release: 0.0  "proof of concept" - done
+Release: 0.0  "seeing if its possible" - done
 
 
-Release: 0.1  "make it work"
+Release: 0.1  "making it work"
 
-
-- document
-
-- package
+- implement flags, particularly add/remove flags
 
 - make mdns.rb work with DNSSD (it is using r.ttl!)
 
-- try the Resolv::MDNS examples
+- package
 
 
-Release: 0.2  "do the right thing"
+
+Release: 0.2  "doing the right thing"
 
 - remove the use of absolute in name comparisons, I have had one too many bug
   involving this, I don't care if Tanaka thinks its not correct
@@ -25,8 +23,6 @@ Release: 0.2  "do the right thing"
 - reverse lookups of names by addresses using mDNS, see notes in #generate_candidates
 
 - correctly encode a nil in a text_record, and allow "key" w/no value for mdns.rb -R
-
-- implement flags, particularly add/remove flags
 
 - don't register a service that already exists
 
@@ -45,7 +41,11 @@ Release: 0.2  "do the right thing"
 
 - implement a MDNSSD api for DNSServiceQueryRecord, and mdns.rb -Q
 
-Release: 0.3  "make it pretty"
+
+
+Release: 0.3  "making it pretty"
+
+- define constants in module MDNSSD::Types  like Http = '_http._tcp', ...?
 
 - mdns.rb -K, watch for records and immediately register replacements pointing
   to somewhere else
@@ -82,13 +82,9 @@ dns-sd test mode results:
 
 
 
+Open resolv.rb issues:
 
-Open design issues:
-
-- how to get the local ifx ipv4 address?
-
-- Net classes that do socksetopts, so you don't have to pack the structs
-  yourself! or maybe implement the 8 functions of Stevens?
+- push diffs back to ruby-core
 
 - Reverse DNS lookups are done by sock.recv, seems like its a problem for a
   DNS library...
@@ -101,6 +97,17 @@ Open design issues:
   is very weird that resolv.rb does ad socket.recv that causes (blocking) DNS
   queries to occure for its peer IP address...
 
-    Related: run ga using -r resolv-replace, see if ruby does the CNAME thing...
+- Resolv::Hosts returns IPv6 addresses before IPv4, so Resolv.getaddress('localhost')
+  is ::1 on my system - this is not good.
 
+- Resolv.getaddresses accepts a domain name, a string that looks like an IP addr (yielded
+  directly), but dies when it gets a Fixnum, which is a valid IP address for Socket calls.
+
+
+Open design issues:
+
+- how to get the local ifx ipv4 address?
+
+- Net classes that do socksetopts, so you don't have to pack the structs
+  yourself! or maybe implement the 8 functions of Stevens?
 
