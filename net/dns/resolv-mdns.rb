@@ -25,13 +25,19 @@ class Resolv
   # resolved.  When doing this, you may also consider doing:
   #
   #   require 'net/dns/resolv-mdns'
-  #   require 'resolv-replace'
+  #   require 'net/dns/resolv-replace'
   #
   # This has the effect of replacing the default ruby implementation of address
   # lookup using the C library in IPSocket, TCPSocket, UDPSocket, and
   # SOCKSocket with Resolv.getaddress. Since 'net/dns/resolv-mdns' has been
   # required Resolv.getaddress and the standard libraries TCP/IP classes will
-  # use mDNS for name lookups in the .local mDNS domain.
+  # use mDNS for name lookups in the .local mDNS domain, without even knowing
+  # it themselves.
+  #
+  # NOTE: the version of resolv.rb and resolv-replace.rb in net-mdns are based
+  # on the head of ruby 1.8.x cvs + bug fixes required by net-mdns and not
+  # present in the cvs. They must be used in place of the standard library's
+  # resolv implementation!
   #
   # == Service Discovery (DNS-SD)
   #
