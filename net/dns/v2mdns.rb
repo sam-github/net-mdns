@@ -322,7 +322,11 @@ module Net
 
           loop do
 
-            sleep(delay)
+            if delay > 0
+              sleep(delay)
+            else
+              sleep
+            end
 
             @mutex.synchronize do
               debug( "sweep begin" )
@@ -363,7 +367,7 @@ module Net
                 end
               end
 
-              send(questions)
+              send(questions) if questions.question.first
 
               @waketime = sweep.refresh if sweep
 
@@ -538,10 +542,6 @@ def print_answers(q,answers)
   end
 end
 
-Signal.trap('USR1') do
-  PP.pp( MDNS::Responder.instance.cache, $stderr )
-end
-
 =begin
 MDNS::BackgroundQuery.new('*') do |q, answers|
   print_answers(q, answers)
@@ -570,5 +570,9 @@ MDNS::BackgroundQuery.new('ensemble.local.', RR::A) do |q, answers|
   print_answers(q, answers)
 end
 
-MDNS::Responder.instance.thread.join
+Signal.trap('USR1') do
+  PP.pp( MDNS::Responder.instance.cache, $stderr )
+end
+
+sleep
 
