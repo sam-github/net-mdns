@@ -5,6 +5,7 @@ default: test
 .PHONY: doc
 doc:
 	 rdoc -S -o doc net/dns
+	 open doc/index.html &
 
 .PHONY: tags
 tags:
