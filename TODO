@@ -1,18 +1,12 @@
 TODO
 
-- dns-sd.rb command w/ same ifx as dns-sd, using both net/dns/mdns and dns-sd/port mdns.rb to dns-sd
-
 - deal with dots and spaces
-
-- deal with needing the TXT record before we can call it a service...
 
 - Query: don't report answers multiple times
 
 - Query: report start/stop
 
 - dns-sd -B: what are the flags?
-
-- DNSSD.browse() - can't tell difference between add and remove?
 
 - don't cache questions
 
