@@ -756,7 +756,7 @@ module Net
           @port = port.to_int
           @target = target.to_str
 
-          @txt = txt
+          @txt = txt || {}
           @ttl = 7200 # Arbitrary, but Apple seems to use this value.
           @priority = 0
           @weight = 0
