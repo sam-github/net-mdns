@@ -1171,7 +1171,7 @@ class Resolv
       end
 
       def add_answer(name, ttl, data, cacheflush = false)
-        @answer << [Name.create(name), ttl, data]
+        @answer << [Name.create(name), ttl, data, cacheflush]
       end
 
       # Can accept either |name, ttl, data| as block arguments
@@ -1226,14 +1226,14 @@ class Resolv
             @additional.length)
           @question.each {|q|
             name, typeclass, unicast = q
-            hibit = unicast ? 0x80 : 0x00
+            hibit = unicast ? (1<<15) : 0x00
             msg.put_name(name)
             msg.put_pack('nn', typeclass::TypeValue, typeclass::ClassValue|hibit)
           }
           [@answer, @authority, @additional].each {|rr|
             rr.each {|r|
               name, ttl, data, cacheflush = r
-              hibit = cacheflush ? 0x80 : 0x00
+              hibit = cacheflush ? (1<<15) : 0x00
               msg.put_name(name)
               msg.put_pack('nnN', data.class::TypeValue, data.class::ClassValue|hibit, ttl)
               msg.put_length16 {data.encode_rdata(msg)}
