@@ -23,45 +23,8 @@ end
 
 
 BasicSocket.do_not_reverse_lookup = true
-
-class Resolv
-  class DNS
-    class Message
-      # Shouldn't it yield ttl as well? maybe yield data, ttl - will ttl be optional for callers?
-      def extract_resources(name, typeclass)
-        msg = self
-        if typeclass < DNS::Resource::ANY
-          n0 = DNS::Name.create(name)
-          msg.each_answer {|n, ttl, data|
-            yield n, ttl, data if n0 == n
-          }
-        end
-        yielded = false
-        n0 = DNS::Name.create(name)
-        msg.each_answer {|n, ttl, data|
-          if n0 == n
-            case data
-            when typeclass
-              yield n, ttl, data
-              yielded = true
-            when DNS::Resource::CNAME
-              n0 = data.name
-            end
-          end
-        }
-        return if yielded
-        msg.each_answer {|n, ttl, data|
-          if n0 == n
-            case data
-            when typeclass
-              yield n, ttl, data
-            end
-          end
-        }
-      end
-    end
-  end
-end
+$stdout.sync = true
+$stderr.sync = true
 
 module Net
   module DNS
@@ -80,9 +43,21 @@ module Net
 
     module MDNS
 
-      Answer = Struct.new(:name, :ttl, :data)
-
       class Answer
+        # TOA - time of arrival (of an answer)
+        attr_reader :toa, :name, :ttl, :data
+
+        def initialize(name, ttl, data)
+          @name = name
+          @ttl = ttl
+          @data = data
+          @toa = Time.now
+        end
+
+        def type
+          data.class
+        end
+
         def inspect
           case data
           when RR::A
@@ -99,6 +74,43 @@ module Net
         end
       end
 
+      # TODO - Will need to synchronize access!!!
+      class Cache
+        # asked: Hash[Name] -> Hash[Resource] -> Time (that question was asked)
+        attr_reader :asked
+
+        # asked: Hash[Name] -> Hash[Resource] -> Array -> Answer (answers to value/resource)
+        attr_reader :cached
+
+        def initialize
+          @asked = Hash.new { |h,k| h[k] = Hash.new }
+
+          @cached = Hash.new { |h,k| h[k] = (Hash.new { |a,b| a[b] = Array.new }) }
+        end
+
+        def cache_question(name, type)
+          @asked[name][type] = Time.now
+        end
+
+        def cache_answer(answer)
+          # FIXME - don't duplicate answers, and flush answers if mdnsbit is set!
+          @cached[answer.name][answer.type] << answer
+        end
+
+        def answers_for(name, type)
+          @cached[name][type]
+        end
+
+        def asked?(name, type)
+          t = @asked[name][type] || @asked[name][RR::ANY]
+
+          # TODO - true if (Time.now - t) < some threshold...
+
+          t
+        end
+
+      end
+
       class Responder
         include Singleton
 
@@ -108,27 +120,52 @@ module Net
         UDPSize = 9000
 
         attr_reader :thread
+        attr_reader :cache
 
         def initialize
-          @queries = []
-
           @mutex = Mutex.new
 
-          @log = Logger.new(STDOUT)
+          @cache = Cache.new
+
+          @queries = []
+
+          @log = Logger.new(STDERR)
           @log.level = Logger::DEBUG
 
           @log.debug( "start" )
 
+          kINADDR_IFX = Socket.gethostbyname(Socket.gethostname)[3]
+
           @sock = UDPSocket.new
+
+          # TODO - do we need this?
           @sock.fcntl(Fcntl::F_SETFD, 1)
 
+          # Allow 5353 to be shared.
+          begin
+            @sock.setsockopt(Socket::SOL_SOCKET, 0x0200, 1)
+          rescue
+            @log.warn( "set SO_REUSEPORT raised #{$!}, try SO_REUSEADDR" )
+            @sock.setsockopt(Socket::SOL_SOCKET,Socket::SO_REUSEADDR, 1)
+          end
+
+          # Request dest addr and ifx ids... no.
+
           # Join the multicast group.
-          @sock.setsockopt(Socket::SOL_SOCKET,Socket::SO_REUSEADDR, 1)
-# TODO    #@sock.setsockopt(Socket::SOL_SOCKET,Socket::SO_REUSEPORT, 1)
-          @sock.bind(Addr, Port)
-          # make a struct ip_mreq { struct in_addr, struct in_addr }
-          ip_mreq =  IPAddr.new(Addr).hton + IPAddr.new("0.0.0.0").hton
+          #  option is a struct ip_mreq { struct in_addr, struct in_addr }
+          ip_mreq =  IPAddr.new(Addr).hton + kINADDR_IFX
           @sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_ADD_MEMBERSHIP, ip_mreq)
+          @sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_MULTICAST_IF, kINADDR_IFX)
+
+          # Set IP TTL for outgoing packets.
+          # @sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_TTL, 255)
+
+          # @sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_MULTICAST_TTL, 255 as int)
+          #  - or -
+          # @sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_MULTICAST_TTL, 255 as byte)
+
+          # Bind to our port.
+          @sock.bind(Socket::INADDR_ANY, Port)
 
           @thread = Thread.new do
             responder_loop
@@ -137,26 +174,39 @@ module Net
 
         def responder_loop
           loop do
-            # TODO - does io need to be synchronized?
+            # from is [ AF_INET, port, name, addr ]
             reply, from = @sock.recvfrom(UDPSize)
-
-            @log.debug( "recv from=#{from.inspect} len=#{reply.length}" )
 
             begin
               msg =  Message.decode(reply)
 
-              next if msg.qr == 0
+              @log.debug( "from #{from[3]}:#{from[1]} -> qr=#{msg.qr} qcnt=#{msg.question.size} acnt=#{msg.answer.size}" )
 
-              @log.debug( 'received answers:' )
 
-              msg.each_answer do |n, ttl, data|
-                @log.debug( "++  #{ Answer.new(n, ttl, data).inspect }" )
+              # When we see a QM:
+              #  - record the question as asked
+              #  - flush any answers we have?
+              if( msg.query? )
+                msg.each_question do |name, type|
+                  # Skip QUs
+                  next if (type::ClassValue >> 15) == 1
+                  @cache.cache_question(name, type)
+                  @log.debug( "cache - add q #{name.inspect}/#{type.to_s} from net" )
+                end
+
+                next
               end
 
+              # Cache answers
+              msg.each_answer do |n, ttl, data|
+                a = Answer.new(n, ttl, data)
+                @cache.cache_answer(a)
+                @log.debug( "++  #{ a.inspect }" )
+              end
 
               @mutex.synchronize do
                 
-                @log.debug( "active queries=#{@queries.length}" )
+#               @log.debug( "active queries=#{@queries.length}" )
 
                 @queries.each do |q|
                   answers = []
@@ -167,7 +217,7 @@ module Net
                     msg.extract_resources(q.name, q.type) { |n, ttl, data| answers.push [n, ttl, data] }
                   end
 
-                  @log.debug( "query: #{q.name.inspect}:#{q.type} is pushed #{answers.length}" )
+                  @log.debug( "push #{answers.length} to #{q.inspect}" )
 
                   if( answers.first )
                     q.queue.push(answers.map { |a| Answer.new(*a) } )
@@ -193,24 +243,38 @@ module Net
 
 
 
+        # '*' is a pseudo-query, it will match any Answers, but can't be used
+        # to send a Query.
+        #
+        # Cached answers will be pushed right away.
+        #
+        # Query will be sent to the net if it hasn't already been asked.
+        #
+        # TODO - try to send with "unicast response" bit set.
         def start(query)
           @mutex.synchronize do
             begin
               # TODO - return cached responses
               @queries << query
 
-              # '*' is a pseudo-query, it will match any Answers, but can't be used
-              # to send a Query.
               if( query.name.to_s != '*' )
-                #             pp query
-                qmsg = Message.new
-                qmsg.rd = 0
-                qmsg.add_question(query.name, query.type)
-                #             pp qmsg
-                send(qmsg)
+                asked = @cache.asked?(query.name, query.type)
+                answers = @cache.answers_for(query.name, query.type)
+
+                @log.debug( "query #{query.inspect} - start asked?=#{asked ? "y" : "n"} answers#=#{answers.size}" )
+               
+                unless asked
+                  qmsg = Message.new
+                  qmsg.rd = 0
+                  qmsg.add_question(query.name, query.type)
+                  
+                  send(qmsg)
+                end
+
+                query.push answers if answers.first
               end
             rescue
-              @log.warn( "start failed: #{$!}" )
+              @log.warn( "query #{query.inspect} - start failed: #{$!}" )
               @queries.delete(query)
               raise
             end
@@ -219,7 +283,7 @@ module Net
 
         def stop(query)
           @mutex.synchronize do
-            @log.debug( "stop query: #{query.inspect}" )
+            @log.debug( "query #{query.inspect} - stop" )
             @queries.delete(query)
           end
         end
@@ -227,8 +291,25 @@ module Net
       end # Responder
 
 
+      # TODO - three kinds of Query
+      #  - one is just a handle around a Queue, you have to call #pop
+      #    to get answers
+      #  - derived is one that calls proc in current thread
+      #  - also derived is one that calls proc in new thread, like DNS-SD?
       class Query
         attr_reader :name, :type, :queue
+
+        def push(*args)
+          queue.push(*args)
+        end
+
+        def to_s
+          "q?#{name}/#{type.to_s.gsub(/Resolv::DNS::Resource::/, '')}"
+        end
+
+        def inspect
+          to_s + "(#{queue.length})"
+        end
 
         def initialize(name, type = RR::ANY, &proc)
           @name = Name.create(name)
@@ -274,6 +355,8 @@ def print_answers(q,answers)
     puts "query #{q.name}/#{q.type} got #{answers.length} answers:"
     answers.each do |a|
       case a.data
+      when RR::A
+        puts "  #{a.name} -> A   #{a.data.address.to_s}"
       when Net::DNS::RR::PTR
         puts "  #{a.name} -> PTR #{a.data.name}"
       when Net::DNS::RR::SRV
@@ -288,13 +371,28 @@ def print_answers(q,answers)
   end
 end
 
+=begin
 Net::DNS::MDNS::Query.new('*') do |q, answers|
   print_answers(q, answers)
 end
-
-# FIXME - I don't get my queries answered!
+=end
 
 Net::DNS::MDNS::Query.new('_http._tcp.local.', Resolv::DNS::Resource::IN::ANY) do |q, answers|
+  print_answers(q, answers)
+end
+
+
+Net::DNS::MDNS::Query.new('_ftp._tcp.local.', Resolv::DNS::Resource::IN::ANY) do |q, answers|
+  print_answers(q, answers)
+end
+
+sleep 10
+
+Net::DNS::MDNS::Query.new('_ftp._tcp.local.', Resolv::DNS::Resource::IN::ANY) do |q, answers|
+  print_answers(q, answers)
+end
+
+Net::DNS::MDNS::Query.new('_daap._tcp.local.', Resolv::DNS::Resource::IN::ANY) do |q, answers|
   print_answers(q, answers)
 end
 
