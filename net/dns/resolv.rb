@@ -1,3 +1,6 @@
+# resolv.rb is copied from the ruby library, where it is maintained
+# by Tanaka Akira.
+
 =begin
 = resolv library
 resolv.rb is a resolver library written in Ruby.
@@ -992,7 +995,7 @@ class Resolv
       end
       alias eql? ==
 
-      # tests subdomain-of relation.
+      # Tests subdomain-of relation.
       #
       #   domain = Resolv::DNS::Name.create("y.z")
       #   p Resolv::DNS::Name.create("w.x.y.z").subdomain_of?(domain) #=> true
@@ -1026,7 +1029,7 @@ class Resolv
         return @labels[i]
       end
 
-      # returns the domain name as a string.
+      # Returns the domain name as a string.
       #
       # The domain name doesn't have a trailing dot even if the name object is
       # absolute.
@@ -1075,13 +1078,15 @@ class Resolv
                @additional == other.additional
       end
 
-      def add_question(name, typeclass)
-        @question << [Name.create(name), typeclass]
+      def add_question(name, typeclass, unicast = false)
+        @question << [Name.create(name), typeclass, unicast]
       end
 
-      def each_question
-        @question.each {|name, typeclass|
-          yield name, typeclass
+      # Target proc can accept either +name, typeclass+ as block arguments
+      # (DNS-style), or +name, typeclass, unicast+ (mDNS-style).
+      def each_question # :yields: name, typeclass, unicast
+        @question.each { |ary|
+          yield ary
         }
       end
 
@@ -1228,8 +1233,8 @@ class Resolv
           o.ra = (flag >> 7) & 1
           o.rcode = flag & 15
           (1..qdcount).each {
-            name, typeclass = msg.get_question
-            o.add_question(name, typeclass)
+            name, typeclass, unicast = msg.get_question
+            o.add_question(name, typeclass, unicast)
           }
           (1..ancount).each {
             name, ttl, data = msg.get_rr
@@ -1348,18 +1353,8 @@ class Resolv
           name = self.get_name
           type, klass = self.get_unpack("nn")
           typeclass = Resource.get_class(type, klass % 0x8000)
-          data = self.get_length16 {typeclass.decode_rdata(self)}
-          if (klass >> 15) == 1
-            def data.cacheflush?
-              true
-            end
-          else
-            def data.cacheflush?
-              false
-            end
-          end
-          return name, ttl, data
-          return name, typeclass
+          unicast = (klass >> 15) == 1
+          return name, typeclass, unicast
         end
 
         def get_rr
