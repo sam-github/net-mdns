@@ -710,8 +710,9 @@ module Net
             rescue
               # This is noisy, but better than silent failure. If you don't want
               # me to print your exceptions, make sure they don't get out of your
-              # Proc!
+              # block!
               $stderr.puts "query #{self} yield raised #{$!}"
+              $!.backtrace.each do |e| $stderr.puts(e) end
             ensure
               Responder.instance.query_stop(self)
             end
