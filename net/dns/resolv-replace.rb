@@ -1,5 +1,6 @@
-# resolv-replace.rb is copied from the ruby library, where it is maintained by Tanaka
-# Akira. See net/dns/resolv.rb for more information.
+# net/dns/resolv-replace.rb is a copy of resolv-replace.rb from the ruby
+# library, where it is maintained by Tanaka Akira. See net/dns/resolv.rb for
+# more information.
 require 'socket'
 require 'net/dns/resolv'
 

@@ -19,27 +19,28 @@
 # - TXT.new: correctly deal with TXT records longer than 255 characters.
 # - TXT#data: correctly concatenate strings into a TXT record longer than 255 characters.
 # - Message#encode/Message#decode: question and answer arrays now contain the
-#   mDNS unicast and cacheflush bit, respectively. #each_question and
-#   #each_answer are backwards compatible.
+#   mDNS unicast and cacheflush bit, respectively. All APIs, including
+#   #each_question and #each_answer, are backwards compatible.
 # - A.new(A#address) failed because IPv4.create() wouldn't accept an address in the
 #   form of A#address (4 bytes in network byte order).
 #
 # = Ease-of-use changes
 #
-# - began rdocs
-# - Str#inspect: difficult to notice whitespace at beginning of string, use String#inspect
-# - Name#==: allow comparison to String or Name, similar to Name#create.
-# - Name#subdomain_of?: allow comparison to String or Name, similar to Name#create.
+# - partial rdocifying
+# - Str#inspect: difficult to notice whitespace at beginning of string, added quotes.
+# - Name#==: allow arg to be String or Name, as does Name#create.
+# - Name#subdomain_of?: allow arg to be String or Name, as does Name#create.
 # - Name#subdomain_of?: disregard absolute, it doesn't make sense that:
-#     www.example.com subdomain_of? www.example.com  => true
 #     www.example.com subdomain_of? www.example.com. => false
+#     www.example.com subdomain_of? www.example.com  => true
+#   If you can't compare a variable thing to a known thing.. how can you compare a
+#   variable thing to a variable thing?
 #
 # I had a lot of bugs using Name comparison related to trailing dots. Name#==
 # is almost impossible to use correctly when comparing against an other which
 # is a Name or a String, and may have come from a DNS Message (in which case it
 # will be absolute), or from input from a user, in which case they probably did
-# not type the trailing dot.  These changes and the APIs in resolvx.rb helped,
-# and I think they are correct.
+# not type the trailing dot.
 
 =begin
 = resolv library
