@@ -1186,7 +1186,7 @@ class Resolv
         end
 
         def put_string(d)
-          raise ArgumentError, "BUG - fails if d.length is greater than 255"
+          raise ArgumentError, "BUG - fails if d.length is greater than 255" if d.length > 255
           self.put_pack("C", d.length)
           @data << d
         end
