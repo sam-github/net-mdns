@@ -1,4 +1,6 @@
 #!/usr/local/bin/ruby18 -w
+# Author: Sam Roberts <sroberts@uniserve.com>
+# Licence: this file is placed in the public domain
 
 $:.unshift(File.dirname($0))
 

@@ -1,14 +1,21 @@
-Installation
+net-mdns - DNS-SD and mDNS implementation for Ruby
 
-The standard way, with the setupt.rb script.
+Installation:
 
-See:
+The standard way, with the setup.rb script:
 
   ruby setup.rb --help
+  ruby setup.rb all
 
-or
+Documentation:
 
-  # ruby setupt.rb all (may require root privilege)
+  http://dnssd.rubyforge.org/net-mdns
 
-See http://dnssd.rubyforge.org/net-mdns for more information.
+Author:
+
+  Sam Roberts <sroberts@uniserve.com>
+
+Licence:
+
+Ruby's, see COPYING.
 

@@ -3,14 +3,18 @@
 default:
 	ruby18 -c net/dns/v2mdns.rb
 
+SAMPLES=mdns.rb exhttp.rb exhttpv1.rb v1mdns.rb v1demo.rb
+
 .PHONY: doc
 doc:
-	 rdoc18 -S -o doc net/dns/*.rb
-	 open doc/index.html &
+	 rdoc18 -S -o doc net
 	 cp TODO doc/TODO
-	 cp mdns.rb doc/mdns.txt
-	 cp v1mdns.rb doc/v1mdns.txt
-	 cp v1demo.rb doc/v1demo.txt
+	 for s in $(SAMPLES); do cp $$s doc/`basename $$s .rb`.txt; done
+	 chmod u=rw doc/*.txt
+	 chmod go=r doc/*.txt
+	 mkdir -p ~/Sites/net-mdns/
+	 cp -r doc/* ~/Sites/net-mdns/
+	 open doc/index.html
 
 doc-upload:
 	cd doc; scp -r . sam@rubyforge.org:/var/www/gforge-projects/dnssd/net-mdns
@@ -38,23 +42,28 @@ ri:
 open:
 	open doc/index.html
 
-V=0.0
-P=mdns-$V
+V=0.1
+P=net-mdns-$V
 R=releases/$P
 
-release: doc pkg
+release: stamp doc pkg
 
 install:
-	for r in /usr/bin/ruby /opt/local/bin/ruby ruby18; do (cd $R; sudo $$r setup.rb); done
+	for r in /usr/bin/ruby /opt/local/bin/ruby ruby18; do (cd $R; $$r install.rb config; sudo $$r install.rb install); done
+
+stamp:
+	ruby -pi~ -e '$$_.gsub!(/ 0\.\d+(bis|[a-z])?/, " $V")' net/dns/mdns.rb
 
 pkg:
-	rm -rf $R/
-	mkdir -p releases
-	mkdir -p $R/samples
-	mkdir -p $R/lib/net/dns
-	cp setup.rb $R/
+	rm -rf                 $R/
+	mkdir -p               releases
+	mkdir -p               $R/samples
+	mkdir -p               $R/lib/net/dns
+	cp setup.rb            $R/
+	cp COPYING README TODO $R/
 	cp net/dns/*.rb        $R/lib/net/dns/
-	cp mdns.rb             $R/samples
-	cp mdns_demo.rb        $R/samples
+	cp net/*.rb            $R/lib/net/
+	cp $(SAMPLES)          $R/samples
+	cp test_dns.rb         $R/samples
 	cd releases && tar -zcf $P.tgz $P
 
