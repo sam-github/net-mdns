@@ -18,8 +18,6 @@ TODO
 
 - merge 1.8-resolv.rb diffs into net/dns/resolv.rb
 
-- apis similar to public apis of dns-sd
-
 - reintegrate into resolver
 
 - release 0.2
@@ -32,6 +30,11 @@ Should do:
 - answer unicast questions
 
 - DNS packet dumper
+
+- move hierarchal DNS Name comparison operators to an optional file.
+
+- make resolv.rb ignore absolute? in comparison, and accept String or Name
+  as args
 
 
 Cleanups (mdns):
