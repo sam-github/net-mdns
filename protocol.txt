@@ -1,0 +1,29 @@
+D, [2005-02-09T23:46:15.386455 #3483] DEBUG -- : start
+D, [2005-02-09T23:46:17.136203 #3483] DEBUG -- : query q?_http._tcp.local/IN::PTR(0) - start asked?=n answers#=0
+D, [2005-02-09T23:46:17.327917 #3483] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-09T23:46:17.329224 #3483] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - start asked?=n answers#=0
+D, [2005-02-09T23:46:17.331112 #3483] DEBUG -- : ++ q _http._tcp.local/IN::PTR
+D, [2005-02-09T23:46:17.531195 #3483] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-09T23:46:17.534181 #3483] DEBUG -- : cache - sleep 5760 to next Thu Feb 10 01:22:17 EST 2005
+D, [2005-02-09T23:46:17.534725 #3483] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR Sam Roberts' Web Site._http._tcp.local
+D, [2005-02-09T23:46:17.535477 #3483] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR Julie Lebel's Web Site._http._tcp.local
+D, [2005-02-09T23:46:17.536230 #3483] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR guest's Web Site._http._tcp.local
+D, [2005-02-09T23:46:17.537046 #3483] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR ensemble._http._tcp.local
+D, [2005-02-09T23:46:17.537674 #3483] DEBUG -- : push 4 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-09T23:46:17.540164 #3483] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-09T23:46:17.544070 #3483] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-09T23:46:17.546744 #3483] DEBUG -- : ++ q _ftp._tcp.local/IN::ANY
+D, [2005-02-09T23:46:17.602974 #3483] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-09T23:46:17.603853 #3483] DEBUG -- : ++ a _ftp._tcp.local (7200) ->  PTR ensemble._ftp._tcp.local
+D, [2005-02-09T23:46:17.604391 #3483] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-09T23:46:17.604929 #3483] DEBUG -- : push 1 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-09T23:46:21.523731 #3483] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - start asked?=y answers#=1
+D, [2005-02-09T23:46:21.526182 #3483] DEBUG -- : query q?_daap._tcp.local/IN::ANY(0) - start asked?=n answers#=0
+D, [2005-02-09T23:46:21.719992 #3483] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-09T23:46:21.722211 #3483] DEBUG -- : ++ q _daap._tcp.local/IN::ANY
+D, [2005-02-09T23:47:29.281023 #3483] DEBUG -- : query q?_daap._tcp.local/IN::ANY(0) - stop
+D, [2005-02-09T23:47:29.282032 #3483] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - stop
+D, [2005-02-09T23:47:29.282860 #3483] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - stop
+D, [2005-02-09T23:47:29.283677 #3483] DEBUG -- : query q?_http._tcp.local/IN::PTR(0) - stop
+net/dns/v2mdns.rb:543:in `join': Interrupt
+	from net/dns/v2mdns.rb:543
