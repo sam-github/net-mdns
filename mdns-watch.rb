@@ -86,11 +86,12 @@ loop do
 
   msg = Resolv::DNS::Message.decode(reply)
 
-  qr = msg.qr==0 ? 'Query' : 'Resp'
+  qr = msg.qr==0 ? 'Q' : 'R'
+  qrstr = msg.qr==0 ? 'Query' : 'Resp'
 
   opcode = { 0=>'QUERY', 1=>'IQUERY', 2=>'STATUS'}[msg.opcode]
 
-  puts "id #{msg.id} qr #{qr} opcode #{opcode} aa #{msg.aa} tc #{msg.tc} rd #{msg.rd} ra #{msg.ra} rcode #{msg.rcode}"
+  puts "#{qrstr}: id #{msg.id} qr #{qr} opcode #{opcode} aa #{msg.aa} tc #{msg.tc} rd #{msg.rd} ra #{msg.ra} rcode #{msg.rcode}"
 
   msg.question.each do |name, type, unicast|
     puts "qu #{Net::DNS.rrname type} #{name.to_s.inspect} unicast=#{unicast}"
