@@ -1,9 +1,5 @@
 TODO
 
-- rename mdns.rb net/dns/multicast.rb
-
-- fix/extend label comparisons, look at Module# <, <=, etc., it is like DNS
-
 - document
 
 - mdns.rb user interface: search for multiple paths, move 'type' to a -t arg
@@ -63,7 +59,23 @@ Projects:
 
 Open design issues
 
- - namespace to put MDNS into
+ - case equality?
+
+
+      #  call-seq:
+      #     name === obj    => true or false
+      #  
+      #  Case Equality---Returns <code>true</code> if <i>anObject</i> is an
+      #  instance of +name+ or one of +name+'s descendents. Of
+      #  limited use for modules, but can be used in <code>case</code>
+      #  statements to classify objects by class.
+
+   or maybe when '*.example.com'...
+
+
+ - rename mdns.rb net/dns/multicast.rb?
+
+ - namespace to put MDNS into?
 
  - get MDNS from Resolv's defaults
 
