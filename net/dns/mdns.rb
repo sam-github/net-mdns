@@ -11,13 +11,13 @@ require 'net/dns/resolvx'
 
 class Resolv
   #:main:Resolv::MDNS
-  #:title:mDNS - link-local DNS and service discovery (aka "Rendezvous")
+  #:title:mDNS - multicast DNS and service discovery (aka "Rendezvous")
   #
   # Author::     Sam Roberts <sroberts@uniserve.com>
   # Copyright::  Copyright (C) 2005 Sam Roberts
   # License::    May be distributed under the same terms as Ruby
   # Version::    0.1
-  # Homepage::   http://???.rubyforge.org
+  # Homepage::   http://vpim.rubyforge.org/mdns
   #
   # == Summary
   # An extension to the standard 'resolv' resolver library that adds support
@@ -142,6 +142,13 @@ class Resolv
   # the Apple responder can be quite difficult, and requires a running daemon.
   # It also requires compiling the extension. If this turns out to be difficult
   # for you, as it has for me, Resolv::MDNS may be useful to you.
+  #
+  # == Samples
+  # 
+  # There are a few samples in the samples/ directory:
+  # - mdns.rb is useful for finding out as much as possible about services on .local
+  # - mdns_demo.rb is a sample provided by Ben Giddings, with better docs, showing
+  #   the call sequence he uses when resolving services. Thanks, Ben!
   # 
   # == TODO
   #
@@ -162,6 +169,8 @@ class Resolv
     Addr = "224.0.0.251"
     Port = 5353
     UDPSize = 9000
+    DefaultTimeout = 3
+
 
     # See Resolv::DNS#new.
     def initialize(config_info=nil)
@@ -181,6 +190,8 @@ class Resolv
         end
       }
     end
+
+    attr_reader :requestor # :nodoc:
 
     # See Resolv::DNS#getaddress.
     def getaddress(name)
@@ -279,8 +290,6 @@ class Resolv
       return candidates.select { |n| n <= 'local' || n <= '254.169.in-addr.arpa' } .uniq
     end
 
-    DefaultTimeout = 5
-
     # See Resolv::DNS#eachresource.
     def each_resource(name, typeclass, &proc)
       lazy_initialize
@@ -299,17 +308,19 @@ class Resolv
           end
 
           sender.send
-          # TODO - resend the msg, in case it got lost? Don't know if UDP
-          # really can get lost on a local network.
 
           # We want all the answers we can get, within the timeout period.
           # TODO - we will ask the question for the next candidate, even if the
           # first candidate returned answers. Don't do that!
           begin
+#puts "timeout=#{DefaultTimeout}"
             timeout(DefaultTimeout) do
               loop do
+#pp sender
                 reply = reply_name = nil
                 reply, reply_name = q.pop
+#pp reply
+#pp reply_name
                 case reply.rcode
                   when DNS::RCode::NoError
                     extract_resources(reply, reply_name, typeclass, &proc)
@@ -366,6 +377,7 @@ class Resolv
         super()
         @sock = UDPSocket.new
         @sock.fcntl(Fcntl::F_SETFD, 1)
+#       @sock.bind(Addr, Port) # doesn't work if a mDNS daemon is running
         # TODO - why can't Message ensure it's ID's are unique?
         @id = {}
         @id.default = -1
