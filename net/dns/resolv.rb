@@ -1,11 +1,14 @@
-# resolv.rb is copied from the ruby library, where it is maintained
-# by Tanaka Akira. It contains modifications required by Net::DNS::MDNS,
-# some of which have been accepted into ruby 1.8's cvs, and the others I
-# hope will be accepted.
+# resolv.rb is copied from the ruby library, where it is maintained by Tanaka
+# Akira. It contains modifications required by Net::DNS::MDNS, some of which
+# have been accepted into ruby 1.8's cvs, and the other modifications I hope
+# will be accepted.
 #
-# Until this is accepted AND released in ruby 1.8.x, though, I still need a
-# copy of resolv.rb in net-mdns so that net-mdns can be used without needing to
-# install the head of the ruby 1.8 branch from CVS.
+# Until this resolv.rb is accepted AND released in ruby 1.8.x I still need a
+# copy in net-mdns. Without it, you would need to install ruby from CVS in
+# order to use net-mdns.
+#
+# == Changes
+# - fixed bu
 
 =begin
 = resolv library
@@ -117,6 +120,7 @@ DNS stub resolver.
     * Resolv::DNS::Resource::IN::A
     * Resolv::DNS::Resource::IN::WKS
     * Resolv::DNS::Resource::IN::PTR
+    * Resolv::DNS::Resource::IN::SRV
     * Resolv::DNS::Resource::IN::AAAA
 
     Lookupped resource is represented as an instance of (a subclass of)
@@ -286,6 +290,8 @@ class Resolv
   class ResolvTimeout < TimeoutError
   end
 
+  # Resolves names and addresses using the hosts file, "/etc/hosts" or
+  # whatever it is on Windows.
   class Hosts
     if /mswin32|cygwin|mingw|bccwin/ =~ RUBY_PLATFORM
       require 'win32/resolv'
@@ -375,7 +381,7 @@ class Resolv
     Port = 53
     UDPSize = 512
 
-    DNSThreadGroup = ThreadGroup.new
+    DNSThreadGroup = ThreadGroup.new # :nodoc:
 
     def self.open(*args)
       dns = new(*args)
@@ -533,7 +539,7 @@ class Resolv
       }
     end
 
-    class Requester
+    class Requester # :nodoc:
       def initialize
         @senders = {}
       end
@@ -561,7 +567,7 @@ class Resolv
         end
       end
 
-      class Sender
+      class Sender # :nodoc:
         def initialize(msg, data, sock, queue)
           @msg = msg
           @data = data
@@ -575,7 +581,7 @@ class Resolv
         end
       end
 
-      class UnconnectedUDP < Requester
+      class UnconnectedUDP < Requester # :nodoc:
         def initialize
           super()
           @sock = UDPSocket.new
@@ -612,7 +618,7 @@ class Resolv
             Sender.new(request, data, @sock, host, port, queue)
         end
 
-        class Sender < Requester::Sender
+        class Sender < Requester::Sender # :nodoc:
           def initialize(msg, data, sock, host, port, queue)
             super(msg, data, sock, queue)
             @host = host
@@ -625,7 +631,7 @@ class Resolv
         end
       end
 
-      class ConnectedUDP < Requester
+      class ConnectedUDP < Requester # :nodoc:
         def initialize(host, port=Port)
           super()
           @host = host
@@ -663,14 +669,14 @@ class Resolv
           return @senders[id] = Sender.new(request, data, @sock, queue)
         end
 
-        class Sender < Requester::Sender
+        class Sender < Requester::Sender # :nodoc:
           def send
             @sock.send(@msg, 0)
           end
         end
       end
 
-      class TCP < Requester
+      class TCP < Requester # :nodoc:
         def initialize(host, port=Port)
           super()
           @host = host
@@ -710,7 +716,7 @@ class Resolv
           return @senders[id] = Sender.new(request, data, @sock, queue)
         end
 
-        class Sender < Requester::Sender
+        class Sender < Requester::Sender # :nodoc:
           def send
             @sock.print(@msg)
             @sock.flush
@@ -722,6 +728,15 @@ class Resolv
       end
     end
 
+    # Encapsulates the resolver configuration information.
+    #
+    # +config_info+ can be nil, a String or a Hash:
+    #   - nil is the default, configuration is read from /etc/resolv.conf, or
+    #     from Win32::Resolv.get_resolv_info on Windows.
+    #   - String is used as the name of the config file to parse instead of
+    #     /etc/resolv.conf.
+    #   - Hash must map the :nameserver and/or :search symbol keys to a single
+    #     String or an array of String to use as the value of those config options.
     class Config
       def initialize(config_info=nil)
         @mutex = Mutex.new
@@ -729,7 +744,7 @@ class Resolv
         @initialized = nil
       end
 
-      def Config.parse_resolv_conf(filename)
+      def Config.parse_resolv_conf(filename) # :nodoc:
         nameserver = []
         search = nil
         ndots = 1
@@ -763,7 +778,7 @@ class Resolv
         return { :nameserver => nameserver, :search => search, :ndots => ndots }
       end
 
-      def Config.default_config_hash(filename="/etc/resolv.conf")
+      def Config.default_config_hash(filename="/etc/resolv.conf") # :nodoc:
         if File.exist? filename
           config_hash = Config.parse_resolv_conf(filename)
         else
@@ -777,7 +792,7 @@ class Resolv
         config_hash
       end
 
-      def lazy_initialize
+      def lazy_initialize # :nodoc:
         @mutex.synchronize {
           unless @initialized
             @nameserver = []
@@ -844,7 +859,7 @@ class Resolv
         end
       end
 
-      def generate_candidates(name)
+      def generate_candidates(name) # :nodoc:
         candidates = nil
         name = Name.create(name)
         if name.absolute?
@@ -860,9 +875,9 @@ class Resolv
         return candidates
       end
 
-      InitialTimeout = 5
+      InitialTimeout = 5 # :nodoc:
 
-      def generate_timeouts
+      def generate_timeouts # :nodoc:
         ts = [InitialTimeout]
         ts << ts[-1] * 2 / @nameserver.length
         ts << ts[-1] * 2
@@ -870,7 +885,7 @@ class Resolv
         return ts
       end
 
-      def resolv(name)
+      def resolv(name) # :nodoc:
         candidates = generate_candidates(name)
         timeouts = generate_timeouts
         begin
@@ -934,15 +949,17 @@ class Resolv
     class EncodeError < StandardError
     end
 
-    module Label
+    module Label #:nodoc:
       def self.split(arg)
         labels = []
         arg.scan(/[^\.]+/) {labels << Str.new($&)}
         return labels
       end
 
+      # A String wrapper that compares (and hashes) case insensitively, used to
+      # represent DNS labels.
       class Str
-        def initialize(string)
+        def initialize(string) # :nodoc:
           @string = string
           @downcase = string.downcase
         end
@@ -970,7 +987,17 @@ class Resolv
       end
     end
 
+    # A DNS name is a sequence of labels seperated by (or followed by) a dot
+    # (".").
+    #
+    # The labels are defined to be case-insensitive ("example.COM" is the same
+    # as "EXAMPLE.com").
+    #
+    # Names created from DNS messages names are always absolute. Names created
+    # from a String are absolute only if they have a trailing dot.
     class Name
+      # Create a Name from a Name (in which case +arg+ is returned
+      # directly), or from a String (in which case new Name is returned).
       def self.create(arg)
         case arg
         when Name
@@ -982,7 +1009,7 @@ class Resolv
         end
       end
 
-      def initialize(labels, absolute=true)
+      def initialize(labels, absolute=true) # :nodoc:
         @labels = labels
         @absolute = absolute
       end
@@ -991,11 +1018,26 @@ class Resolv
         "#<#{self.class}: #{self.to_s}#{@absolute ? '.' : ''}>"
       end
 
+      # Tests if +self+ is absolute, i.e., had a trailing dot.
+      # For example:
+      #   example.com.
+      # is absolute, whereas:
+      #   example.com
+      # is not. Absolute names will never have the default search domains
+      # added to them during resolution.
       def absolute?
         return @absolute
       end
 
+      # Tests equivalence to +other+, a Name or a String.
+      #
+      # Names are equivalent if their labels are equal (comparison is
+      # case-insensitive) and their "absoluteness" is equal.
+      #
+      #  p Name.create("example.COM")  == "EXAMPLE.com" => true
+      #  p Name.create("example.com.") == "example.com" => false
       def ==(other)
+        other = Name.create(other)
         return false unless Name === other
         return @labels == other.to_a && @absolute == other.absolute?
       end
@@ -1023,14 +1065,17 @@ class Resolv
         return @labels.hash ^ @absolute.hash
       end
 
+      # Returns the array of labels, each label is a Label::Str.
       def to_a
         return @labels
       end
 
+      # Returns the length of the array of labels.
       def length
         return @labels.length
       end
 
+      # Returns the +i+th label.
       def [](i)
         return @labels[i]
       end
@@ -1163,7 +1208,7 @@ class Resolv
         }.to_s
       end
 
-      class MessageEncoder
+      class MessageEncoder # :nodoc: used to implement Message.encode
         def initialize
           @data = ''
           @names = {}
@@ -1259,7 +1304,7 @@ class Resolv
         return o
       end
 
-      class MessageDecoder
+      class MessageDecoder # :nodoc: used to implement Message.decode
         def initialize(data)
           @data = data
           @index = 0
@@ -1383,7 +1428,7 @@ class Resolv
       end
     end
 
-    class Query
+    class Query # :nodoc:
       def encode_rdata(msg)
         raise EncodeError.new("#{self.class} is query.") 
       end
@@ -1394,13 +1439,13 @@ class Resolv
     end
 
     class Resource < Query
-      ClassHash = {}
+      ClassHash = {} # :nodoc:
 
-      def encode_rdata(msg)
+      def encode_rdata(msg) # :nodoc:
         raise NotImplementedError.new
       end
 
-      def self.decode_rdata(msg)
+      def self.decode_rdata(msg) # :nodoc:
         raise NotImplementedError.new
       end
 
@@ -1423,7 +1468,7 @@ class Resolv
         return h
       end
 
-      def self.get_class(type_value, class_value)
+      def self.get_class(type_value, class_value) # :nodoc:
         return ClassHash[[type_value, class_value]] ||
                Generic.create(type_value, class_value)
       end
@@ -1434,15 +1479,15 @@ class Resolv
         end
         attr_reader :data
 
-        def encode_rdata(msg)
+        def encode_rdata(msg) # :nodoc:
           msg.put_bytes(data)
         end
 
-        def self.decode_rdata(msg)
+        def self.decode_rdata(msg) # :nodoc:
           return self.new(msg.get_bytes)
         end
 
-        def self.create(type_value, class_value)
+        def self.create(type_value, class_value) # :nodoc:
           c = Class.new(Generic)
           c.const_set(:TypeValue, type_value)
           c.const_set(:ClassValue, class_value)
@@ -1577,7 +1622,7 @@ class Resolv
       class TXT < Resource
         TypeValue = 16
 
-        # TXT resource records must have one or more strings, but the
+        # TXT resource records must have one or more character strings, but the
         # string may be zero-length.
         #
         # If only the +first_string+ is supplied, it may be longer than 255
@@ -1602,26 +1647,27 @@ class Resolv
         attr_reader :strings
 
         # Returns the resource data as a single string. DNS uses multiple
-        # character strings to represent a single long TXT data value.
+        # character strings to represent the data of a TXT record if the
+        # data is longer than 255 characters.
         def data
           @strings.join
         end
 
-        def encode_rdata(msg)
+        def encode_rdata(msg) # :nodoc:
           msg.put_string_list(@strings)
         end
 
-        def self.decode_rdata(msg)
+        def self.decode_rdata(msg) # :nodoc:
           strings = msg.get_string_list
           return self.new(*strings)
         end
       end
 
       class ANY < Query
-        TypeValue = 255
+        TypeValue = 255 # :nodoc:
       end
 
-      ClassInsensitiveTypes = [
+      ClassInsensitiveTypes = [ # :nodoc:
         NS, CNAME, SOA, PTR, HINFO, MINFO, MX, TXT, ANY
       ]
 
@@ -1708,7 +1754,7 @@ class Resolv
         #   to contact the target host with the lowest-numbered priority it can
         #   reach; target hosts with the same priority SHOULD be tried in an
         #   order defined by the weight field.  The range is 0-65535.  Note that
-        #   it is not widely implemented and should be set to zero.
+        #   it is not widely implemented and is commonly set to zero.
         # 
         # - +weight+ A server selection mechanism.  The weight field specifies
         #   a relative weight for entries with the same priority. Larger weights
@@ -1724,9 +1770,12 @@ class Resolv
         # - +target+ The domain name of the target host. A target of "." means
         #   that the service is decidedly not available at this domain.
         class SRV < Resource
-          ClassHash[[TypeValue = 33, ClassValue = ClassValue]] = self
+          ClassHash[[TypeValue = 33, ClassValue = ClassValue]] = self # :nodoc:
 
           # Create a SRV resource record.
+          #
+          # TODO - switch args to (target, port, priority = 0, weight = 0)? It
+          # would be more convenient to use.
           def initialize(priority, weight, port, target)
             @priority = priority.to_int
             @weight = weight.to_int
@@ -1734,16 +1783,16 @@ class Resolv
             @target = Name.create(target)
           end
 
-          attr_reader :priority, :weight, :port, :target
+          attr_reader :target, :port, :priority, :weight
 
-          def encode_rdata(msg)
+          def encode_rdata(msg) # :nodoc:
             msg.put_pack("n", @priority)
             msg.put_pack("n", @weight)
             msg.put_pack("n", @port)
             msg.put_name(@target)
           end
 
-          def self.decode_rdata(msg)
+          def self.decode_rdata(msg) # :nodoc:
             priority, = msg.get_unpack("n")
             weight,   = msg.get_unpack("n")
             port,     = msg.get_unpack("n")

@@ -265,12 +265,14 @@ module Net
 
           debug( "start" )
 
-          #kINADDR_IFX = Socket.gethostbyname(Socket.gethostname)[3]
+          # TODO - I'm not sure about how robust this is. A better way to find the default
+          # ifx would be to do:
+          #   s = UDPSocket.new
+          #   s.connect(any addr, any port)
+          #   s.getsockname => struct sockaddr_in => ip_addr
+          # But parsing a struct sockaddr_in is a PITA in ruby.
 
-          # FIXME
-
-          kINADDR_IFX = IPAddr.new('192.168.123.154').hton
-
+          kINADDR_IFX = Socket.gethostbyname(Socket.gethostname)[3]
 
           @sock = UDPSocket.new
 

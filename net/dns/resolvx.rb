@@ -44,15 +44,34 @@ class Resolv
   class DNS
 
     class Config
+      # A name that has a number of labels greater than than +ndots+ will be looked
+      # up directly. The default value of +ndots+ is 1, so "example" would not be
+      # looked up directly, but "example.com" would be (it has 1 dot). Names ending in a dot, like
+      # "org.", will always be looked up directly, regardless of the setting of ndots.
       attr_reader :ndots
       # A series of search suffixes to use if the name being looked up does not end
-      # in a dot, and does not have more than ndots in it.
+      # in a dot.
       attr_reader :search
       # The list of nameservers to query, should be dotted IP addresses, not
       # domain names.
       attr_reader :nameservers
     end
 
+  end
+end
+
+class Resolv
+  class DNS
+    module Label
+
+      class Str
+        # Duck-type to String.
+        def to_str
+          return @string
+        end
+      end
+
+    end
   end
 end
 
