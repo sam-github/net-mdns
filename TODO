@@ -1,14 +1,21 @@
 TODO
 
-- deal with dots and spaces
+Release: 0.1
 
-- Query: don't report answers multiple times
+- Testing:
+     mdns.rb and dns-sd -A:
+
+       -L returns multiple?
+
+
+- deal with dots and spaces
 
 - Query: report start/stop
 
-- dns-sd -B: what are the flags?
+- when we see a question, flush answers over few seconds old from cache
+    .. and do we notify queries that the answers are being deleted, too?
 
-- don't cache questions
+- dns-sd -B: what are the flags?
 
 - don't cache our own answers
 
@@ -16,13 +23,19 @@ TODO
 
 - reintegrate into resolver
 
-- release 0.2
+- dns-sd test modes... useful to test us?
+
+- implement a MDNSSD api for DNSServiceQueryRecord, and mdns.rb -Q
+
+
+Release: 0.2
 
 - HINFO service
 
 - wildcard answering services
 
 - try the meta-queries (_services._dns-sd._udp.local.)
+
 
 Should do:
 
