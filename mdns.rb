@@ -104,7 +104,7 @@ opts.each do |opt, arg|
     print HELP
     exit 0
 
-  when '--native'
+  when '--dnssd'
     require 'dnssd'
 
   when "--browse"
@@ -165,7 +165,7 @@ when :browse
   printf fmt, "Ttl", "Domain", "Service Type", "Instance Name"
 
   handle = DNSSD.browse(@type, @domain) do |reply|
-    printf fmt, reply.ttl, reply.domain, reply.type, reply.name
+    printf fmt, reply.flags.to_i, reply.domain, reply.type, reply.name
   end
 
   $stdin.gets
@@ -181,7 +181,7 @@ when :lookup
   handle = DNSSD.resolve(@name, @type, @domain) do |reply|
     location = "#{reply.target}:#{reply.port}"
     text = reply.text_record.to_a.map { |kv| "#{kv[0]}=#{kv[1].inspect}" }.join(', ')
-    printf fmt, reply.ttl, reply.domain, reply.type, reply.name, location, text
+    printf fmt, reply.flags.to_i, reply.domain, reply.type, reply.name, location, text
   end
 
   $stdin.gets
@@ -196,7 +196,7 @@ when :register
   handle = DNSSD.register(@name, @type, @domain, @port, @txt) do |notice|
     location = "#{Socket.gethostname}:#{@port}"
     text = @txt.to_a.map { |kv| "#{kv[0]}=#{kv[1].inspect}" }.join(', ')
-    printf fmt, notice.ttl, notice.domain, notice.type, notice.name, location, text
+    printf fmt, notice.flags.to_i, notice.domain, notice.type, notice.name, location, text
   end
 
   $stdin.gets

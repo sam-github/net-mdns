@@ -45,7 +45,7 @@ module Net
     # - text_record: Service information in the form of key/value pairs.
     #   See Util.parse_strings for more information about the format.
     #
-    # - ttl: should return flags, similar to DNSSD, but for now we just return the
+    # - flags: should return flags, similar to DNSSD, but for now we just return the
     #   TTL of the DNS message. A TTL of zero means a deregistration of the record.
     #
     # Services are advertised and resolved over specific network interfaces.
@@ -55,12 +55,12 @@ module Net
 
       # A reply yielded by #browse, see MDNSSD for a description of the attributes.
       class BrowseReply
-        attr_reader :interface, :fullname, :name, :type, :domain, :ttl
+        attr_reader :interface, :fullname, :name, :type, :domain, :flags
         def initialize(an) # :nodoc:
           @interface = nil
           @fullname = an.name.to_s
           @domain, @type, @name = MDNSSD::Util.parse_name(an.data.name)
-          @ttl = an.ttl
+          @flags = an.ttl
         end
       end
 
@@ -86,7 +86,7 @@ module Net
 
       # A reply yielded by #resolve, see MDNSSD for a description of the attributes.
       class ResolveReply
-        attr_reader :interface, :fullname, :name, :type, :domain, :target, :port, :priority, :weight, :text_record, :ttl
+        attr_reader :interface, :fullname, :name, :type, :domain, :target, :port, :priority, :weight, :text_record, :flags
         def initialize(ansrv, antxt) # :nodoc:
           @interface = nil
           @fullname = ansrv.name.to_s
@@ -96,7 +96,7 @@ module Net
           @priority = ansrv.data.priority
           @weight = ansrv.data.weight
           @text_record = MDNSSD::Util.parse_strings(antxt.data.strings)
-          @ttl = ansrv.ttl
+          @flags = ansrv.ttl
         end
       end
 
