@@ -1,5 +1,9 @@
 TODO
 
+- merge 1.8-resolv.rb diffs into net/dns/resolv.rb
+
+                --> __diff
+
 - deal with dots and spaces
 
 - Query: don't report answers multiple times
@@ -16,11 +20,13 @@ TODO
 
 - adding a question of '*' causes it to always be requeried
 
-- merge 1.8-resolv.rb diffs into net/dns/resolv.rb
-
 - reintegrate into resolver
 
 - release 0.2
+
+- HINFO service
+
+- wildcard answering services
 
 
 Should do:
