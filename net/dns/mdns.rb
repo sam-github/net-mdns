@@ -23,7 +23,7 @@ class Resolv
   # == Summary
   # An extension to the standard 'resolv' resolver library that adds support
   # for multicast DNS.  mDNS is an extension of hierarchical, unicast DNS to
-  # link-local unicast. It is most widely known because it is part of Apple's
+  # link-local multicast. It is most widely known because it is part of Apple's
   # OS X "Rendezvous" system, where it is used to do service discovery over
   # local networks.
   #
@@ -379,7 +379,7 @@ class Resolv
         super()
         @sock = UDPSocket.new
         @sock.fcntl(Fcntl::F_SETFD, 1)
-#       @sock.bind(Addr, Port) # doesn't work if a mDNS daemon is running
+
         # TODO - why can't Message ensure it's ID's are unique?
         @id = {}
         @id.default = -1

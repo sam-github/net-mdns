@@ -48,6 +48,9 @@ Projects:
 
 Open design issues
 
+- net classes that do socketopts, so you don't have to pack the structs yourself! or maybe
+  implement the 8 functions of Stevens?
+
 - factor Resolv::DNS internals into module Net::DNS. As a module, I can do
   include Net::DNS, and use Name, etc.
 

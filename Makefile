@@ -14,6 +14,8 @@ doc-upload:
 pkg-upload:
 	cd releases; scp $P.tgz sam@rubyforge.org:/var/www/gforge-projects/vpim/mdns/mdns.tgz
 
+submit: release pkg-upload doc-upload
+
 .PHONY: tags
 tags:
 	exctags -R multicast.rb
