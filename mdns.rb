@@ -74,7 +74,7 @@ opts.each do |opt, arg|
     print HELP
     exit 0
 
-  when '--dnssd'
+  when '--native'
     require 'dnssd'
 
   when "--browse"
