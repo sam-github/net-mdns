@@ -720,8 +720,11 @@ Internet Draft               Multicast DNS            14th February 2004
 7.1 Known Answer Suppression
 
    When a Multicast DNS Querier sends a query to which it already knows
-   some answers, it populates the Answer Section of the DNS message with
+   some answers, it
+SHOULD
+                   populates the Answer Section of the DNS message with
    those answers.
+
 
 Q - I assume from below that the TTL in these known answers must be
 the "remaining" TTL, not the TTL received with the answer.

@@ -1,0 +1,128 @@
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr Q opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+qu IN::ANY "Example._http._tcp.local" unicast=true
+au IN::SRV "Example._http._tcp.local" ttl=240 cacheflush=nil
+   ensemble.local:80 weight=0 priority=0
+
+Ask to see if service exists, unicast response.
+
+AU is the service we are about to register.
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr Q opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+qu IN::ANY "Example._http._tcp.local" unicast=false
+au IN::SRV "Example._http._tcp.local" ttl=240 cacheflush=nil
+   ensemble.local:80 weight=0 priority=0
+
+Repeat with multicast response.
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr Q opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+qu IN::ANY "Example._http._tcp.local" unicast=false
+au IN::SRV "Example._http._tcp.local" ttl=240 cacheflush=nil
+   ensemble.local:80 weight=0 priority=0
+
+Repeat.
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr R opcode QUERY aa 1 tc 0 rd 0 ra 0 rcode 0
+an IN::A "ensemble.local" ttl=240 cacheflush=false
+   192.168.123.154
+an IN::SRV "Example._http._tcp.local" ttl=240 cacheflush=false
+   ensemble.local:80 weight=0 priority=0
+an IN::TXT "Example._http._tcp.local" ttl=240 cacheflush=false
+   ["path=/~guest/"]
+an IN::PTR "_http._tcp.local" ttl=7200 cacheflush=false
+   Example._http._tcp.local
+
+Advertise 3 DNS-SD RRs, plus an A record. Cacheflush is NOT set.
+
+PTR ttl is very long (7200)
+SRV/TXT ttl is shorter (240)
+
+Why is cacheflush not set? What is it for?
+
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr R opcode QUERY aa 1 tc 0 rd 0 ra 0 rcode 0
+an IN::A "ensemble.local" ttl=240 cacheflush=false
+   192.168.123.154
+an IN::SRV "Example._http._tcp.local" ttl=240 cacheflush=false
+   ensemble.local:80 weight=0 priority=0
+an IN::TXT "Example._http._tcp.local" ttl=240 cacheflush=false
+   ["path=/~guest/"]
+an IN::PTR "_http._tcp.local" ttl=7200 cacheflush=false
+   Example._http._tcp.local
+
+Repeat.
+
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr R opcode QUERY aa 1 tc 0 rd 0 ra 0 rcode 0
+an IN::A "ensemble.local" ttl=240 cacheflush=false
+   192.168.123.154
+an IN::SRV "Example._http._tcp.local" ttl=240 cacheflush=false
+   ensemble.local:80 weight=0 priority=0
+an IN::TXT "Example._http._tcp.local" ttl=240 cacheflush=false
+   ["path=/~guest/"]
+an IN::PTR "_http._tcp.local" ttl=7200 cacheflush=false
+   Example._http._tcp.local
+
+
+Repeat.
+
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr R opcode QUERY aa 1 tc 0 rd 0 ra 0 rcode 0
+an IN::A "ensemble.local" ttl=240 cacheflush=false
+   192.168.123.154
+an IN::SRV "Example._http._tcp.local" ttl=240 cacheflush=false
+   ensemble.local:80 weight=0 priority=0
+an IN::TXT "Example._http._tcp.local" ttl=240 cacheflush=false
+   ["path=/~guest/"]
+an IN::PTR "_http._tcp.local" ttl=7200 cacheflush=false
+   Example._http._tcp.local
+
+
+Repeat.
+
+
+++ from ["AF_INET", 49798, "192.168.123.154", "192.168.123.154"]
+id 4393 qr Q opcode QUERY aa 0 tc 0 rd 1 ra 0 rcode 0
+qu IN::SRV "Example._http._tcp.local" unicast=false
+
+
+Safari (?) asks for Example SRV record.
+
+Its not clear why it didn't include any known answers, 240 seconds
+haven't passed.
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr R opcode QUERY aa 1 tc 0 rd 0 ra 0 rcode 0
+an IN::A "ensemble.local" ttl=240 cacheflush=false
+   192.168.123.154
+an IN::SRV "Example._http._tcp.local" ttl=240 cacheflush=false
+   ensemble.local:80 weight=0 priority=0
+an IN::TXT "Example._http._tcp.local" ttl=240 cacheflush=false
+   ["path=/~guest/"]
+an IN::PTR "_http._tcp.local" ttl=7200 cacheflush=false
+   Example._http._tcp.local
+
+
+Response includes ALL related records, NOT just the SRV.
+
+Is this my problem?
+
+
+
+
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr R opcode QUERY aa 1 tc 0 rd 0 ra 0 rcode 0
+an IN::PTR "_http._tcp.local" ttl=0 cacheflush=false
+   Example._http._tcp.local
+
+
+I kill dns-sd, and it sends at TTL=0 for the service.
+
+

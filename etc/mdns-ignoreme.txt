@@ -1,0 +1,301 @@
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr Q opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+an IN::PTR "_http._tcp.local" ttl=7200 cacheflush=false
+   Example2._http._tcp.local
+
+
+I announce my PTR record.
+
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr Q opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+qu IN::PTR "_http._tcp.local" unicast=true
+an IN::PTR "_http._tcp.local" ttl=5624 cacheflush=false
+   Sam Roberts._http._tcp.local
+an IN::PTR "_http._tcp.local" ttl=5624 cacheflush=false
+   Julie Lebel._http._tcp.local
+an IN::PTR "_http._tcp.local" ttl=5624 cacheflush=false
+   guest._http._tcp.local
+
+
+Safari asks PTR? for _http._tcp, unicast reponse.
+
+Answers include all the _http services it has registered.
+
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr R opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+an IN::PTR "_http._tcp.local" ttl=7200 cacheflush=false
+   Example2._http._tcp.local
+
+I answer with my PTR.
+
+
+
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr Q opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+qu IN::PTR "_http._tcp.local" unicast=false
+an IN::PTR "_http._tcp.local" ttl=5623 cacheflush=false
+   Sam Roberts._http._tcp.local
+an IN::PTR "_http._tcp.local" ttl=5623 cacheflush=false
+   Julie Lebel._http._tcp.local
+an IN::PTR "_http._tcp.local" ttl=5623 cacheflush=false
+   guest._http._tcp.local
+an IN::PTR "_http._tcp.local" ttl=7200 cacheflush=false
+   Example2._http._tcp.local
+
+
+Apple asks PTR? for _http, includes known answers.
+
+One known answer is my PTR.
+
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr R opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+an IN::PTR "_http._tcp.local" ttl=7200 cacheflush=false
+   Example2._http._tcp.local
+
+
+I answer with my PTR.
+
+No answer suppression. Sue me.
+
+
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr Q opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+qu IN::PTR "_http._tcp.local" unicast=false
+an IN::PTR "_http._tcp.local" ttl=5621 cacheflush=false
+   Sam Roberts._http._tcp.local
+an IN::PTR "_http._tcp.local" ttl=5621 cacheflush=false
+   Julie Lebel._http._tcp.local
+an IN::PTR "_http._tcp.local" ttl=5621 cacheflush=false
+   guest._http._tcp.local
+an IN::PTR "_http._tcp.local" ttl=7199 cacheflush=false
+   Example2._http._tcp.local
+
+
+Apple asks again.
+
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr R opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+an IN::PTR "_http._tcp.local" ttl=7200 cacheflush=false
+   Example2._http._tcp.local
+
+
+I answer again.
+
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr Q opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+qu IN::PTR "_http._tcp.local" unicast=false
+an IN::PTR "_http._tcp.local" ttl=5617 cacheflush=false
+   Sam Roberts._http._tcp.local
+an IN::PTR "_http._tcp.local" ttl=5617 cacheflush=false
+   Julie Lebel._http._tcp.local
+an IN::PTR "_http._tcp.local" ttl=5617 cacheflush=false
+   guest._http._tcp.local
+an IN::PTR "_http._tcp.local" ttl=7197 cacheflush=false
+   Example2._http._tcp.local
+
+
+
+Apple asks again.
+
+
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr R opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+an IN::PTR "_http._tcp.local" ttl=7200 cacheflush=false
+   Example2._http._tcp.local
+
+I answer again.
+
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr Q opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+qu IN::PTR "_http._tcp.local" unicast=false
+an IN::PTR "_http._tcp.local" ttl=5609 cacheflush=false
+   Sam Roberts._http._tcp.local
+an IN::PTR "_http._tcp.local" ttl=5609 cacheflush=false
+   Julie Lebel._http._tcp.local
+an IN::PTR "_http._tcp.local" ttl=5609 cacheflush=false
+   guest._http._tcp.local
+an IN::PTR "_http._tcp.local" ttl=7193 cacheflush=false
+   Example2._http._tcp.local
+
+
+...
+
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr R opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+an IN::PTR "_http._tcp.local" ttl=7200 cacheflush=false
+   Example2._http._tcp.local
+
+...
+
+
+
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr Q opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+qu IN::SRV "Example2._http._tcp.local" unicast=true
+qu IN::TXT "Example2._http._tcp.local" unicast=true
+
+
+Apple asks SRV? and TXT? for Example2.
+
+
+
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr R opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+an IN::SRV "Example2._http._tcp.local" ttl=7200 cacheflush=false
+   ensemble.local:80 weight=0 priority=0
+an IN::TXT "Example2._http._tcp.local" ttl=7200 cacheflush=false
+   ["path=/~guest/"]
+
+
+I respond.
+
+Responses have same form as Apple's.
+
+
+++ from ["AF_INET", 49819, "192.168.123.154", "192.168.123.154"]
+id 39502 qr Q opcode QUERY aa 0 tc 0 rd 1 ra 0 rcode 0
+qu IN::SRV "Example2._http._tcp.local" unicast=false
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr R opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+an IN::SRV "Example2._http._tcp.local" ttl=7200 cacheflush=false
+   ensemble.local:80 weight=0 priority=0
+
+Apple asks for SRV, I give it.
+
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr Q opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+qu IN::SRV "Example2._http._tcp.local" unicast=false
+qu IN::TXT "Example2._http._tcp.local" unicast=false
+qu IN::A "ensemble.local" unicast=false
+qu IN::AAAA "ensemble.local" unicast=false
+an IN::SRV "Example2._http._tcp.local" ttl=7200 cacheflush=false
+   ensemble.local:80 weight=0 priority=0
+an IN::TXT "Example2._http._tcp.local" ttl=7200 cacheflush=false
+   ["path=/~guest/"]
+an IN::A "ensemble.local" ttl=134 cacheflush=false
+   192.168.123.154
+
+
+Apple asks for SRV and TXT, including my SRV and TXT in known answers.
+
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr R opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+an IN::SRV "Example2._http._tcp.local" ttl=7200 cacheflush=false
+   ensemble.local:80 weight=0 priority=0
+an IN::TXT "Example2._http._tcp.local" ttl=7200 cacheflush=false
+   ["path=/~guest/"]
+
+
+I respond with SRV and TXT.
+
+
+
+++ from ["AF_INET", 49820, "192.168.123.154", "192.168.123.154"]
+id 39502 qr Q opcode QUERY aa 0 tc 0 rd 1 ra 0 rcode 0
+qu IN::SRV "Example2._http._tcp.local" unicast=false
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr R opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+an IN::SRV "Example2._http._tcp.local" ttl=7200 cacheflush=false
+   ensemble.local:80 weight=0 priority=0
+
+Apple asks for SRV, I respond.
+
+
+
+++ from ["AF_INET", 49821, "192.168.123.154", "192.168.123.154"]
+id 39502 qr Q opcode QUERY aa 0 tc 0 rd 1 ra 0 rcode 0
+qu IN::SRV "Example2._http._tcp.local" unicast=false
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr R opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+an IN::SRV "Example2._http._tcp.local" ttl=7200 cacheflush=false
+   ensemble.local:80 weight=0 priority=0
+
+It asks again.
+
+
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr Q opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+qu IN::SRV "Example2._http._tcp.local" unicast=false
+qu IN::TXT "Example2._http._tcp.local" unicast=false
+qu IN::AAAA "ensemble.local" unicast=false
+an IN::TXT "Example2._http._tcp.local" ttl=7199 cacheflush=false
+   ["path=/~guest/"]
+
+
+
+It asks for SRV, TXT and AAAA (strange), and only includes TXT
+in its known answers. It forgot my SRV?
+
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr R opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+an IN::SRV "Example2._http._tcp.local" ttl=7200 cacheflush=false
+   ensemble.local:80 weight=0 priority=0
+an IN::TXT "Example2._http._tcp.local" ttl=7200 cacheflush=false
+   ["path=/~guest/"]
+
+I respond.
+
+
+++ from ["AF_INET", 49822, "192.168.123.154", "192.168.123.154"]
+id 39502 qr Q opcode QUERY aa 0 tc 0 rd 1 ra 0 rcode 0
+qu IN::SRV "Example2._http._tcp.local" unicast=false
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr R opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+an IN::SRV "Example2._http._tcp.local" ttl=7200 cacheflush=false
+   ensemble.local:80 weight=0 priority=0
+
+
+Apple asks for SRV. I respond.
+
+
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr Q opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+qu IN::PTR "_http._tcp.local" unicast=false
+an IN::PTR "_http._tcp.local" ttl=5593 cacheflush=false
+   Sam Roberts._http._tcp.local
+an IN::PTR "_http._tcp.local" ttl=5593 cacheflush=false
+   Julie Lebel._http._tcp.local
+an IN::PTR "_http._tcp.local" ttl=5593 cacheflush=false
+   guest._http._tcp.local
+an IN::PTR "_http._tcp.local" ttl=7185 cacheflush=false
+   Example2._http._tcp.local
+
+
+Apple asks for _http, says it knows my PTR.
+
+
+
+++ from ["AF_INET", 5353, "192.168.123.154", "192.168.123.154"]
+id 0 qr R opcode QUERY aa 0 tc 0 rd 0 ra 0 rcode 0
+an IN::PTR "_http._tcp.local" ttl=7200 cacheflush=false
+   Example2._http._tcp.local
+
+
+
+I respond with my PTR.
+
+
+
+
+
