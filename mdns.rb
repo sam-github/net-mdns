@@ -1,4 +1,8 @@
 #!/usr/local/bin/ruby18 -w
+# This is an example illustrating how to use the DNSSD APIs.
+#
+# Author: Sam Roberts <sroberts@uniserve.com>
+# Copyright: I place it in the public domain
 
 $:.unshift(File.dirname($0))
 
