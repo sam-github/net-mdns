@@ -1186,6 +1186,7 @@ class Resolv
         end
 
         def put_string(d)
+          raise ArgumentError, "BUG - fails if d.length is greater than 255"
           self.put_pack("C", d.length)
           @data << d
         end
@@ -1570,13 +1571,21 @@ class Resolv
       class TXT < Resource
         TypeValue = 16
 
-        def initialize(first_string, *rest_strings)
-          @strings = [first_string, *rest_strings]
+        def initialize(first_string = nil, *rest_strings)
+          @strings = [first_string, *rest_strings].compact
         end
+
+        # Returns an array of all the strings making up the resource data.
+        # There may be multiple strings if this is a mDNS record or if the
+        # resource data is longer than 255 bytes. In the case of mDNS, each
+        # individual string has the form of:
+        #   key "=" value
         attr_reader :strings
 
+        # Returns the resource data as a single string.
+        
         def data
-          @strings[0]
+          @strings.join
         end
 
         def encode_rdata(msg)
