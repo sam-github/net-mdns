@@ -21,6 +21,8 @@
 # - Message#encode/Message#decode: question and answer arrays now contain the
 #   mDNS unicast and cacheflush bit, respectively. #each_question and
 #   #each_answer are backwards compatible.
+# - A.new(A#address) failed because IPv4.create() wouldn't accept an address in the
+#   form of A#address (4 bytes in network byte order).
 #
 # = Ease-of-use changes
 #
@@ -1836,6 +1838,9 @@ class Resolv
     Regex = /\A(\d+)\.(\d+)\.(\d+)\.(\d+)\z/
 
     def self.create(arg)
+      if(arg.kind_of?(String) && arg.length == 4)
+        return self.new(arg)
+      end
       case arg
       when IPv4
         return arg
