@@ -1,10 +1,6 @@
 TODO
 
-- mdns.rb user interface: search for multiple paths, move 'type' to a -t arg
-
-- package
-
-- install
+- bug in each_resource inside each_resource... figure it out, or remove the timeout?
 
 - raa
 
@@ -14,12 +10,7 @@ TODO
 
 - resolv.conf looks correct, but I can't resolv www.google.ca!
 
-- mdns.rb, do each_resource inside each_resource to test threading
-
 - Name#<< - append label(s) to a Name
-
-- factor Resolv::DNS internals into module Net::DNS. As a module, I can do
-  include Net::DNS, and use Name, etc.
 
 
 Goals:
@@ -57,6 +48,9 @@ Projects:
 
 Open design issues
 
+- factor Resolv::DNS internals into module Net::DNS. As a module, I can do
+  include Net::DNS, and use Name, etc.
+
  - DNS::Name should have to_str to advertise that it can be converted into a string?
    --> net.http can't be used with return values of SRV.target...
 
@@ -90,9 +84,6 @@ Open design issues
 Open resolv.rb questions:
 
   - reverse DNS lookups done by sock.recv
-
-  - Resolv and built-in resolver use different exception classes.
-
 
 
 questions:
