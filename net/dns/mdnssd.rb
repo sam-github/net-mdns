@@ -6,7 +6,7 @@
   details.
 =end
 
-require 'net/dns/v2mdns.rb'
+require 'net/dns/mdns.rb'
 
 module Net
   module DNS
