@@ -16,8 +16,8 @@ class Resolv
   # Author::     Sam Roberts <sroberts@uniserve.com>
   # Copyright::  Copyright (C) 2005 Sam Roberts
   # License::    May be distributed under the same terms as Ruby
-  # Version::    0.1
-  # Homepage::   http://vpim.rubyforge.org/mdns
+  # Version::    0.0
+  # Homepage::   http://rubyforge.org/projects/dnssd
   #
   # == Summary
   # An extension to the standard 'resolv' resolver library that adds support
@@ -69,7 +69,6 @@ class Resolv
   #   end
   #   
   # == Address Lookups
-  #
   # When used for name lookups, it is most useful to add MDNS to the default
   # set of resolvers queried when using the 'resolv' module methods. This is
   # done by doing:
@@ -126,22 +125,24 @@ class Resolv
   #
   # DNS-SD is a compiled ruby extension implemented on top of the dns_sd.h APIs
   # published by Apple. These APIs work by contacting a local mDNS daemon
-  # (through unix domain sockets), and as such will be more efficient (they can
-  # take advantage of the daemon's cache), and likely a better way of doing
+  # (through unix domain sockets) and should be more efficient (they can
+  # take advantage of the daemon's cache) and likely a better way of doing
   # mDNS queries than using pure ruby. Also, the mDNS daemon is capable of
-  # advertising services over the network.
+  # advertising services over the network, and Resolv::MDNS can't do that,
+  # though I'm working on it. There's some technical obstacles.
   #
-  # Currently, the only thing I'm aware of Resolv::MDNS doing that DNSSD
+  # Currently, the only thing I'm aware of Resolv::MDNS doing that DNS-SD
   # doesn't is integrate into the standard library so that link-local domain
   # names can be used throughout the standard networking classes.  There is no
-  # reason it can't do this, and I'll try and add that capability as soon as I
+  # reason DNS-SD can't do this, and I'll try and add that capability as soon as I
   # find a way to install and use DNS-SD, which leads to why you might be
   # interested in Resolv::MDNS.
   #
-  # However, the DNS-SD extension requires the dns_sd.h APIs, and installing
-  # the Apple responder can be quite difficult, and requires a running daemon.
-  # It also requires compiling the extension. If this turns out to be difficult
-  # for you, as it has for me, Resolv::MDNS may be useful to you.
+  # The DNS-SD extension requires the dns_sd.h C language APIs for the Apple
+  # mDNS daemon. Installing the Apple responder can be quite difficult, and
+  # requires a running daemon.  It also requires compiling the extension. If
+  # you need a pure ruby implementation, or if building DNS-SD turns out to be
+  # difficult for you, Resolv::MDNS may be useful to you.
   #
   # == Samples
   # 
