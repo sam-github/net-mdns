@@ -320,7 +320,7 @@ module Net
             begin
               cacher_loop
             rescue
-              error( "cacher_loop exited with #{$!}" )
+              error( "cacher_loop exited with #{$!}\n#{$!.backtrace}" )
             end
           end
 
@@ -371,8 +371,8 @@ module Net
                     end
                   end
                   if amsg.answer.first
-                    amsg.answer.each do |a|
-                      debug( "-> a #{a[0]} (#{a[1]}) #{a[2].to_s}" )
+                    amsg.answer.each do |an|
+                      debug( "-> a #{an[0]} (#{an[1]}) #{an[2].to_s}" )
                     end
                     send(amsg)
                   end
@@ -389,6 +389,12 @@ module Net
                     # If a wasn't cached, then its no newer than an answer we already have, so
                     # we won't report it.
                     cached << a if a
+
+                    # TODO - maybe don't bother with this, or the subscribes_to? below,
+                    # just feed every answer to every query, and let them do as they will with it.
+                    # This might also fix the problem where *.local subscribes_to everything, so
+                    # keeps all cached records continuously alive, when it only wants to be
+                    # a passive observer.
 
                     wake_cacher_for(a)
                   end
