@@ -206,6 +206,7 @@ class Resolv
   end
 end
 
+=begin
 class Resolv
   class DNS
     class Resource
@@ -219,7 +220,7 @@ class Resolv
 
         class TXT
           def inspect
-            "IN::TXT data=#{data}"
+            "IN::TXT data=#{strings.inspect}"
           end
         end
 
@@ -234,4 +235,5 @@ class Resolv
   end
 end
 
+=end
 
