@@ -1,14 +1,19 @@
-# resolv.rb is copied from the ruby library, where it is maintained by Tanaka
-# Akira. It contains modifications required by Net::DNS::MDNS, some of which
-# have been accepted into ruby 1.8's cvs, and the other modifications I hope
-# will be accepted.
+# net/dns/resolv.rb is a copy of resolv.rb from the ruby library, where it is
+# maintained by Tanaka Akira.
 #
-# Until this resolv.rb is accepted AND released in ruby 1.8.x I still need a
-# copy in net-mdns. Without it, you would need to install ruby from CVS in
-# order to use net-mdns.
+# It contains modifications I found necessary, some of which have been accepted
+# into ruby 1.8's cvs, and others that I hope will be accepted.
 #
-# == Changes
-# - fixed bu
+# net/dns/resolvx.rb contains extensions to resolv.rb (as opposed to modifications),
+# some of these may also be worth accepting into the standard library.
+#
+# Note that until net/dns/resolv.rb is accepted AND released in ruby 1.8.x's
+# resolv.rb I still need a copy in net-mdns. Without it, it would be necessary
+# to install ruby from CVS in order to use net-mdns.
+#
+# = BUGS
+# - resolv-replace.rb: IPSocket#getaddress fails when passed a Fixnum, such as when
+#   calling UDPSocket#bind(Socket:INADDR_ANY, 5353)
 
 =begin
 = resolv library
@@ -1500,11 +1505,11 @@ class Resolv
         end
         attr_reader :name
 
-        def encode_rdata(msg)
+        def encode_rdata(msg) # :nodoc:
           msg.put_name(@name)
         end
 
-        def self.decode_rdata(msg)
+        def self.decode_rdata(msg) # :nodoc:
           return self.new(msg.get_name)
         end
       end
@@ -1534,13 +1539,13 @@ class Resolv
         end
         attr_reader :mname, :rname, :serial, :refresh, :retry, :expire, :minimum
 
-        def encode_rdata(msg)
+        def encode_rdata(msg) # :nodoc:
           msg.put_name(@mname)
           msg.put_name(@rname)
           msg.put_pack('NNNNN', @serial, @refresh, @retry, @expire, @minimum)
         end
 
-        def self.decode_rdata(msg)
+        def self.decode_rdata(msg) # :nodoc:
           mname = msg.get_name
           rname = msg.get_name
           serial, refresh, retry_, expire, minimum = msg.get_unpack('NNNNN')
@@ -1562,12 +1567,12 @@ class Resolv
         end
         attr_reader :cpu, :os
 
-        def encode_rdata(msg)
+        def encode_rdata(msg) # :nodoc:
           msg.put_string(@cpu)
           msg.put_string(@os)
         end
 
-        def self.decode_rdata(msg)
+        def self.decode_rdata(msg) # :nodoc:
           cpu = msg.get_string
           os = msg.get_string
           return self.new(cpu, os)
@@ -1583,12 +1588,12 @@ class Resolv
         end
         attr_reader :rmailbx, :emailbx
 
-        def encode_rdata(msg)
+        def encode_rdata(msg) # :nodoc:
           msg.put_name(@rmailbx)
           msg.put_name(@emailbx)
         end
 
-        def self.decode_rdata(msg)
+        def self.decode_rdata(msg) # :nodoc:
           rmailbx = msg.get_string
           emailbx = msg.get_string
           return self.new(rmailbx, emailbx)
@@ -1604,12 +1609,12 @@ class Resolv
         end
         attr_reader :preference, :exchange
 
-        def encode_rdata(msg)
+        def encode_rdata(msg) # :nodoc:
           msg.put_pack('n', @preference)
           msg.put_name(@exchange)
         end
 
-        def self.decode_rdata(msg)
+        def self.decode_rdata(msg) # :nodoc:
           preference, = msg.get_unpack('n')
           exchange = msg.get_name
           return self.new(preference, exchange)
@@ -1688,11 +1693,11 @@ class Resolv
           end
           attr_reader :address
 
-          def encode_rdata(msg)
+          def encode_rdata(msg) # :nodoc:
             msg.put_bytes(@address.address)
           end
 
-          def self.decode_rdata(msg)
+          def self.decode_rdata(msg) # :nodoc:
             return self.new(IPv4.new(msg.get_bytes(4)))
           end
         end
@@ -1707,13 +1712,13 @@ class Resolv
           end
           attr_reader :address, :protocol, :bitmap
 
-          def encode_rdata(msg)
+          def encode_rdata(msg) # :nodoc:
             msg.put_bytes(@address.address)
             msg.put_pack("n", @protocol)
             msg.put_bytes(@bitmap)
           end
 
-          def self.decode_rdata(msg)
+          def self.decode_rdata(msg) # :nodoc:
             address = IPv4.new(msg.get_bytes(4))
             protocol, = msg.get_unpack("n")
             bitmap = msg.get_bytes
@@ -1729,11 +1734,11 @@ class Resolv
           end
           attr_reader :address
 
-          def encode_rdata(msg)
+          def encode_rdata(msg) # :nodoc:
             msg.put_bytes(@address.address)
           end
 
-          def self.decode_rdata(msg)
+          def self.decode_rdata(msg) # :nodoc:
             return self.new(IPv6.new(msg.get_bytes(16)))
           end
         end
@@ -1802,7 +1807,8 @@ class Resolv
     end
   end
 
-  class IPv4
+  # Obsoleted by ipaddr.rb?
+  class IPv4 # :nodoc:
     Regex = /\A(\d+)\.(\d+)\.(\d+)\.(\d+)\z/
 
     def self.create(arg)
@@ -1857,7 +1863,8 @@ class Resolv
     end
   end
 
-  class IPv6
+  # Obsoleted by ipaddr.rb?
+  class IPv6 # :nodoc:
     Regex_8Hex = /\A
       (?:[0-9A-Fa-f]{1,4}:){7}
          [0-9A-Fa-f]{1,4}
