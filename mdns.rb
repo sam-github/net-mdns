@@ -3,17 +3,18 @@
 $: << File.dirname($0)
 
 require 'getoptlong'
-require 'multicast'
+require 'net/dns/mdns'
 require 'pp'
 
 rrmap = {
-  'any' => Resolv::DNS::Resource::IN::ANY,
   'a'   => Resolv::DNS::Resource::IN::A,
+  'any' => Resolv::DNS::Resource::IN::ANY,
   'ptr' => Resolv::DNS::Resource::IN::PTR,
-# 'srv' => Resolv::DNS::Resource::IN::ANY,
-
+  'srv' => Resolv::DNS::Resource::IN::SRV,
   nil   => Resolv::DNS::Resource::IN::ANY
 }
+
+rtypes = rrmap.keys.join ', '
 
 HELP =<<EOF
 Usage: mdns [options] name [record-type]
@@ -21,6 +22,11 @@ Usage: mdns [options] name [record-type]
 Options
   -h,--help      Print this helpful message.
   -d,--debug     Print debug information.
+
+Supported record types are:
+  #{rrmap.keys.compact.join "\n  "}
+
+Default is 'any'.
 
 Examples:
 EOF
@@ -53,10 +59,30 @@ r = Resolv::MDNS.new
 r.lazy_initialize
 
 if opt_debug
-  pp Resolv
+  pp r
 end
 
-rrs = r.getresources(ARGV[0], rrmap[ARGV[1]])
+Name = Resolv::DNS::Name
+
+argv0 = Name.create(ARGV[0])
+
+unless argv0.absolute?
+  if argv0.to_s[0] == ?_
+    if argv0.length == 1
+      argv0 = Name.create(argv0.to_s + '._tcp')
+    end
+
+    if argv0.length == 2
+      argv0 = Name.create(argv0.to_s + '.local')
+    end
+  else
+    if argv0.length == 1
+      argv0 = Name.create(argv0.to_s + '.local')
+    end
+  end
+end
+
+rrs = r.getresources(argv0, rrmap[ARGV[1]])
 
 if !opt_svc
   pp rrs
