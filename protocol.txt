@@ -7197,3 +7197,1437 @@ D, [2005-02-11T23:24:26.386877 #4541] DEBUG -- : sweep begin
 D, [2005-02-11T23:24:26.599234 #4541] DEBUG -- : refresh in 45 sec for ensemble.local (60) -> ! A   192.168.123.154
 D, [2005-02-11T23:24:26.601744 #4541] DEBUG -- : sweep end
 D, [2005-02-11T23:24:26.603150 #4541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:25:11.614170 #4541] DEBUG -- : sweep begin
+D, [2005-02-11T23:25:11.615005 #4541] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:25:11.821277 #4541] DEBUG -- : refresh in 3 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:25:11.822885 #4541] DEBUG -- : sweep end
+D, [2005-02-11T23:25:11.824174 #4541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:25:11.825468 #4541] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:25:11.826799 #4541] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:25:11.827270 #4541] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:25:11.827850 #4541] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:25:11.828295 #4541] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:25:11.828707 #4541] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:25:11.829109 #4541] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:25:11.829489 #4541] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:25:14.835390 #4541] DEBUG -- : sweep begin
+D, [2005-02-11T23:25:15.057899 #4541] DEBUG -- : refresh in 44 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:25:15.059398 #4541] DEBUG -- : sweep end
+D, [2005-02-11T23:25:15.060396 #4541] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:25:25.953323 #4541] DEBUG -- : query q?ensemble.local/IN::A(0) - stop
+D, [2005-02-11T23:25:25.954362 #4541] DEBUG -- : query q?_daap._tcp.local/IN::ANY(0) - stop
+D, [2005-02-11T23:25:25.955146 #4541] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - stop
+D, [2005-02-11T23:25:25.955965 #4541] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - stop
+D, [2005-02-11T23:25:25.956790 #4541] DEBUG -- : query q?_http._tcp.local/IN::PTR(0) - stop
+net/dns/v2mdns.rb:573:in `join': Interrupt
+	from net/dns/v2mdns.rb:573
+D, [2005-02-11T23:27:04.423219 #4559] DEBUG -- : start
+D, [2005-02-11T23:27:06.163878 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:27:06.352045 #4559] DEBUG -- : refresh in 0 sec for nil
+D, [2005-02-11T23:27:06.354343 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:27:06.355518 #4559] DEBUG -- : query q?_http._tcp.local/IN::PTR(0) - start asked?=n answers#=0
+D, [2005-02-11T23:27:06.543023 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:27:06.546472 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:27:06.733556 #4559] DEBUG -- : refresh in 0 sec for nil
+D, [2005-02-11T23:27:06.733945 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:27:06.735062 #4559] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - start asked?=n answers#=0
+D, [2005-02-11T23:27:06.925731 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:27:06.928547 #4559] DEBUG -- : ++ q _http._tcp.local/IN::PTR
+D, [2005-02-11T23:27:06.929615 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:27:07.128951 #4559] DEBUG -- : refresh in 0 sec for nil
+D, [2005-02-11T23:27:07.129362 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:27:07.139618 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:27:07.142345 #4559] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR Sam Roberts' Web Site._http._tcp.local
+D, [2005-02-11T23:27:07.144576 #4559] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR Julie Lebel's Web Site._http._tcp.local
+D, [2005-02-11T23:27:07.146934 #4559] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR guest's Web Site._http._tcp.local
+D, [2005-02-11T23:27:07.147787 #4559] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR ensemble._http._tcp.local
+D, [2005-02-11T23:27:07.148798 #4559] DEBUG -- : push 4 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:27:07.151301 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:07.153671 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:27:07.346616 #4559] DEBUG -- : refresh in 5760 sec for _http._tcp.local (7200) ->  PTR Sam Roberts' Web Site._http._tcp.local
+D, [2005-02-11T23:27:07.348938 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:27:10.938859 #4559] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - start asked?=n answers#=0
+D, [2005-02-11T23:27:11.127362 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:27:11.130969 #4559] DEBUG -- : query q?_daap._tcp.local/IN::ANY(0) - start asked?=n answers#=0
+D, [2005-02-11T23:27:11.321242 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:27:11.324342 #4559] DEBUG -- : ++ q _ftp._tcp.local/IN::ANY
+D, [2005-02-11T23:27:11.325449 #4559] DEBUG -- : query q?ensemble.local/IN::A(0) - start asked?=n answers#=0
+D, [2005-02-11T23:27:11.517917 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:27:11.520764 #4559] DEBUG -- : ++ a _ftp._tcp.local (7200) ->  PTR ensemble._ftp._tcp.local
+D, [2005-02-11T23:27:11.521517 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:27:11.522067 #4559] DEBUG -- : push 1 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:11.524296 #4559] DEBUG -- : push 1 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:11.528619 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:11.553195 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:27:11.556833 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:27:11.560577 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:27:11.566528 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:27:11.570626 #4559] DEBUG -- : ++ q _ftp._tcp.local/IN::ANY
+D, [2005-02-11T23:27:11.573967 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:27:11.574489 #4559] DEBUG -- : ++ a _ftp._tcp.local (7200) ->  PTR ensemble._ftp._tcp.local
+D, [2005-02-11T23:27:11.575266 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:27:11.575817 #4559] DEBUG -- : push 1 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:11.577583 #4559] DEBUG -- : push 1 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:11.581462 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:11.585035 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:27:11.592664 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:27:11.595550 #4559] DEBUG -- : ++ q _daap._tcp.local/IN::ANY
+D, [2005-02-11T23:27:11.602615 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:27:11.606144 #4559] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:27:11.609101 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:27:11.609976 #4559] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:27:11.610831 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:27:11.612710 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:11.613226 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:11.613646 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:11.614048 #4559] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:27:11.615905 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:27:11.805527 #4559] DEBUG -- : refresh in 48 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:27:11.809467 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:27:11.813069 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:27:21.287938 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=2 acnt=0
+D, [2005-02-11T23:27:21.288518 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::ANY
+D, [2005-02-11T23:27:21.288955 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::ANY
+D, [2005-02-11T23:27:21.291003 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:27:21.291771 #4559] DEBUG -- : ++ q _daap._tcp.local/IN::PTR
+D, [2005-02-11T23:27:21.537954 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=2 acnt=0
+D, [2005-02-11T23:27:21.538521 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::ANY
+D, [2005-02-11T23:27:21.538937 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::ANY
+D, [2005-02-11T23:27:21.787831 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=3 acnt=0
+D, [2005-02-11T23:27:21.788346 #4559] DEBUG -- : ++ q _daap._tcp.local/IN::PTR
+D, [2005-02-11T23:27:21.788741 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::ANY
+D, [2005-02-11T23:27:21.789105 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::ANY
+D, [2005-02-11T23:27:32.038919 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=6
+D, [2005-02-11T23:27:32.039620 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:27:32.040280 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:27:32.040797 #4559] DEBUG -- : ++ a _daap._tcp.local (7200) ->  PTR Sam Roberts’s Music._daap._tcp.local
+D, [2005-02-11T23:27:32.041258 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:27:32.041802 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! TXT ["txtvers=1", "Ver=65536", "DbId=681233690CC1C418"]
+D, [2005-02-11T23:27:32.042286 #4559] DEBUG -- : ++ a _dacp._tcp.local (7200) ->  PTR iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local
+D, [2005-02-11T23:27:32.043043 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:27:32.043717 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:32.044369 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:32.045077 #4559] DEBUG -- : push 1 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:32.048245 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:27:32.051678 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:27:32.055549 #4559] DEBUG -- : ++ q _daap._tcp.local/IN::PTR
+D, [2005-02-11T23:27:32.151232 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=6
+D, [2005-02-11T23:27:32.151877 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:27:32.152822 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:27:32.153487 #4559] DEBUG -- : ++ a _daap._tcp.local (7200) ->  PTR Sam Roberts’s Music._daap._tcp.local
+D, [2005-02-11T23:27:32.154106 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:27:32.154836 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! TXT ["txtvers=1", "Ver=65536", "DbId=681233690CC1C418"]
+D, [2005-02-11T23:27:32.155445 #4559] DEBUG -- : ++ a _dacp._tcp.local (7200) ->  PTR iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local
+D, [2005-02-11T23:27:32.156307 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:27:32.156998 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:32.157657 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:32.158356 #4559] DEBUG -- : push 1 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:32.160134 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:27:33.037525 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=1
+D, [2005-02-11T23:27:33.038147 #4559] DEBUG -- : ++ q _daap._tcp.local/IN::PTR
+D, [2005-02-11T23:27:34.535985 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=2
+D, [2005-02-11T23:27:34.536631 #4559] DEBUG -- : ++ a _daap._tcp.local (7200) ->  PTR Sam Roberts’s Music._daap._tcp.local
+D, [2005-02-11T23:27:34.537360 #4559] DEBUG -- : ++ a _dacp._tcp.local (7200) ->  PTR iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local
+D, [2005-02-11T23:27:34.538150 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:27:34.538678 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:34.539297 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:34.539870 #4559] DEBUG -- : push 1 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:34.541589 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:27:37.036669 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=1
+D, [2005-02-11T23:27:37.037273 #4559] DEBUG -- : ++ q _daap._tcp.local/IN::PTR
+D, [2005-02-11T23:27:38.536199 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=2
+D, [2005-02-11T23:27:38.536858 #4559] DEBUG -- : ++ a _daap._tcp.local (7200) ->  PTR Sam Roberts’s Music._daap._tcp.local
+D, [2005-02-11T23:27:38.537672 #4559] DEBUG -- : ++ a _dacp._tcp.local (7200) ->  PTR iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local
+D, [2005-02-11T23:27:38.538478 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:27:38.539016 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:38.539523 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:38.540080 #4559] DEBUG -- : push 1 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:38.541818 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:27:45.036664 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=1
+D, [2005-02-11T23:27:45.037269 #4559] DEBUG -- : ++ q _daap._tcp.local/IN::PTR
+D, [2005-02-11T23:27:46.536220 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=2
+D, [2005-02-11T23:27:46.536897 #4559] DEBUG -- : ++ a _daap._tcp.local (7200) ->  PTR Sam Roberts’s Music._daap._tcp.local
+D, [2005-02-11T23:27:46.537643 #4559] DEBUG -- : ++ a _dacp._tcp.local (7200) ->  PTR iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local
+D, [2005-02-11T23:27:46.538444 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:27:46.538995 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:46.539492 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:46.540027 #4559] DEBUG -- : push 1 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:27:46.541784 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:27:59.823950 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:27:59.825240 #4559] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:28:00.109595 #4559] DEBUG -- : refresh in 2 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:28:00.111234 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:28:00.112554 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:28:00.113817 #4559] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:28:00.115169 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:28:00.115677 #4559] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:28:00.116278 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:28:00.116729 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:28:00.117150 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:28:00.117566 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:28:00.117966 #4559] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:28:01.037127 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=1
+D, [2005-02-11T23:28:01.037741 #4559] DEBUG -- : ++ q _daap._tcp.local/IN::PTR
+D, [2005-02-11T23:28:02.123863 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:28:02.313838 #4559] DEBUG -- : refresh in 18 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:28:02.315453 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:28:02.316553 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:28:02.535623 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=2
+D, [2005-02-11T23:28:02.536274 #4559] DEBUG -- : ++ a _daap._tcp.local (7200) ->  PTR Sam Roberts’s Music._daap._tcp.local
+D, [2005-02-11T23:28:02.537025 #4559] DEBUG -- : ++ a _dacp._tcp.local (7200) ->  PTR iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local
+D, [2005-02-11T23:28:02.537838 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:28:02.538394 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:28:02.538914 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:28:02.539447 #4559] DEBUG -- : push 1 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:28:02.541218 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:28:20.327190 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:28:20.328426 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::TXT
+D, [2005-02-11T23:28:20.328789 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::SRV
+D, [2005-02-11T23:28:20.329321 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::TXT
+D, [2005-02-11T23:28:20.329621 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::SRV
+D, [2005-02-11T23:28:20.516237 #4559] DEBUG -- : refresh in 3 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:28:20.517923 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:28:20.520243 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=4 acnt=0
+D, [2005-02-11T23:28:20.521575 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::TXT
+D, [2005-02-11T23:28:20.522069 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::SRV
+D, [2005-02-11T23:28:20.522442 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::TXT
+D, [2005-02-11T23:28:20.522798 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::SRV
+D, [2005-02-11T23:28:20.526668 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:28:20.527195 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:28:20.527779 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:28:20.528273 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:28:20.528770 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! TXT ["txtvers=1", "Ver=65536", "DbId=681233690CC1C418"]
+D, [2005-02-11T23:28:20.529417 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:28:20.529982 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:28:20.530518 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:28:20.531063 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:28:20.531519 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:28:23.531559 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:28:23.719127 #4559] DEBUG -- : refresh in 25 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:28:23.720668 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:28:23.721693 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:28:33.036205 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=1
+D, [2005-02-11T23:28:33.036790 #4559] DEBUG -- : ++ q _daap._tcp.local/IN::PTR
+D, [2005-02-11T23:28:34.536165 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=2
+D, [2005-02-11T23:28:34.536823 #4559] DEBUG -- : ++ a _daap._tcp.local (7200) ->  PTR Sam Roberts’s Music._daap._tcp.local
+D, [2005-02-11T23:28:34.537731 #4559] DEBUG -- : ++ a _dacp._tcp.local (7200) ->  PTR iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local
+D, [2005-02-11T23:28:34.538547 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:28:34.539078 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:28:34.539570 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:28:34.540112 #4559] DEBUG -- : push 1 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:28:34.541929 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:28:48.732412 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:28:48.733742 #4559] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:28:48.920506 #4559] DEBUG -- : refresh in 3 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:28:48.922132 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:28:48.923537 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:28:48.924828 #4559] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:28:48.926165 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:28:48.926673 #4559] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:28:48.927271 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:28:48.927757 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:28:48.928194 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:28:48.928613 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:28:48.929008 #4559] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:28:51.934736 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:28:52.126268 #4559] DEBUG -- : refresh in 16 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:28:52.127852 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:28:52.128939 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:29:08.139657 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:29:08.140635 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::TXT
+D, [2005-02-11T23:29:08.141086 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::SRV
+D, [2005-02-11T23:29:08.141647 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::TXT
+D, [2005-02-11T23:29:08.141951 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::SRV
+D, [2005-02-11T23:29:08.333583 #4559] DEBUG -- : refresh in 3 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:29:08.335263 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:29:08.337720 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=4 acnt=0
+D, [2005-02-11T23:29:08.339108 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::TXT
+D, [2005-02-11T23:29:08.339648 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::SRV
+D, [2005-02-11T23:29:08.340034 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::TXT
+D, [2005-02-11T23:29:08.340396 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::SRV
+D, [2005-02-11T23:29:08.344298 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:29:08.344793 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:29:08.345414 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:29:08.345910 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:29:08.346436 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! TXT ["txtvers=1", "Ver=65536", "DbId=681233690CC1C418"]
+D, [2005-02-11T23:29:08.347091 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:29:08.347700 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:29:08.348258 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:29:08.348803 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:29:08.349306 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:29:11.349054 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:29:11.539572 #4559] DEBUG -- : refresh in 25 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:29:11.541149 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:29:11.542240 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:29:36.552615 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:29:36.553967 #4559] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:29:36.746955 #4559] DEBUG -- : refresh in 3 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:29:36.748542 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:29:36.749933 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:29:36.751207 #4559] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:29:36.752585 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:29:36.753053 #4559] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:29:36.753730 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:29:36.754183 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:29:36.754800 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:29:36.756315 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:29:36.756873 #4559] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:29:37.037106 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=1
+D, [2005-02-11T23:29:37.037698 #4559] DEBUG -- : ++ q _daap._tcp.local/IN::PTR
+D, [2005-02-11T23:29:38.536918 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=2
+D, [2005-02-11T23:29:38.537622 #4559] DEBUG -- : ++ a _daap._tcp.local (7200) ->  PTR Sam Roberts’s Music._daap._tcp.local
+D, [2005-02-11T23:29:38.538387 #4559] DEBUG -- : ++ a _dacp._tcp.local (7200) ->  PTR iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local
+D, [2005-02-11T23:29:38.539302 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:29:38.539847 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:29:38.540352 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:29:38.540939 #4559] DEBUG -- : push 1 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:29:38.542694 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:29:39.751203 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:29:39.940947 #4559] DEBUG -- : refresh in 17 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:29:39.943206 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:29:39.944487 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:29:56.956282 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:29:56.957301 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::TXT
+D, [2005-02-11T23:29:56.957664 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::SRV
+D, [2005-02-11T23:29:56.958211 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::TXT
+D, [2005-02-11T23:29:56.958554 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::SRV
+D, [2005-02-11T23:29:57.147216 #4559] DEBUG -- : refresh in 2 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:29:57.148992 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:29:57.151446 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=4 acnt=0
+D, [2005-02-11T23:29:57.152802 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::TXT
+D, [2005-02-11T23:29:57.153302 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::SRV
+D, [2005-02-11T23:29:57.153675 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::TXT
+D, [2005-02-11T23:29:57.154030 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::SRV
+D, [2005-02-11T23:29:57.157945 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:29:57.158491 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:29:57.159080 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:29:57.159606 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:29:57.160099 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! TXT ["txtvers=1", "Ver=65536", "DbId=681233690CC1C418"]
+D, [2005-02-11T23:29:57.160781 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:29:57.161352 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:29:57.161941 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:29:57.162510 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:29:57.162976 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:29:59.162788 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:29:59.351440 #4559] DEBUG -- : refresh in 25 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:29:59.352992 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:29:59.354030 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:30:24.364405 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:30:24.365705 #4559] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:30:24.553726 #4559] DEBUG -- : refresh in 3 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:30:24.555280 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:30:24.556643 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:30:24.557903 #4559] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:30:24.559220 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:30:24.559723 #4559] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:30:24.560315 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:30:24.560767 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:30:24.561242 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:30:24.561662 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:30:24.562057 #4559] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:30:27.567837 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:30:27.756148 #4559] DEBUG -- : refresh in 18 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:30:27.757733 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:30:27.758760 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:30:45.769394 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:30:45.770390 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::TXT
+D, [2005-02-11T23:30:45.770757 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::SRV
+D, [2005-02-11T23:30:45.771536 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::TXT
+D, [2005-02-11T23:30:45.772227 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::SRV
+D, [2005-02-11T23:30:45.959128 #4559] DEBUG -- : refresh in 3 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:30:45.960661 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:30:45.963074 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=4 acnt=0
+D, [2005-02-11T23:30:45.964386 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::TXT
+D, [2005-02-11T23:30:45.964880 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::SRV
+D, [2005-02-11T23:30:45.965301 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::TXT
+D, [2005-02-11T23:30:45.965661 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::SRV
+D, [2005-02-11T23:30:45.969610 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:30:45.970107 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:30:45.970744 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:30:45.971237 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:30:45.971763 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! TXT ["txtvers=1", "Ver=65536", "DbId=681233690CC1C418"]
+D, [2005-02-11T23:30:45.972498 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:30:45.973114 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:30:45.973675 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:30:45.974219 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:30:45.974721 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:30:48.974333 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:30:49.162914 #4559] DEBUG -- : refresh in 23 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:30:49.164424 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:30:49.165497 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:31:12.175924 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:31:12.177227 #4559] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:31:12.364008 #4559] DEBUG -- : refresh in 3 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:31:12.365668 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:31:12.366981 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:31:12.368307 #4559] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:31:12.369686 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:31:12.370160 #4559] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:31:12.370793 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:31:12.371252 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:31:12.371680 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:31:12.372097 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:31:12.372534 #4559] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:31:15.378221 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:31:15.566848 #4559] DEBUG -- : refresh in 18 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:31:15.568403 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:31:15.569503 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:31:33.580140 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:31:33.581201 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::TXT
+D, [2005-02-11T23:31:33.581569 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::SRV
+D, [2005-02-11T23:31:33.582159 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::TXT
+D, [2005-02-11T23:31:33.582501 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::SRV
+D, [2005-02-11T23:31:33.772399 #4559] DEBUG -- : refresh in 3 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:31:33.773964 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:31:33.776358 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=4 acnt=0
+D, [2005-02-11T23:31:33.777715 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::TXT
+D, [2005-02-11T23:31:33.778203 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::SRV
+D, [2005-02-11T23:31:33.778581 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::TXT
+D, [2005-02-11T23:31:33.778937 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::SRV
+D, [2005-02-11T23:31:33.782842 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:31:33.783343 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:31:33.783967 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:31:33.784535 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:31:33.785035 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! TXT ["txtvers=1", "Ver=65536", "DbId=681233690CC1C418"]
+D, [2005-02-11T23:31:33.785724 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:31:33.786298 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:31:33.786847 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:31:33.787424 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:31:33.787897 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:31:36.787732 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:31:37.029603 #4559] DEBUG -- : refresh in 23 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:31:37.031288 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:31:37.032379 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:31:45.037305 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=1
+D, [2005-02-11T23:31:45.037886 #4559] DEBUG -- : ++ q _daap._tcp.local/IN::PTR
+D, [2005-02-11T23:31:46.536216 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=2
+D, [2005-02-11T23:31:46.536899 #4559] DEBUG -- : ++ a _daap._tcp.local (7200) ->  PTR Sam Roberts’s Music._daap._tcp.local
+D, [2005-02-11T23:31:46.537651 #4559] DEBUG -- : ++ a _dacp._tcp.local (7200) ->  PTR iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local
+D, [2005-02-11T23:31:46.538507 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:31:46.539050 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:31:46.539549 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:31:46.540127 #4559] DEBUG -- : push 1 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:31:46.541873 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:32:00.043145 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:32:00.044449 #4559] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:32:00.233027 #4559] DEBUG -- : refresh in 3 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:32:00.234676 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:32:00.236082 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:32:00.237360 #4559] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:32:00.238733 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:32:00.239251 #4559] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:32:00.239847 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:32:00.240300 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:32:00.240759 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:32:00.241180 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:32:00.241579 #4559] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:32:03.247268 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:32:03.438411 #4559] DEBUG -- : refresh in 18 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:32:03.439988 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:32:03.441024 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:32:21.451711 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:32:21.452740 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::TXT
+D, [2005-02-11T23:32:21.453139 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::SRV
+D, [2005-02-11T23:32:21.453734 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::TXT
+D, [2005-02-11T23:32:21.454046 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::SRV
+D, [2005-02-11T23:32:21.644488 #4559] DEBUG -- : refresh in 3 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:32:21.646068 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:32:21.648494 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=4 acnt=0
+D, [2005-02-11T23:32:21.649836 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::TXT
+D, [2005-02-11T23:32:21.650330 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::SRV
+D, [2005-02-11T23:32:21.650754 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::TXT
+D, [2005-02-11T23:32:21.651125 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::SRV
+D, [2005-02-11T23:32:21.655002 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:32:21.655497 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:32:21.656121 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:32:21.656615 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:32:21.657143 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! TXT ["txtvers=1", "Ver=65536", "DbId=681233690CC1C418"]
+D, [2005-02-11T23:32:21.657794 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:32:21.658396 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:32:21.658950 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:32:21.659491 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:32:21.659990 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:32:24.659778 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:32:24.867155 #4559] DEBUG -- : refresh in 24 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:32:24.868643 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:32:24.869734 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:32:48.880161 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:32:48.881459 #4559] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:32:49.069664 #4559] DEBUG -- : refresh in 2 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:32:49.071222 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:32:49.072549 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:32:49.073853 #4559] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:32:49.075202 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:32:49.075670 #4559] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:32:49.076269 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:32:49.076761 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:32:49.077189 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:32:49.077605 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:32:49.078033 #4559] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:32:51.083776 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:32:51.274405 #4559] DEBUG -- : refresh in 18 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:32:51.276038 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:32:51.277132 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:33:09.287836 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:33:09.288858 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::TXT
+D, [2005-02-11T23:33:09.289222 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::SRV
+D, [2005-02-11T23:33:09.289771 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::TXT
+D, [2005-02-11T23:33:09.290075 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::SRV
+D, [2005-02-11T23:33:09.477855 #4559] DEBUG -- : refresh in 3 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:33:09.479447 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:33:09.481951 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=4 acnt=0
+D, [2005-02-11T23:33:09.483322 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::TXT
+D, [2005-02-11T23:33:09.483816 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::SRV
+D, [2005-02-11T23:33:09.484190 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::TXT
+D, [2005-02-11T23:33:09.484550 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::SRV
+D, [2005-02-11T23:33:09.488426 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:33:09.488928 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:33:09.489555 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:33:09.490089 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:33:09.490591 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! TXT ["txtvers=1", "Ver=65536", "DbId=681233690CC1C418"]
+D, [2005-02-11T23:33:09.491278 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:33:09.491853 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:33:09.492402 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:33:09.492982 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:33:09.493454 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:33:12.493232 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:33:12.681009 #4559] DEBUG -- : refresh in 25 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:33:12.682540 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:33:12.683570 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:33:37.693931 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:33:37.695226 #4559] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:33:37.882772 #4559] DEBUG -- : refresh in 3 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:33:37.884292 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:33:37.885663 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:33:37.886922 #4559] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:33:37.888269 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:33:37.888737 #4559] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:33:37.889362 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:33:37.889813 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:33:37.890277 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:33:37.890739 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:33:37.891142 #4559] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:33:40.896844 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:33:41.085520 #4559] DEBUG -- : refresh in 16 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:33:41.087055 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:33:41.088153 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:33:57.098944 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:33:57.100213 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::TXT
+D, [2005-02-11T23:33:57.100776 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::SRV
+D, [2005-02-11T23:33:57.101407 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::TXT
+D, [2005-02-11T23:33:57.101734 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::SRV
+D, [2005-02-11T23:33:57.299285 #4559] DEBUG -- : refresh in 3 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:33:57.301105 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:33:57.303626 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=4 acnt=0
+D, [2005-02-11T23:33:57.305003 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::TXT
+D, [2005-02-11T23:33:57.305507 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::SRV
+D, [2005-02-11T23:33:57.305885 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::TXT
+D, [2005-02-11T23:33:57.306439 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::SRV
+D, [2005-02-11T23:33:57.310320 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:33:57.310862 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:33:57.311492 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:33:57.311985 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:33:57.312509 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! TXT ["txtvers=1", "Ver=65536", "DbId=681233690CC1C418"]
+D, [2005-02-11T23:33:57.313159 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:33:57.313727 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:33:57.314308 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:33:57.314856 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:33:57.315366 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:34:00.314917 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:34:00.614745 #4559] DEBUG -- : refresh in 25 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:34:00.616448 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:34:00.617587 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:34:25.627965 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:34:25.629259 #4559] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:34:25.817713 #4559] DEBUG -- : refresh in 3 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:34:25.819269 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:34:25.820610 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:34:25.821965 #4559] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:34:25.823440 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:34:25.823917 #4559] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:34:25.824513 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:34:25.825007 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:34:25.825438 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:34:25.825854 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:34:25.826286 #4559] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:34:28.831874 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:34:29.020047 #4559] DEBUG -- : refresh in 16 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:34:29.021580 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:34:29.022613 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:34:45.033393 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:34:45.034370 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::TXT
+D, [2005-02-11T23:34:45.034785 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::SRV
+D, [2005-02-11T23:34:45.035406 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::TXT
+D, [2005-02-11T23:34:45.035716 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::SRV
+D, [2005-02-11T23:34:45.223995 #4559] DEBUG -- : refresh in 3 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:34:45.225622 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:34:45.228050 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=4 acnt=0
+D, [2005-02-11T23:34:45.229360 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::TXT
+D, [2005-02-11T23:34:45.229897 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::SRV
+D, [2005-02-11T23:34:45.230278 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::TXT
+D, [2005-02-11T23:34:45.230635 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::SRV
+D, [2005-02-11T23:34:45.234562 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:34:45.235065 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:34:45.235683 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:34:45.236181 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:34:45.236705 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! TXT ["txtvers=1", "Ver=65536", "DbId=681233690CC1C418"]
+D, [2005-02-11T23:34:45.237356 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:34:45.237962 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:34:45.238514 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:34:45.239086 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:34:45.239585 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:34:48.239320 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:34:48.426475 #4559] DEBUG -- : refresh in 25 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:34:48.428071 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:34:48.429263 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:35:13.439713 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:35:13.441061 #4559] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:35:13.635182 #4559] DEBUG -- : refresh in 3 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:35:13.635618 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:35:13.636957 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:35:13.638240 #4559] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:35:13.639626 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:35:13.640100 #4559] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:35:13.640741 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:35:13.641208 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:35:13.641641 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:35:13.642103 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:35:13.642510 #4559] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:35:16.648152 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:35:16.892302 #4559] DEBUG -- : refresh in 17 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:35:16.893957 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:35:16.895079 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:35:33.905776 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:35:33.906838 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::TXT
+D, [2005-02-11T23:35:33.907207 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::SRV
+D, [2005-02-11T23:35:33.907772 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::TXT
+D, [2005-02-11T23:35:33.908208 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::SRV
+D, [2005-02-11T23:35:34.145523 #4559] DEBUG -- : refresh in 2 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:35:34.147235 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:35:34.149670 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=4 acnt=0
+D, [2005-02-11T23:35:34.151012 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::TXT
+D, [2005-02-11T23:35:34.151504 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::SRV
+D, [2005-02-11T23:35:34.151878 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::TXT
+D, [2005-02-11T23:35:34.152278 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::SRV
+D, [2005-02-11T23:35:34.156197 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:35:34.156746 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:35:34.157334 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:35:34.157865 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:35:34.158354 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! TXT ["txtvers=1", "Ver=65536", "DbId=681233690CC1C418"]
+D, [2005-02-11T23:35:34.159079 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:35:34.159656 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:35:34.160282 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:35:34.160845 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:35:34.161320 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:35:36.160996 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:35:36.349675 #4559] DEBUG -- : refresh in 25 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:35:36.351192 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:35:36.352220 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:36:01.037337 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=1
+D, [2005-02-11T23:36:01.037891 #4559] DEBUG -- : ++ q _daap._tcp.local/IN::PTR
+D, [2005-02-11T23:36:01.353521 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:36:01.354798 #4559] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:36:01.543611 #4559] DEBUG -- : refresh in 3 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:36:01.545260 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:36:01.546664 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:36:01.547964 #4559] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:36:01.590263 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=3
+D, [2005-02-11T23:36:01.591038 #4559] DEBUG -- : ++ a _daap._tcp.local (7200) ->  PTR Sam Roberts’s Music._daap._tcp.local
+D, [2005-02-11T23:36:01.591806 #4559] DEBUG -- : ++ a _dacp._tcp.local (7200) ->  PTR iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local
+D, [2005-02-11T23:36:01.592481 #4559] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:36:01.593180 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:36:01.593737 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:36:01.594258 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:36:01.594827 #4559] DEBUG -- : push 1 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:36:01.596753 #4559] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:36:04.557895 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:36:04.780824 #4559] DEBUG -- : refresh in 18 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:36:04.782430 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:36:04.783457 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:36:22.794094 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:36:22.795035 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::TXT
+D, [2005-02-11T23:36:22.795391 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::SRV
+D, [2005-02-11T23:36:22.796002 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::TXT
+D, [2005-02-11T23:36:22.796307 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::SRV
+D, [2005-02-11T23:36:23.001085 #4559] DEBUG -- : refresh in 2 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:36:23.002735 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:36:23.004989 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=4 acnt=0
+D, [2005-02-11T23:36:23.006369 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::TXT
+D, [2005-02-11T23:36:23.006861 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::SRV
+D, [2005-02-11T23:36:23.007231 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::TXT
+D, [2005-02-11T23:36:23.007594 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::SRV
+D, [2005-02-11T23:36:23.011094 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:36:23.011636 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:36:23.012217 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:36:23.012700 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:36:23.013175 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! TXT ["txtvers=1", "Ver=65536", "DbId=681233690CC1C418"]
+D, [2005-02-11T23:36:23.013809 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:36:23.014357 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:36:23.014890 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:36:23.015414 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:36:23.015864 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:36:25.016298 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:36:25.222290 #4559] DEBUG -- : refresh in 24 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:36:25.223793 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:36:25.224781 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:36:49.235189 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:36:49.236385 #4559] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:36:49.425272 #4559] DEBUG -- : refresh in 3 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:36:49.426890 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:36:49.428184 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:36:49.429454 #4559] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:36:49.430694 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:36:49.431155 #4559] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:36:49.431733 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:36:49.432173 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:36:49.432583 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:36:49.432987 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:36:49.433371 #4559] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:36:52.439405 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:36:52.637085 #4559] DEBUG -- : refresh in 19 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:36:52.638689 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:36:52.639724 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:37:11.650359 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:37:11.651303 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::TXT
+D, [2005-02-11T23:37:11.651732 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::SRV
+D, [2005-02-11T23:37:11.652268 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::TXT
+D, [2005-02-11T23:37:11.652591 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::SRV
+D, [2005-02-11T23:37:11.839108 #4559] DEBUG -- : refresh in 3 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:37:11.840641 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:37:11.842879 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=4 acnt=0
+D, [2005-02-11T23:37:11.844227 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::TXT
+D, [2005-02-11T23:37:11.844715 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::SRV
+D, [2005-02-11T23:37:11.845085 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::TXT
+D, [2005-02-11T23:37:11.845444 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::SRV
+D, [2005-02-11T23:37:11.849013 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:37:11.849520 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:37:11.850101 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:37:11.850582 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:37:11.851064 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! TXT ["txtvers=1", "Ver=65536", "DbId=681233690CC1C418"]
+D, [2005-02-11T23:37:11.851696 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:37:11.852251 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:37:11.852787 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:37:11.853355 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:37:11.853812 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:37:14.854136 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:37:15.065852 #4559] DEBUG -- : refresh in 22 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:37:15.067347 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:37:15.068331 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:37:37.078813 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:37:37.080010 #4559] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:37:37.267523 #4559] DEBUG -- : refresh in 3 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:37:37.269046 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:37:37.270317 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:37:37.271597 #4559] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:37:37.272844 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:37:37.273303 #4559] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:37:37.273880 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:37:37.274330 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:37:37.274751 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:37:37.275159 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:37:37.275542 #4559] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:37:40.281535 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:37:40.467965 #4559] DEBUG -- : refresh in 19 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:37:40.469571 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:37:40.470637 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:37:59.481244 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:37:59.482200 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::TXT
+D, [2005-02-11T23:37:59.482554 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::SRV
+D, [2005-02-11T23:37:59.483098 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::TXT
+D, [2005-02-11T23:37:59.483399 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::SRV
+D, [2005-02-11T23:37:59.727493 #4559] DEBUG -- : refresh in 3 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:37:59.729073 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:37:59.731335 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=4 acnt=0
+D, [2005-02-11T23:37:59.732642 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::TXT
+D, [2005-02-11T23:37:59.733135 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::SRV
+D, [2005-02-11T23:37:59.733506 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::TXT
+D, [2005-02-11T23:37:59.733859 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::SRV
+D, [2005-02-11T23:37:59.737550 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:37:59.738062 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:37:59.738657 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:37:59.739220 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:37:59.739723 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! TXT ["txtvers=1", "Ver=65536", "DbId=681233690CC1C418"]
+D, [2005-02-11T23:37:59.740372 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:37:59.740946 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:37:59.741500 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:37:59.742048 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:37:59.742518 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:38:02.742613 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:38:02.930440 #4559] DEBUG -- : refresh in 23 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:38:02.931931 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:38:02.932957 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:38:25.943395 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:38:25.944658 #4559] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:38:26.130473 #4559] DEBUG -- : refresh in 2 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:38:26.131988 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:38:26.133293 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:38:26.134539 #4559] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:38:26.135843 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:38:26.136311 #4559] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:38:26.136901 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:38:26.137352 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:38:26.137778 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:38:26.138193 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:38:26.138598 #4559] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:38:28.144494 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:38:28.334506 #4559] DEBUG -- : refresh in 19 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:38:28.336113 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:38:28.337154 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:38:47.347769 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:38:47.348741 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::TXT
+D, [2005-02-11T23:38:47.349106 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::SRV
+D, [2005-02-11T23:38:47.349663 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::TXT
+D, [2005-02-11T23:38:47.349970 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::SRV
+D, [2005-02-11T23:38:47.540910 #4559] DEBUG -- : refresh in 3 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:38:47.542553 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:38:47.545055 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=4 acnt=0
+D, [2005-02-11T23:38:47.546388 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::TXT
+D, [2005-02-11T23:38:47.546884 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::SRV
+D, [2005-02-11T23:38:47.547259 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::TXT
+D, [2005-02-11T23:38:47.547619 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::SRV
+D, [2005-02-11T23:38:47.551410 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:38:47.551917 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:38:47.552551 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:38:47.553056 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:38:47.553551 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! TXT ["txtvers=1", "Ver=65536", "DbId=681233690CC1C418"]
+D, [2005-02-11T23:38:47.554206 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:38:47.554782 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:38:47.555331 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:38:47.555874 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:38:47.556346 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:38:50.556350 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:38:50.746108 #4559] DEBUG -- : refresh in 24 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:38:50.747607 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:38:50.748636 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:39:14.759040 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:39:14.760340 #4559] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:39:14.948966 #4559] DEBUG -- : refresh in 3 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:39:14.950499 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:39:14.951904 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:39:14.953174 #4559] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:39:14.954511 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:39:14.954991 #4559] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:39:14.955628 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:39:14.956083 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:39:14.956508 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:39:14.956924 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:39:14.957323 #4559] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:39:17.963085 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:39:18.204881 #4559] DEBUG -- : refresh in 17 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:39:18.206402 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:39:18.207495 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:39:35.218169 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:39:35.219150 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::TXT
+D, [2005-02-11T23:39:35.219513 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::SRV
+D, [2005-02-11T23:39:35.220068 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::TXT
+D, [2005-02-11T23:39:35.220421 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::SRV
+D, [2005-02-11T23:39:35.414061 #4559] DEBUG -- : refresh in 3 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:39:35.415664 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:39:35.418130 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=4 acnt=0
+D, [2005-02-11T23:39:35.419469 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::TXT
+D, [2005-02-11T23:39:35.419961 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::SRV
+D, [2005-02-11T23:39:35.420333 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::TXT
+D, [2005-02-11T23:39:35.420688 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::SRV
+D, [2005-02-11T23:39:35.424511 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:39:35.425015 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:39:35.425628 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:39:35.426132 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:39:35.426623 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! TXT ["txtvers=1", "Ver=65536", "DbId=681233690CC1C418"]
+D, [2005-02-11T23:39:35.427269 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:39:35.427826 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:39:35.428378 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:39:35.428907 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:39:35.429376 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:39:38.429431 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:39:38.618084 #4559] DEBUG -- : refresh in 24 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:39:38.619717 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:39:38.620779 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:40:02.631192 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:40:02.632498 #4559] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:40:02.837186 #4559] DEBUG -- : refresh in 3 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:40:02.838691 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:40:02.840000 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:40:02.841247 #4559] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:40:02.842664 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:40:02.843143 #4559] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:40:02.843780 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:40:02.844242 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:40:02.844672 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:40:02.845094 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:40:02.845494 #4559] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:40:05.851177 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:40:06.039908 #4559] DEBUG -- : refresh in 17 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:40:06.041456 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:40:06.042501 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:40:23.053187 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:40:23.054150 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::TXT
+D, [2005-02-11T23:40:23.054509 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::SRV
+D, [2005-02-11T23:40:23.055067 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::TXT
+D, [2005-02-11T23:40:23.055369 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::SRV
+D, [2005-02-11T23:40:23.270903 #4559] DEBUG -- : refresh in 3 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:40:23.272443 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:40:23.274818 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=4 acnt=0
+D, [2005-02-11T23:40:23.276136 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::TXT
+D, [2005-02-11T23:40:23.276622 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::SRV
+D, [2005-02-11T23:40:23.276992 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::TXT
+D, [2005-02-11T23:40:23.277354 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::SRV
+D, [2005-02-11T23:40:23.281093 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:40:23.281590 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:40:23.282230 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:40:23.282728 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:40:23.283258 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! TXT ["txtvers=1", "Ver=65536", "DbId=681233690CC1C418"]
+D, [2005-02-11T23:40:23.283917 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:40:23.284488 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:40:23.285039 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:40:23.285584 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:40:23.286052 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:40:26.286082 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:40:26.473542 #4559] DEBUG -- : refresh in 24 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:40:26.475084 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:40:26.476125 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:40:50.486580 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:40:50.487911 #4559] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:40:50.676459 #4559] DEBUG -- : refresh in 3 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:40:50.678039 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:40:50.679353 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:40:50.680623 #4559] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:40:50.681965 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:40:50.682435 #4559] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:40:50.683029 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:40:50.683484 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:40:50.683913 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:40:50.684332 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:40:50.684730 #4559] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:40:53.690547 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:40:53.878036 #4559] DEBUG -- : refresh in 18 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:40:53.879559 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:40:53.880604 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:41:11.891223 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:41:11.892201 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::TXT
+D, [2005-02-11T23:41:11.892565 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::SRV
+D, [2005-02-11T23:41:11.893191 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::TXT
+D, [2005-02-11T23:41:11.893504 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::SRV
+D, [2005-02-11T23:41:12.082367 #4559] DEBUG -- : refresh in 2 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:41:12.083946 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:41:12.086271 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=4 acnt=0
+D, [2005-02-11T23:41:12.087588 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::TXT
+D, [2005-02-11T23:41:12.088075 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::SRV
+D, [2005-02-11T23:41:12.088449 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::TXT
+D, [2005-02-11T23:41:12.088807 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::SRV
+D, [2005-02-11T23:41:12.092648 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:41:12.093155 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:41:12.093745 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:41:12.094238 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:41:12.094730 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! TXT ["txtvers=1", "Ver=65536", "DbId=681233690CC1C418"]
+D, [2005-02-11T23:41:12.095378 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:41:12.095946 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:41:12.096498 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:41:12.097043 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:41:12.097514 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:41:14.097578 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:41:14.287139 #4559] DEBUG -- : refresh in 24 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:41:14.288640 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:41:14.289674 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:41:38.300078 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:41:38.301347 #4559] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:41:38.545361 #4559] DEBUG -- : refresh in 3 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:41:38.546963 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:41:38.548301 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:41:38.549570 #4559] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:41:38.550863 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:41:38.551366 #4559] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:41:38.551965 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:41:38.552426 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:41:38.552855 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:41:38.553272 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:41:38.553673 #4559] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:41:41.559473 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:41:41.760544 #4559] DEBUG -- : refresh in 19 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:41:41.762071 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:41:41.763188 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:42:00.773827 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:42:00.775180 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::TXT
+D, [2005-02-11T23:42:00.775640 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::SRV
+D, [2005-02-11T23:42:00.776200 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::TXT
+D, [2005-02-11T23:42:00.776504 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::SRV
+D, [2005-02-11T23:42:00.971738 #4559] DEBUG -- : refresh in 3 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:42:00.973993 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:42:00.978781 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=4 acnt=0
+D, [2005-02-11T23:42:00.982534 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::TXT
+D, [2005-02-11T23:42:00.983546 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::SRV
+D, [2005-02-11T23:42:00.984376 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::TXT
+D, [2005-02-11T23:42:00.984775 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::SRV
+D, [2005-02-11T23:42:00.988798 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:42:00.989325 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:42:00.990062 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:42:00.990576 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:42:00.991076 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! TXT ["txtvers=1", "Ver=65536", "DbId=681233690CC1C418"]
+D, [2005-02-11T23:42:00.991925 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:42:00.994223 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:00.994875 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:00.995452 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:00.995992 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:42:03.991887 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:42:04.180192 #4559] DEBUG -- : refresh in 22 sec for ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:42:04.181688 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:42:04.182721 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:42:21.862187 #4559] DEBUG -- : from 192.168.123.162:5353 -> qr=1 qcnt=0 acnt=2
+D, [2005-02-11T23:42:21.862857 #4559] DEBUG -- : ++ a 162.123.168.192.in-addr.arpa (60) -> ! PTR iBec.local
+D, [2005-02-11T23:42:21.863511 #4559] DEBUG -- : ++ a 162.123.168.192.in-addr.arpa (60) -> ! PTR iBec.local
+D, [2005-02-11T23:42:21.864370 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:42:21.864886 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:21.865365 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:21.865877 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:21.866305 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:42:21.874683 #4559] DEBUG -- : from 192.168.123.162:5353 -> qr=0 qcnt=11 acnt=0
+D, [2005-02-11T23:42:21.875130 #4559] DEBUG -- : ++ q _register._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:42:21.875533 #4559] DEBUG -- : ++ q _default._register._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:42:21.875902 #4559] DEBUG -- : ++ q _browse._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:42:21.876260 #4559] DEBUG -- : ++ q _default._browse._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:42:21.876615 #4559] DEBUG -- : ++ q _http._tcp.local/IN::PTR
+D, [2005-02-11T23:42:21.876961 #4559] DEBUG -- : ++ q iBec [00:30:65:d4:31:26]._workstation._tcp.local/IN::ANY
+D, [2005-02-11T23:42:21.877314 #4559] DEBUG -- : ++ q iBec [00:30:65:d4:31:26]._workstation._tcp.local/IN::ANY
+D, [2005-02-11T23:42:21.877658 #4559] DEBUG -- : ++ q 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local/IN::ANY
+D, [2005-02-11T23:42:21.878004 #4559] DEBUG -- : ++ q 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local/IN::ANY
+D, [2005-02-11T23:42:21.878345 #4559] DEBUG -- : ++ q iBec._afpovertcp._tcp.local/IN::ANY
+D, [2005-02-11T23:42:21.878687 #4559] DEBUG -- : ++ q iBec._afpovertcp._tcp.local/IN::ANY
+D, [2005-02-11T23:42:21.880844 #4559] DEBUG -- : from 192.168.123.162:5353 -> qr=0 qcnt=3 acnt=0
+D, [2005-02-11T23:42:21.881215 #4559] DEBUG -- : ++ q _http._tcp.local/IN::PTR
+D, [2005-02-11T23:42:21.881573 #4559] DEBUG -- : ++ q iBec.local/IN::ANY
+D, [2005-02-11T23:42:21.881922 #4559] DEBUG -- : ++ q iBec.local.arpa/IN::ANY
+D, [2005-02-11T23:42:21.925447 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:42:21.926084 #4559] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR Sam Roberts' Web Site._http._tcp.local
+D, [2005-02-11T23:42:21.926862 #4559] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR Julie Lebel's Web Site._http._tcp.local
+D, [2005-02-11T23:42:21.927531 #4559] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR guest's Web Site._http._tcp.local
+D, [2005-02-11T23:42:21.928784 #4559] DEBUG -- : ++ a _http._tcp.local (7200) ->  PTR ensemble._http._tcp.local
+D, [2005-02-11T23:42:21.929779 #4559] DEBUG -- : push 4 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:42:21.931819 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:21.934297 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:21.942075 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:21.944372 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:42:22.127240 #4559] DEBUG -- : from 192.168.123.162:5353 -> qr=0 qcnt=7 acnt=4
+D, [2005-02-11T23:42:22.127903 #4559] DEBUG -- : ++ q _http._tcp.local/IN::PTR
+D, [2005-02-11T23:42:22.128327 #4559] DEBUG -- : ++ q iBec [00:30:65:d4:31:26]._workstation._tcp.local/IN::ANY
+D, [2005-02-11T23:42:22.128700 #4559] DEBUG -- : ++ q iBec [00:30:65:d4:31:26]._workstation._tcp.local/IN::ANY
+D, [2005-02-11T23:42:22.129053 #4559] DEBUG -- : ++ q 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local/IN::ANY
+D, [2005-02-11T23:42:22.129407 #4559] DEBUG -- : ++ q 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local/IN::ANY
+D, [2005-02-11T23:42:22.129753 #4559] DEBUG -- : ++ q iBec._afpovertcp._tcp.local/IN::ANY
+D, [2005-02-11T23:42:22.130099 #4559] DEBUG -- : ++ q iBec._afpovertcp._tcp.local/IN::ANY
+D, [2005-02-11T23:42:22.131982 #4559] DEBUG -- : from 192.168.123.162:5353 -> qr=0 qcnt=2 acnt=0
+D, [2005-02-11T23:42:22.132357 #4559] DEBUG -- : ++ q iBec.local/IN::ANY
+D, [2005-02-11T23:42:22.132722 #4559] DEBUG -- : ++ q iBec.local.arpa/IN::ANY
+D, [2005-02-11T23:42:22.375131 #4559] DEBUG -- : from 192.168.123.162:5353 -> qr=0 qcnt=10 acnt=0
+D, [2005-02-11T23:42:22.375650 #4559] DEBUG -- : ++ q _register._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:42:22.376066 #4559] DEBUG -- : ++ q _default._register._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:42:22.376439 #4559] DEBUG -- : ++ q _browse._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:42:22.376801 #4559] DEBUG -- : ++ q _default._browse._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:42:22.377155 #4559] DEBUG -- : ++ q iBec [00:30:65:d4:31:26]._workstation._tcp.local/IN::ANY
+D, [2005-02-11T23:42:22.377500 #4559] DEBUG -- : ++ q iBec [00:30:65:d4:31:26]._workstation._tcp.local/IN::ANY
+D, [2005-02-11T23:42:22.377850 #4559] DEBUG -- : ++ q 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local/IN::ANY
+D, [2005-02-11T23:42:22.378198 #4559] DEBUG -- : ++ q 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local/IN::ANY
+D, [2005-02-11T23:42:22.378542 #4559] DEBUG -- : ++ q iBec._afpovertcp._tcp.local/IN::ANY
+D, [2005-02-11T23:42:22.378879 #4559] DEBUG -- : ++ q iBec._afpovertcp._tcp.local/IN::ANY
+D, [2005-02-11T23:42:22.380845 #4559] DEBUG -- : from 192.168.123.162:5353 -> qr=0 qcnt=2 acnt=0
+D, [2005-02-11T23:42:22.381214 #4559] DEBUG -- : ++ q iBec.local/IN::ANY
+D, [2005-02-11T23:42:22.381579 #4559] DEBUG -- : ++ q iBec.local.arpa/IN::ANY
+D, [2005-02-11T23:42:22.740579 #4559] DEBUG -- : from 192.168.123.162:5353 -> qr=1 qcnt=0 acnt=11
+D, [2005-02-11T23:42:22.741180 #4559] DEBUG -- : ++ a iBec [00:30:65:d4:31:26]._workstation._tcp.local (60) -> ! SRV iBec.local:9
+D, [2005-02-11T23:42:22.741810 #4559] DEBUG -- : ++ a iBec [00:30:65:d4:31:26]._workstation._tcp.local (60) -> ! TXT [""]
+D, [2005-02-11T23:42:22.742329 #4559] DEBUG -- : ++ a _workstation._tcp.local (7200) ->  PTR iBec [00:30:65:d4:31:26]._workstation._tcp.local
+D, [2005-02-11T23:42:22.742851 #4559] DEBUG -- : ++ a 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local (60) -> ! SRV iBec.local:9
+D, [2005-02-11T23:42:22.743422 #4559] DEBUG -- : ++ a 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local (60) -> ! TXT [""]
+D, [2005-02-11T23:42:22.743929 #4559] DEBUG -- : ++ a _MacOSXDupSuppress._tcp.local (7200) ->  PTR 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local
+D, [2005-02-11T23:42:22.744442 #4559] DEBUG -- : ++ a iBec._afpovertcp._tcp.local (60) -> ! SRV iBec.local:548
+D, [2005-02-11T23:42:22.744969 #4559] DEBUG -- : ++ a iBec._afpovertcp._tcp.local (60) -> ! TXT [""]
+D, [2005-02-11T23:42:22.745451 #4559] DEBUG -- : ++ a _afpovertcp._tcp.local (7200) ->  PTR iBec._afpovertcp._tcp.local
+D, [2005-02-11T23:42:22.745963 #4559] DEBUG -- : ++ a iBec.local (60) -> ! A   192.168.123.162
+D, [2005-02-11T23:42:22.746486 #4559] DEBUG -- : ++ a iBec.local.arpa (60) -> ! A   192.168.123.162
+D, [2005-02-11T23:42:22.747442 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:42:22.748411 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:22.749362 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:22.750272 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:22.750961 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:42:22.877903 #4559] DEBUG -- : from 192.168.123.162:5353 -> qr=1 qcnt=0 acnt=11
+D, [2005-02-11T23:42:22.878463 #4559] DEBUG -- : ++ a iBec [00:30:65:d4:31:26]._workstation._tcp.local (60) -> ! SRV iBec.local:9
+D, [2005-02-11T23:42:22.879296 #4559] DEBUG -- : ++ a iBec [00:30:65:d4:31:26]._workstation._tcp.local (60) -> ! TXT [""]
+D, [2005-02-11T23:42:22.879942 #4559] DEBUG -- : ++ a _workstation._tcp.local (7200) ->  PTR iBec [00:30:65:d4:31:26]._workstation._tcp.local
+D, [2005-02-11T23:42:22.880559 #4559] DEBUG -- : ++ a 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local (60) -> ! SRV iBec.local:9
+D, [2005-02-11T23:42:22.881296 #4559] DEBUG -- : ++ a 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local (60) -> ! TXT [""]
+D, [2005-02-11T23:42:22.881916 #4559] DEBUG -- : ++ a _MacOSXDupSuppress._tcp.local (7200) ->  PTR 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local
+D, [2005-02-11T23:42:22.882528 #4559] DEBUG -- : ++ a iBec._afpovertcp._tcp.local (60) -> ! SRV iBec.local:548
+D, [2005-02-11T23:42:22.883256 #4559] DEBUG -- : ++ a iBec._afpovertcp._tcp.local (60) -> ! TXT [""]
+D, [2005-02-11T23:42:22.883868 #4559] DEBUG -- : ++ a _afpovertcp._tcp.local (7200) ->  PTR iBec._afpovertcp._tcp.local
+D, [2005-02-11T23:42:22.884470 #4559] DEBUG -- : ++ a iBec.local (60) -> ! A   192.168.123.162
+D, [2005-02-11T23:42:22.885073 #4559] DEBUG -- : ++ a iBec.local.arpa (60) -> ! A   192.168.123.162
+D, [2005-02-11T23:42:22.886068 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:42:22.887002 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:22.887909 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:22.888803 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:22.889486 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:42:23.619285 #4559] DEBUG -- : from 192.168.123.162:49187 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:42:23.619776 #4559] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:42:23.620938 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:42:23.621402 #4559] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:42:23.621994 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:42:23.622446 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:23.622871 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:23.623288 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:23.623683 #4559] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:42:24.122863 #4559] DEBUG -- : from 192.168.123.162:5353 -> qr=0 qcnt=5 acnt=4
+D, [2005-02-11T23:42:24.123421 #4559] DEBUG -- : ++ q _http._tcp.local/IN::PTR
+D, [2005-02-11T23:42:24.123832 #4559] DEBUG -- : ++ q _register._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:42:24.124199 #4559] DEBUG -- : ++ q _default._register._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:42:24.124560 #4559] DEBUG -- : ++ q _browse._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:42:24.124953 #4559] DEBUG -- : ++ q _default._browse._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:42:25.242183 #4559] DEBUG -- : from 192.168.123.162:5353 -> qr=1 qcnt=0 acnt=3
+D, [2005-02-11T23:42:25.242818 #4559] DEBUG -- : ++ a _workstation._tcp.local (7200) ->  PTR iBec [00:30:65:d4:31:26]._workstation._tcp.local
+D, [2005-02-11T23:42:25.243563 #4559] DEBUG -- : ++ a _MacOSXDupSuppress._tcp.local (7200) ->  PTR 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local
+D, [2005-02-11T23:42:25.244212 #4559] DEBUG -- : ++ a _afpovertcp._tcp.local (7200) ->  PTR iBec._afpovertcp._tcp.local
+D, [2005-02-11T23:42:25.245065 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:42:25.245651 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:25.246202 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:25.246737 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:25.247183 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:42:26.183990 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:42:26.386841 #4559] DEBUG -- : refresh in 22 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:42:26.388450 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:42:26.389500 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:42:28.123495 #4559] DEBUG -- : from 192.168.123.162:5353 -> qr=0 qcnt=5 acnt=4
+D, [2005-02-11T23:42:28.124074 #4559] DEBUG -- : ++ q _register._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:42:28.124505 #4559] DEBUG -- : ++ q _default._register._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:42:28.124882 #4559] DEBUG -- : ++ q _browse._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:42:28.125242 #4559] DEBUG -- : ++ q _default._browse._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:42:28.125593 #4559] DEBUG -- : ++ q _http._tcp.local/IN::PTR
+D, [2005-02-11T23:42:29.239131 #4559] DEBUG -- : from 192.168.123.162:5353 -> qr=1 qcnt=0 acnt=3
+D, [2005-02-11T23:42:29.239770 #4559] DEBUG -- : ++ a _workstation._tcp.local (7200) ->  PTR iBec [00:30:65:d4:31:26]._workstation._tcp.local
+D, [2005-02-11T23:42:29.240572 #4559] DEBUG -- : ++ a _MacOSXDupSuppress._tcp.local (7200) ->  PTR 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local
+D, [2005-02-11T23:42:29.241244 #4559] DEBUG -- : ++ a _afpovertcp._tcp.local (7200) ->  PTR iBec._afpovertcp._tcp.local
+D, [2005-02-11T23:42:29.242065 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:42:29.242655 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:29.243209 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:29.243755 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:29.244201 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:42:36.123843 #4559] DEBUG -- : from 192.168.123.162:5353 -> qr=0 qcnt=5 acnt=4
+D, [2005-02-11T23:42:36.124487 #4559] DEBUG -- : ++ q _register._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:42:36.124916 #4559] DEBUG -- : ++ q _default._register._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:42:36.125296 #4559] DEBUG -- : ++ q _browse._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:42:36.125656 #4559] DEBUG -- : ++ q _default._browse._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:42:36.126009 #4559] DEBUG -- : ++ q _http._tcp.local/IN::PTR
+D, [2005-02-11T23:42:37.246012 #4559] DEBUG -- : from 192.168.123.162:5353 -> qr=1 qcnt=0 acnt=3
+D, [2005-02-11T23:42:37.246651 #4559] DEBUG -- : ++ a _workstation._tcp.local (7200) ->  PTR iBec [00:30:65:d4:31:26]._workstation._tcp.local
+D, [2005-02-11T23:42:37.247407 #4559] DEBUG -- : ++ a _MacOSXDupSuppress._tcp.local (7200) ->  PTR 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local
+D, [2005-02-11T23:42:37.248076 #4559] DEBUG -- : ++ a _afpovertcp._tcp.local (7200) ->  PTR iBec._afpovertcp._tcp.local
+D, [2005-02-11T23:42:37.249014 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:42:37.249619 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:37.250186 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:37.250736 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:37.251185 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:42:48.400447 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:42:48.401419 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::TXT
+D, [2005-02-11T23:42:48.401904 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::SRV
+D, [2005-02-11T23:42:48.403115 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::TXT
+D, [2005-02-11T23:42:48.403450 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::SRV
+D, [2005-02-11T23:42:48.592081 #4559] DEBUG -- : refresh in 3 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:42:48.593733 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:42:48.596088 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=4 acnt=0
+D, [2005-02-11T23:42:48.597423 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::TXT
+D, [2005-02-11T23:42:48.597914 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::SRV
+D, [2005-02-11T23:42:48.598296 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::TXT
+D, [2005-02-11T23:42:48.598651 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::SRV
+D, [2005-02-11T23:42:48.602289 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:42:48.602788 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:42:48.603406 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:42:48.603895 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:42:48.604395 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! TXT ["txtvers=1", "Ver=65536", "DbId=681233690CC1C418"]
+D, [2005-02-11T23:42:48.605038 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:42:48.605606 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:48.606153 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:48.606698 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:48.607149 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:42:51.607355 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:42:51.839614 #4559] DEBUG -- : refresh in 18 sec for 162.123.168.192.in-addr.arpa (60) -> ! PTR iBec.local
+D, [2005-02-11T23:42:51.841242 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:42:51.842324 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:42:52.121112 #4559] DEBUG -- : from 192.168.123.162:5353 -> qr=0 qcnt=5 acnt=4
+D, [2005-02-11T23:42:52.121633 #4559] DEBUG -- : ++ q _register._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:42:52.122087 #4559] DEBUG -- : ++ q _default._register._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:42:52.122466 #4559] DEBUG -- : ++ q _browse._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:42:52.122824 #4559] DEBUG -- : ++ q _default._browse._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:42:52.123175 #4559] DEBUG -- : ++ q _http._tcp.local/IN::PTR
+D, [2005-02-11T23:42:53.238314 #4559] DEBUG -- : from 192.168.123.162:5353 -> qr=1 qcnt=0 acnt=3
+D, [2005-02-11T23:42:53.238949 #4559] DEBUG -- : ++ a _workstation._tcp.local (7200) ->  PTR iBec [00:30:65:d4:31:26]._workstation._tcp.local
+D, [2005-02-11T23:42:53.239691 #4559] DEBUG -- : ++ a _MacOSXDupSuppress._tcp.local (7200) ->  PTR 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local
+D, [2005-02-11T23:42:53.240349 #4559] DEBUG -- : ++ a _afpovertcp._tcp.local (7200) ->  PTR iBec._afpovertcp._tcp.local
+D, [2005-02-11T23:42:53.241153 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:42:53.241724 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:53.242302 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:53.242835 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:42:53.243292 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:43:09.852999 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:43:09.854980 #4559] DEBUG -- : -> q 162.123.168.192.in-addr.arpa IN::PTR
+D, [2005-02-11T23:43:10.064399 #4559] DEBUG -- : refresh in 1 sec for iBec.local.arpa (60) -> ! A   192.168.123.162
+D, [2005-02-11T23:43:10.065903 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:43:10.067285 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:43:10.068650 #4559] DEBUG -- : ++ q 162.123.168.192.in-addr.arpa/IN::PTR
+D, [2005-02-11T23:43:10.070180 #4559] DEBUG -- : from 192.168.123.162:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:43:10.070648 #4559] DEBUG -- : ++ a 162.123.168.192.in-addr.arpa (60) -> ! PTR iBec.local
+D, [2005-02-11T23:43:10.071262 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:43:10.071699 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:10.072116 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:10.072517 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:10.072888 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:43:11.078567 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:43:11.079533 #4559] DEBUG -- : -> q iBec.local.arpa IN::A
+D, [2005-02-11T23:43:11.080005 #4559] DEBUG -- : -> q iBec.local IN::A
+D, [2005-02-11T23:43:11.080521 #4559] DEBUG -- : -> q iBec [00:30:65:d4:31:26]._workstation._tcp.local IN::TXT
+D, [2005-02-11T23:43:11.080811 #4559] DEBUG -- : -> q iBec [00:30:65:d4:31:26]._workstation._tcp.local IN::SRV
+D, [2005-02-11T23:43:11.081567 #4559] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:43:11.082452 #4559] DEBUG -- : -> q 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local IN::TXT
+D, [2005-02-11T23:43:11.082784 #4559] DEBUG -- : -> q 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local IN::SRV
+D, [2005-02-11T23:43:11.083398 #4559] DEBUG -- : -> q iBec._afpovertcp._tcp.local IN::TXT
+D, [2005-02-11T23:43:11.083690 #4559] DEBUG -- : -> q iBec._afpovertcp._tcp.local IN::SRV
+D, [2005-02-11T23:43:11.322423 #4559] DEBUG -- : refresh in 2 sec for iBec.local.arpa (60) -> ! A   192.168.123.162
+D, [2005-02-11T23:43:11.323922 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:43:11.327500 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=9 acnt=0
+D, [2005-02-11T23:43:11.328823 #4559] DEBUG -- : ++ q iBec.local.arpa/IN::A
+D, [2005-02-11T23:43:11.329289 #4559] DEBUG -- : ++ q iBec.local/IN::A
+D, [2005-02-11T23:43:11.329655 #4559] DEBUG -- : ++ q iBec [00:30:65:d4:31:26]._workstation._tcp.local/IN::TXT
+D, [2005-02-11T23:43:11.330009 #4559] DEBUG -- : ++ q iBec [00:30:65:d4:31:26]._workstation._tcp.local/IN::SRV
+D, [2005-02-11T23:43:11.330340 #4559] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:43:11.330663 #4559] DEBUG -- : ++ q 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local/IN::TXT
+D, [2005-02-11T23:43:11.331004 #4559] DEBUG -- : ++ q 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local/IN::SRV
+D, [2005-02-11T23:43:11.331340 #4559] DEBUG -- : ++ q iBec._afpovertcp._tcp.local/IN::TXT
+D, [2005-02-11T23:43:11.331677 #4559] DEBUG -- : ++ q iBec._afpovertcp._tcp.local/IN::SRV
+D, [2005-02-11T23:43:11.379104 #4559] DEBUG -- : from 192.168.123.162:5353 -> qr=1 qcnt=0 acnt=8
+D, [2005-02-11T23:43:11.379906 #4559] DEBUG -- : ++ a iBec [00:30:65:d4:31:26]._workstation._tcp.local (60) -> ! SRV iBec.local:9
+D, [2005-02-11T23:43:11.380482 #4559] DEBUG -- : ++ a iBec [00:30:65:d4:31:26]._workstation._tcp.local (60) -> ! TXT [""]
+D, [2005-02-11T23:43:11.380974 #4559] DEBUG -- : ++ a 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local (60) -> ! SRV iBec.local:9
+D, [2005-02-11T23:43:11.381440 #4559] DEBUG -- : ++ a 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local (60) -> ! TXT [""]
+D, [2005-02-11T23:43:11.381947 #4559] DEBUG -- : ++ a iBec._afpovertcp._tcp.local (60) -> ! SRV iBec.local:548
+D, [2005-02-11T23:43:11.382415 #4559] DEBUG -- : ++ a iBec._afpovertcp._tcp.local (60) -> ! TXT [""]
+D, [2005-02-11T23:43:11.382876 #4559] DEBUG -- : ++ a iBec.local (60) -> ! A   192.168.123.162
+D, [2005-02-11T23:43:11.383362 #4559] DEBUG -- : ++ a iBec.local.arpa (60) -> ! A   192.168.123.162
+D, [2005-02-11T23:43:11.384209 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:43:11.385029 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:11.385753 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:11.386461 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:11.387039 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:43:11.399003 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:43:11.399461 #4559] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:43:11.400009 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:43:11.400451 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:11.400866 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:11.401343 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:11.401734 #4559] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:43:13.338794 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:43:13.576003 #4559] DEBUG -- : refresh in 23 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:43:13.577596 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:43:13.578620 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:43:24.117798 #4559] DEBUG -- : from 192.168.123.162:5353 -> qr=0 qcnt=5 acnt=4
+D, [2005-02-11T23:43:24.118421 #4559] DEBUG -- : ++ q _register._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:43:24.118844 #4559] DEBUG -- : ++ q _default._register._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:43:24.119212 #4559] DEBUG -- : ++ q _browse._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:43:24.119570 #4559] DEBUG -- : ++ q _default._browse._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:43:24.119915 #4559] DEBUG -- : ++ q _http._tcp.local/IN::PTR
+D, [2005-02-11T23:43:25.228447 #4559] DEBUG -- : from 192.168.123.162:5353 -> qr=1 qcnt=0 acnt=3
+D, [2005-02-11T23:43:25.229072 #4559] DEBUG -- : ++ a _workstation._tcp.local (7200) ->  PTR iBec [00:30:65:d4:31:26]._workstation._tcp.local
+D, [2005-02-11T23:43:25.229814 #4559] DEBUG -- : ++ a _MacOSXDupSuppress._tcp.local (7200) ->  PTR 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local
+D, [2005-02-11T23:43:25.230472 #4559] DEBUG -- : ++ a _afpovertcp._tcp.local (7200) ->  PTR iBec._afpovertcp._tcp.local
+D, [2005-02-11T23:43:25.231280 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:43:25.231853 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:25.232396 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:25.232920 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:25.233346 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:43:36.589487 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:43:36.590434 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::TXT
+D, [2005-02-11T23:43:36.590793 #4559] DEBUG -- : -> q Sam Roberts’s Music._daap._tcp.local IN::SRV
+D, [2005-02-11T23:43:36.591889 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::TXT
+D, [2005-02-11T23:43:36.592194 #4559] DEBUG -- : -> q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local IN::SRV
+D, [2005-02-11T23:43:36.782668 #4559] DEBUG -- : refresh in 3 sec for Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:43:36.784343 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:43:36.786580 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=4 acnt=0
+D, [2005-02-11T23:43:36.787952 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::TXT
+D, [2005-02-11T23:43:36.788443 #4559] DEBUG -- : ++ q Sam Roberts’s Music._daap._tcp.local/IN::SRV
+D, [2005-02-11T23:43:36.788819 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::TXT
+D, [2005-02-11T23:43:36.789173 #4559] DEBUG -- : ++ q iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local/IN::SRV
+D, [2005-02-11T23:43:36.792696 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=4
+D, [2005-02-11T23:43:36.793208 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:43:36.793789 #4559] DEBUG -- : ++ a Sam Roberts’s Music._daap._tcp.local (60) -> ! TXT ["txtvers=1", "Version=196608", "iTSh Version=131073", "Machine ID=9C5AC2725708", "Database ID=681233690CC1C418", "Machine Name=Sam Roberts\342\200\231s Music", "Password=false"]
+D, [2005-02-11T23:43:36.794278 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! SRV ensemble.local:3689
+D, [2005-02-11T23:43:36.794762 #4559] DEBUG -- : ++ a iTunes_Ctrl_32EE667E68F68CFC._dacp._tcp.local (60) -> ! TXT ["txtvers=1", "Ver=65536", "DbId=681233690CC1C418"]
+D, [2005-02-11T23:43:36.795407 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:43:36.795970 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:36.796512 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:36.797044 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:36.797505 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:43:39.797846 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:43:39.989147 #4559] DEBUG -- : refresh in 19 sec for 162.123.168.192.in-addr.arpa (60) -> ! PTR iBec.local
+D, [2005-02-11T23:43:39.990669 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:43:39.991692 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:43:42.567615 #4559] DEBUG -- : from 192.168.123.162:5353 -> qr=1 qcnt=0 acnt=3
+D, [2005-02-11T23:43:42.568259 #4559] DEBUG -- : ++ a _workstation._tcp.local (0) -> - PTR iBec [00:30:65:d4:31:26]._workstation._tcp.local
+D, [2005-02-11T23:43:42.569010 #4559] DEBUG -- : ++ a _MacOSXDupSuppress._tcp.local (0) -> - PTR 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local
+D, [2005-02-11T23:43:42.571133 #4559] DEBUG -- : ++ a _afpovertcp._tcp.local (0) -> - PTR iBec._afpovertcp._tcp.local
+D, [2005-02-11T23:43:42.572050 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:43:42.572643 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:42.573190 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:42.573782 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:42.574226 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:43:42.574971 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:43:42.577150 #4559] DEBUG -- : -> q _afpovertcp._tcp.local IN::PTR
+D, [2005-02-11T23:43:42.577750 #4559] DEBUG -- : -> q _workstation._tcp.local IN::PTR
+D, [2005-02-11T23:43:42.578871 #4559] DEBUG -- : -> q _MacOSXDupSuppress._tcp.local IN::PTR
+D, [2005-02-11T23:43:42.820331 #4559] DEBUG -- : refresh in 1 sec for _afpovertcp._tcp.local (0) -> - PTR iBec._afpovertcp._tcp.local
+D, [2005-02-11T23:43:42.821940 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:43:42.823821 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=3 acnt=0
+D, [2005-02-11T23:43:42.825126 #4559] DEBUG -- : ++ q _afpovertcp._tcp.local/IN::PTR
+D, [2005-02-11T23:43:42.825652 #4559] DEBUG -- : ++ q _workstation._tcp.local/IN::PTR
+D, [2005-02-11T23:43:42.826023 #4559] DEBUG -- : ++ q _MacOSXDupSuppress._tcp.local/IN::PTR
+D, [2005-02-11T23:43:42.945437 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=3
+D, [2005-02-11T23:43:42.946025 #4559] DEBUG -- : ++ a _workstation._tcp.local (7200) ->  PTR ensemble [00:03:93:ad:08:8c]._workstation._tcp.local
+D, [2005-02-11T23:43:42.946725 #4559] DEBUG -- : ++ a _MacOSXDupSuppress._tcp.local (7200) ->  PTR -368036013;-368036013;282711516;-684591583._MacOSXDupSuppress._tcp.local
+D, [2005-02-11T23:43:42.947345 #4559] DEBUG -- : ++ a _afpovertcp._tcp.local (7200) ->  PTR ensemble._afpovertcp._tcp.local
+D, [2005-02-11T23:43:42.948114 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:43:42.948702 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:42.949331 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:42.949883 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:42.950330 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:43:43.825182 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:43:43.826706 #4559] DEBUG -- : -> q _afpovertcp._tcp.local IN::PTR
+D, [2005-02-11T23:43:43.827292 #4559] DEBUG -- : -> q _workstation._tcp.local IN::PTR
+D, [2005-02-11T23:43:43.828463 #4559] DEBUG -- : -> q _MacOSXDupSuppress._tcp.local IN::PTR
+D, [2005-02-11T23:43:44.016419 #4559] DEBUG -- : refresh in 1 sec for _afpovertcp._tcp.local (0) -> - PTR iBec._afpovertcp._tcp.local
+D, [2005-02-11T23:43:44.017979 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:43:44.019921 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=3 acnt=0
+D, [2005-02-11T23:43:44.021284 #4559] DEBUG -- : ++ q _afpovertcp._tcp.local/IN::PTR
+D, [2005-02-11T23:43:44.021763 #4559] DEBUG -- : ++ q _workstation._tcp.local/IN::PTR
+D, [2005-02-11T23:43:44.022126 #4559] DEBUG -- : ++ q _MacOSXDupSuppress._tcp.local/IN::PTR
+D, [2005-02-11T23:43:44.124510 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=3
+D, [2005-02-11T23:43:44.125147 #4559] DEBUG -- : ++ a _workstation._tcp.local (7200) ->  PTR ensemble [00:03:93:ad:08:8c]._workstation._tcp.local
+D, [2005-02-11T23:43:44.126055 #4559] DEBUG -- : ++ a _MacOSXDupSuppress._tcp.local (7200) ->  PTR -368036013;-368036013;282711516;-684591583._MacOSXDupSuppress._tcp.local
+D, [2005-02-11T23:43:44.126939 #4559] DEBUG -- : ++ a _afpovertcp._tcp.local (7200) ->  PTR ensemble._afpovertcp._tcp.local
+D, [2005-02-11T23:43:44.127895 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:43:44.128493 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:44.129089 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:44.129635 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:44.130078 #4559] DEBUG -- : push 0 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:43:45.031294 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:43:45.032705 #4559] DEBUG -- : -- a _afpovertcp._tcp.local (0) -> - PTR iBec._afpovertcp._tcp.local
+D, [2005-02-11T23:43:45.033240 #4559] DEBUG -- : -- a _workstation._tcp.local (0) -> - PTR iBec [00:30:65:d4:31:26]._workstation._tcp.local
+D, [2005-02-11T23:43:45.034448 #4559] DEBUG -- : -- a _MacOSXDupSuppress._tcp.local (0) -> - PTR 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local
+D, [2005-02-11T23:43:45.222072 #4559] DEBUG -- : refresh in 13 sec for 162.123.168.192.in-addr.arpa (60) -> ! PTR iBec.local
+D, [2005-02-11T23:43:45.223703 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:43:45.224767 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=0 acnt=0
+D, [2005-02-11T23:43:58.235610 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:43:58.237752 #4559] DEBUG -- : -> q 162.123.168.192.in-addr.arpa IN::PTR
+D, [2005-02-11T23:43:58.427951 #4559] DEBUG -- : refresh in 1 sec for iBec.local.arpa (60) -> ! A   192.168.123.162
+D, [2005-02-11T23:43:58.428390 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:43:58.429900 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:43:58.431194 #4559] DEBUG -- : ++ q 162.123.168.192.in-addr.arpa/IN::PTR
+D, [2005-02-11T23:43:59.441160 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:43:59.442205 #4559] DEBUG -- : -> q iBec.local.arpa IN::A
+D, [2005-02-11T23:43:59.442698 #4559] DEBUG -- : -> q iBec.local IN::A
+D, [2005-02-11T23:43:59.443256 #4559] DEBUG -- : -> q iBec [00:30:65:d4:31:26]._workstation._tcp.local IN::TXT
+D, [2005-02-11T23:43:59.443557 #4559] DEBUG -- : -> q iBec [00:30:65:d4:31:26]._workstation._tcp.local IN::SRV
+D, [2005-02-11T23:43:59.444388 #4559] DEBUG -- : -> q ensemble.local IN::A
+D, [2005-02-11T23:43:59.445362 #4559] DEBUG -- : -> q 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local IN::TXT
+D, [2005-02-11T23:43:59.445767 #4559] DEBUG -- : -> q 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local IN::SRV
+D, [2005-02-11T23:43:59.446419 #4559] DEBUG -- : -> q iBec._afpovertcp._tcp.local IN::TXT
+D, [2005-02-11T23:43:59.446719 #4559] DEBUG -- : -> q iBec._afpovertcp._tcp.local IN::SRV
+D, [2005-02-11T23:43:59.634538 #4559] DEBUG -- : refresh in 2 sec for 162.123.168.192.in-addr.arpa (60) -> ! PTR iBec.local
+D, [2005-02-11T23:43:59.636191 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:43:59.640135 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=9 acnt=0
+D, [2005-02-11T23:43:59.641470 #4559] DEBUG -- : ++ q iBec.local.arpa/IN::A
+D, [2005-02-11T23:43:59.641942 #4559] DEBUG -- : ++ q iBec.local/IN::A
+D, [2005-02-11T23:43:59.642303 #4559] DEBUG -- : ++ q iBec [00:30:65:d4:31:26]._workstation._tcp.local/IN::TXT
+D, [2005-02-11T23:43:59.642666 #4559] DEBUG -- : ++ q iBec [00:30:65:d4:31:26]._workstation._tcp.local/IN::SRV
+D, [2005-02-11T23:43:59.643003 #4559] DEBUG -- : ++ q ensemble.local/IN::A
+D, [2005-02-11T23:43:59.643337 #4559] DEBUG -- : ++ q 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local/IN::TXT
+D, [2005-02-11T23:43:59.643686 #4559] DEBUG -- : ++ q 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local/IN::SRV
+D, [2005-02-11T23:43:59.644023 #4559] DEBUG -- : ++ q iBec._afpovertcp._tcp.local/IN::TXT
+D, [2005-02-11T23:43:59.644384 #4559] DEBUG -- : ++ q iBec._afpovertcp._tcp.local/IN::SRV
+D, [2005-02-11T23:43:59.700620 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=1
+D, [2005-02-11T23:43:59.701261 #4559] DEBUG -- : ++ a ensemble.local (60) -> ! A   192.168.123.154
+D, [2005-02-11T23:43:59.701909 #4559] DEBUG -- : push 0 to q?_http._tcp.local/IN::PTR(0)
+D, [2005-02-11T23:43:59.702371 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:59.702803 #4559] DEBUG -- : push 0 to q?_ftp._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:59.703221 #4559] DEBUG -- : push 0 to q?_daap._tcp.local/IN::ANY(0)
+D, [2005-02-11T23:43:59.703624 #4559] DEBUG -- : push 1 to q?ensemble.local/IN::A(0)
+D, [2005-02-11T23:44:01.651404 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:44:01.653616 #4559] DEBUG -- : -> q 162.123.168.192.in-addr.arpa IN::PTR
+D, [2005-02-11T23:44:01.842632 #4559] DEBUG -- : refresh in 1 sec for iBec.local.arpa (60) -> ! A   192.168.123.162
+D, [2005-02-11T23:44:01.844171 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:44:01.845617 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:44:01.846897 #4559] DEBUG -- : ++ q 162.123.168.192.in-addr.arpa/IN::PTR
+D, [2005-02-11T23:44:02.856908 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:44:02.857933 #4559] DEBUG -- : -> q iBec.local.arpa IN::A
+D, [2005-02-11T23:44:02.858441 #4559] DEBUG -- : -> q iBec.local IN::A
+D, [2005-02-11T23:44:02.858997 #4559] DEBUG -- : -> q iBec [00:30:65:d4:31:26]._workstation._tcp.local IN::TXT
+D, [2005-02-11T23:44:02.859301 #4559] DEBUG -- : -> q iBec [00:30:65:d4:31:26]._workstation._tcp.local IN::SRV
+D, [2005-02-11T23:44:02.860789 #4559] DEBUG -- : -> q 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local IN::TXT
+D, [2005-02-11T23:44:02.861099 #4559] DEBUG -- : -> q 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local IN::SRV
+D, [2005-02-11T23:44:02.861775 #4559] DEBUG -- : -> q iBec._afpovertcp._tcp.local IN::TXT
+D, [2005-02-11T23:44:02.862076 #4559] DEBUG -- : -> q iBec._afpovertcp._tcp.local IN::SRV
+D, [2005-02-11T23:44:03.054090 #4559] DEBUG -- : refresh in 1 sec for 162.123.168.192.in-addr.arpa (60) -> ! PTR iBec.local
+D, [2005-02-11T23:44:03.055732 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:44:03.059428 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=8 acnt=0
+D, [2005-02-11T23:44:03.060798 #4559] DEBUG -- : ++ q iBec.local.arpa/IN::A
+D, [2005-02-11T23:44:03.061273 #4559] DEBUG -- : ++ q iBec.local/IN::A
+D, [2005-02-11T23:44:03.061638 #4559] DEBUG -- : ++ q iBec [00:30:65:d4:31:26]._workstation._tcp.local/IN::TXT
+D, [2005-02-11T23:44:03.062003 #4559] DEBUG -- : ++ q iBec [00:30:65:d4:31:26]._workstation._tcp.local/IN::SRV
+D, [2005-02-11T23:44:03.062353 #4559] DEBUG -- : ++ q 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local/IN::TXT
+D, [2005-02-11T23:44:03.062704 #4559] DEBUG -- : ++ q 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local/IN::SRV
+D, [2005-02-11T23:44:03.063046 #4559] DEBUG -- : ++ q iBec._afpovertcp._tcp.local/IN::TXT
+D, [2005-02-11T23:44:03.063399 #4559] DEBUG -- : ++ q iBec._afpovertcp._tcp.local/IN::SRV
+D, [2005-02-11T23:44:04.060783 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:44:04.062902 #4559] DEBUG -- : -> q 162.123.168.192.in-addr.arpa IN::PTR
+D, [2005-02-11T23:44:04.250091 #4559] DEBUG -- : refresh in 1 sec for iBec.local.arpa (60) -> ! A   192.168.123.162
+D, [2005-02-11T23:44:04.251760 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:44:04.253250 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:44:04.254590 #4559] DEBUG -- : ++ q 162.123.168.192.in-addr.arpa/IN::PTR
+D, [2005-02-11T23:44:05.264583 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:44:05.265724 #4559] DEBUG -- : -> q iBec.local.arpa IN::A
+D, [2005-02-11T23:44:05.266289 #4559] DEBUG -- : -> q iBec.local IN::A
+D, [2005-02-11T23:44:05.266861 #4559] DEBUG -- : -> q iBec [00:30:65:d4:31:26]._workstation._tcp.local IN::TXT
+D, [2005-02-11T23:44:05.267167 #4559] DEBUG -- : -> q iBec [00:30:65:d4:31:26]._workstation._tcp.local IN::SRV
+D, [2005-02-11T23:44:05.268651 #4559] DEBUG -- : -> q 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local IN::TXT
+D, [2005-02-11T23:44:05.268966 #4559] DEBUG -- : -> q 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local IN::SRV
+D, [2005-02-11T23:44:05.269605 #4559] DEBUG -- : -> q iBec._afpovertcp._tcp.local IN::TXT
+D, [2005-02-11T23:44:05.269899 #4559] DEBUG -- : -> q iBec._afpovertcp._tcp.local IN::SRV
+D, [2005-02-11T23:44:05.461602 #4559] DEBUG -- : refresh in 2 sec for 162.123.168.192.in-addr.arpa (60) -> ! PTR iBec.local
+D, [2005-02-11T23:44:05.463250 #4559] DEBUG -- : sweep end
+D, [2005-02-11T23:44:05.466897 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=8 acnt=0
+D, [2005-02-11T23:44:05.468238 #4559] DEBUG -- : ++ q iBec.local.arpa/IN::A
+D, [2005-02-11T23:44:05.468716 #4559] DEBUG -- : ++ q iBec.local/IN::A
+D, [2005-02-11T23:44:05.469080 #4559] DEBUG -- : ++ q iBec [00:30:65:d4:31:26]._workstation._tcp.local/IN::TXT
+D, [2005-02-11T23:44:05.469442 #4559] DEBUG -- : ++ q iBec [00:30:65:d4:31:26]._workstation._tcp.local/IN::SRV
+D, [2005-02-11T23:44:05.469791 #4559] DEBUG -- : ++ q 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local/IN::TXT
+D, [2005-02-11T23:44:05.470141 #4559] DEBUG -- : ++ q 604671207;604671207;278582747;-2057228315._MacOSXDupSuppress._tcp.local/IN::SRV
+D, [2005-02-11T23:44:05.470483 #4559] DEBUG -- : ++ q iBec._afpovertcp._tcp.local/IN::TXT
+D, [2005-02-11T23:44:05.470829 #4559] DEBUG -- : ++ q iBec._afpovertcp._tcp.local/IN::SRV
+D, [2005-02-11T23:44:07.478223 #4559] DEBUG -- : sweep begin
+D, [2005-02-11T23:44:33.041984 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=0 qcnt=6 acnt=5
+D, [2005-02-11T23:44:33.042610 #4559] DEBUG -- : ++ q _daap._tcp.local/IN::PTR
+D, [2005-02-11T23:44:33.043065 #4559] DEBUG -- : ++ q _register._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:44:33.043436 #4559] DEBUG -- : ++ q _default._register._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:44:33.043793 #4559] DEBUG -- : ++ q _browse._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:44:33.044140 #4559] DEBUG -- : ++ q _default._browse._mdns._udp.local/IN::PTR
+D, [2005-02-11T23:44:33.044511 #4559] DEBUG -- : ++ q _http._tcp.local/IN::PTR
+D, [2005-02-11T23:52:21.313850 #4559] DEBUG -- : from 192.168.123.154:49767 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:52:21.314402 #4559] DEBUG -- : ++ q home.com.local/IN::A
+D, [2005-02-11T23:52:22.314037 #4559] DEBUG -- : from 192.168.123.154:49768 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:52:22.314560 #4559] DEBUG -- : ++ q home.com.local/IN::A
+D, [2005-02-11T23:52:23.314402 #4559] DEBUG -- : from 192.168.123.154:49769 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:52:23.314960 #4559] DEBUG -- : ++ q home.com.local/IN::A
+D, [2005-02-11T23:52:24.314746 #4559] DEBUG -- : from 192.168.123.154:49770 -> qr=0 qcnt=1 acnt=0
+D, [2005-02-11T23:52:24.315298 #4559] DEBUG -- : ++ q home.com.local/IN::A
+D, [2005-02-12T00:01:04.299204 #4559] DEBUG -- : from 192.168.123.154:5353 -> qr=1 qcnt=0 acnt=10
+D, [2005-02-12T00:01:04.299943 #4559] DEBUG -- : ++ a _ftp._tcp.local (0) -> - PTR ensemble._ftp._tcp.local
+D, [2005-02-12T00:01:04.301683 #4559] DEBUG -- : query q?ensemble.local/IN::A(0) - stop
+D, [2005-02-12T00:01:04.302603 #4559] DEBUG -- : query q?_daap._tcp.local/IN::ANY(0) - stop
+D, [2005-02-12T00:01:04.304003 #4559] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - stop
+D, [2005-02-12T00:01:04.304959 #4559] DEBUG -- : query q?_ftp._tcp.local/IN::ANY(0) - stop
+D, [2005-02-12T00:01:04.306181 #4559] DEBUG -- : query q?_http._tcp.local/IN::PTR(0) - stop
+net/dns/v2mdns.rb:290:in `wakeup': killed thread (ThreadError)
+	from net/dns/v2mdns.rb:573:in `join'
+	from net/dns/v2mdns.rb:573
