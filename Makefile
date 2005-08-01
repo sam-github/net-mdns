@@ -1,7 +1,7 @@
 # $Id:$
 
 default:
-	ruby18 -c net/dns/v2mdns.rb
+	ruby18 -c net/dns/mdns.rb
 
 SAMPLES=mdns.rb exhttp.rb exhttpv1.rb v1mdns.rb v1demo.rb mdns-watch.rb exwebrick.rb
 
@@ -42,7 +42,7 @@ ri:
 open:
 	open doc/index.html
 
-V=0.1
+V=0.2
 P=net-mdns-$V
 R=releases/$P
 

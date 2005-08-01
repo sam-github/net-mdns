@@ -24,7 +24,7 @@ module Net
     # Author::     Sam Roberts <sroberts@uniserve.com>
     # Copyright::  Copyright (C) 2005 Sam Roberts
     # License::    May be distributed under the same terms as Ruby
-    # Version::    0.1
+    # Version::    0.2
     # Homepage::   http://dnssd.rubyforge.org/net-mdns
     # Download::   http://rubyforge.org/frs/?group_id=316
     #
