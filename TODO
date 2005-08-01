@@ -27,7 +27,10 @@ Release: 0.2  "doing the right thing"
 
 - deal with timeouts in Resolv::MDNS, how long, can they be set, etc.
 
-- reverse lookup of names by addresses using mDNS, see notes in #generate_candidates
+- reverse lookup of names by addresses using mDNS, see notes in
+  #generate_candidates. I think I should allow reverse lookup of addresss in
+  the private address spaces [RFC1918] (address prefixes of 10/8, 172.16/12,
+  and 192.168/16).
 
 - correctly encode a nil in a text_record, and allow "key" w/no value for "mdns.rb -R"
 
@@ -106,6 +109,11 @@ Open resolv.rb issues:
 - Resolv::Hosts returns IPv6 addresses before IPv4, so Resolv.getaddress('localhost')
   is ::1 on my system - this is not good.
 
+- See [DNSOPV6:3.1], does resolv.rb do this?
+
+
+[DNSOPV6] 
+[DNSOPBADRES] draft-ietf-dnsop-bad-dns-res-03.tx
 
 Open design issues:
 
@@ -200,6 +208,10 @@ This code supplies some missing methods:
 
 
 Comments for Apple:
+
+* [MDNS:5] Reverse Address Mapping - should allow reverse mapping 
+  in the [RFC1918] address space as well. Does Apple's resolver
+  do this?
 
 * TXT record is required by mDNSResponder
 

@@ -468,7 +468,7 @@ module Net
             @sock.setsockopt(Socket::SOL_SOCKET, so_reuseport, 1)
           rescue
             warn( "set SO_REUSEPORT raised #{$!}, try SO_REUSEADDR" )
-            so_resuseport = Socket::SO_REUSEADDR
+            so_reuseport = Socket::SO_REUSEADDR
             @sock.setsockopt(Socket::SOL_SOCKET, so_reuseport, 1)
           end
 
@@ -897,6 +897,12 @@ module Net
           qu = @name != "*" ? Question.new(@name, @type) : nil
 
           Responder.instance.query_start(self, qu)
+
+          if block_given?
+            self.each do |*args|
+              yield args
+            end
+          end
         end
 
         def stop
