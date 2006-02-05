@@ -49,7 +49,13 @@ R=releases/$P
 release: stamp doc pkg
 
 install:
-	for r in /usr/bin/ruby /opt/local/bin/ruby ruby18; do (cd $R; $$r setup.rb config; $$r setup.rb setup; echo sudo $$r setup.rb install); done
+	for r in /usr/bin/ruby /opt/local/bin/ruby /usr/local/bin/ruby18; do (\
+      set -x; \
+      cd $R; rm .config; \
+      $$r setup.rb --verbose config; \
+      $$r setup.rb --verbose setup; \
+      sudo $$r setup.rb --verbose install \
+  ); done
 
 stamp:
 	ruby -pi~ -e '$$_.gsub!(/ 0\.\d+(bis|[a-z])?/, " $V")' net/dns/mdns.rb
