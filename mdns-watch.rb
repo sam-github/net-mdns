@@ -10,9 +10,21 @@ $stdout.sync = true
 Addr = "224.0.0.251"
 Port = 5353
 
-kINADDR_IFX = Socket.gethostbyname(Socket.gethostname)[3]
+@hostname = Name.create(Socket.gethostname)
+@hostname.absolute = true
+@hostaddr = Socket.getaddrinfo(@hostname.to_s, 0, Socket::AF_INET, Socket::SOCK_STREAM)[0][3]
+@hostrr   = [ @hostname, 240, IN::A.new(@hostaddr) ]
+@hostaddr = IPAddr.new(@hostaddr).hton
+
+puts "hostaddr #{@hostaddr}"
+puts "hostaddr #{@hostaddr[0]}"
+puts "hostaddr #{@hostaddr[3]}"
+
 
 @sock = UDPSocket.new
+
+# TODO - do we need this?
+@sock.fcntl(Fcntl::F_SETFD, 1)
 
 # Allow 5353 to be shared.
 so_reuseport = 0x0200 # The definition on OS X, where it is required.
@@ -22,19 +34,28 @@ end
 begin
   @sock.setsockopt(Socket::SOL_SOCKET, so_reuseport, 1)
 rescue
-  puts( "set SO_REUSEPORT raised #{$!}, try SO_REUSEADDR" )
-  @sock.setsockopt(Socket::SOL_SOCKET,Socket::SO_REUSEADDR, 1)
+  warn( "set SO_REUSEPORT raised #{$!}, try SO_REUSEADDR" )
+  so_reuseport = Socket::SO_REUSEADDR
+  @sock.setsockopt(Socket::SOL_SOCKET, so_reuseport, 1)
 end
+
+# Request dest addr and ifx ids... no.
 
 # Join the multicast group.
 #  option is a struct ip_mreq { struct in_addr, struct in_addr }
-ip_mreq =  IPAddr.new(Addr).hton + kINADDR_IFX
+ip_mreq =  IPAddr.new(Addr).hton + @hostaddr
 @sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_ADD_MEMBERSHIP, ip_mreq)
-@sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_MULTICAST_IF, kINADDR_IFX)
+@sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_MULTICAST_IF, @hostaddr)
 
 # Set IP TTL for outgoing packets.
 @sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_TTL, 255)
 @sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_MULTICAST_TTL, 255)
+
+# Apple source makes it appear that optval may need to be a "char" on
+# some systems:
+#  @sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_MULTICAST_TTL, 255 as int)
+#     - or -
+#  @sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_MULTICAST_TTL, 255 as byte)
 
 # Bind to our port.
 @sock.bind(Socket::INADDR_ANY, Port)

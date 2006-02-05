@@ -24,7 +24,7 @@ module Net
     # Author::     Sam Roberts <sroberts@uniserve.com>
     # Copyright::  Copyright (C) 2005 Sam Roberts
     # License::    May be distributed under the same terms as Ruby
-    # Version::    0.2
+    # Version::    0.3
     # Homepage::   http://dnssd.rubyforge.org/net-mdns
     # Download::   http://rubyforge.org/frs/?group_id=316
     #
@@ -439,9 +439,9 @@ module Net
 
           @hostname = Name.create(Socket.gethostname)
           @hostname.absolute = true
-          @hostaddr = Socket.gethostbyname(@hostname.to_s)[3]
+          @hostaddr = Socket.getaddrinfo(@hostname.to_s, 0, Socket::AF_INET, Socket::SOCK_STREAM)[0][3]
           @hostrr   = [ @hostname, 240, IN::A.new(@hostaddr) ]
-
+          @hostaddr = IPAddr.new(@hostaddr).hton
 
           debug( "start" )
 
@@ -451,8 +451,6 @@ module Net
           #   s.connect(any addr, any port)
           #   s.getsockname => struct sockaddr_in => ip_addr
           # But parsing a struct sockaddr_in is a PITA in ruby.
-
-          kINADDR_IFX = @hostaddr
 
           @sock = UDPSocket.new
 
@@ -476,9 +474,9 @@ module Net
 
           # Join the multicast group.
           #  option is a struct ip_mreq { struct in_addr, struct in_addr }
-          ip_mreq =  IPAddr.new(Addr).hton + kINADDR_IFX
+          ip_mreq =  IPAddr.new(Addr).hton + @hostaddr
           @sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_ADD_MEMBERSHIP, ip_mreq)
-          @sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_MULTICAST_IF, kINADDR_IFX)
+          @sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_MULTICAST_IF, @hostaddr)
 
           # Set IP TTL for outgoing packets.
           @sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_TTL, 255)
@@ -837,8 +835,11 @@ module Net
 
       end # Responder
 
-      # An mDNS query.
-      class Query
+      # An mDNS query implementation.
+      module QueryImp
+      # This exists because I can't inherit Query to implement BackgroundQuery, I need
+      # to do something different with the block (yield it in a thread), and there doesn't seem to be
+      # a way to strip a block when calling super.
         include Net::DNS
 
         def subscribes_to?(an) # :nodoc:
@@ -860,11 +861,10 @@ module Net
         # The query +type+ from Query.new.
         attr_reader :type
 
-        # Block, returning annswers when available.
+        # Block, returning answers when available.
         def pop
           @queue.pop
         end
-
 
         # Loop forever, yielding answers as available.
         def each # :yield: answers
@@ -883,13 +883,7 @@ module Net
           "q?#{name}/#{DNS.rrname(type)}"
         end
 
-        # Query for resource records of +type+ for the +name+. +type+ is one of
-        # the constants in Net::DNS::IN, such as A or ANY. +name+ is a DNS
-        # Name or String, see Name.create. 
-        #
-        # +name+ can also be the wildcard "*". This will cause no queries to
-        # be multicast, but will return every answer seen by the responder.
-        def initialize(name, type = IN::ANY)
+        def initialize_(name, type = IN::ANY)
           @name = Name.create(name)
           @type = type
           @queue = Queue.new
@@ -897,12 +891,6 @@ module Net
           qu = @name != "*" ? Question.new(@name, @type) : nil
 
           Responder.instance.query_start(self, qu)
-
-          if block_given?
-            self.each do |*args|
-              yield args
-            end
-          end
         end
 
         def stop
@@ -911,9 +899,46 @@ module Net
         end
       end # Query
 
-      class BackgroundQuery < Query
-        def initialize(name, type = IN::ANY, &proc)
-          super(name, type)
+      # An mDNS query.
+      class Query
+        include QueryImp
+
+        # Query for resource records of +type+ for the +name+. +type+ is one of
+        # the constants in Net::DNS::IN, such as A or ANY. +name+ is a DNS
+        # Name or String, see Name.create. 
+        #
+        # +name+ can also be the wildcard "*". This will cause no queries to
+        # be multicast, but will return every answer seen by the responder.
+        #
+        # If the optional block is provided, self and any answers are yielded
+        # until an explicit break, return, or #stop is done.
+        def initialize(name, type = IN::ANY) # :yield: self, answers
+          initialize_(name, type)
+
+          if block_given?
+            self.each do |*args|
+              yield self, args
+            end
+          end
+        end
+
+      end # Query
+
+      # An mDNS query.
+      class BackgroundQuery
+        include QueryImp
+
+        # This is like Query.new, except the block is yielded in a background
+        # thread, and is not optional.
+        #
+        # In the thread, self and any answers are yielded until an explicit
+        # break, return, or #stop is done.
+        def initialize(name, type = IN::ANY, &proc) #:yield: self, answers
+          unless proc
+            raise ArgumentError, "require a proc to yield in background!"
+          end
+
+          initialize_(name, type)
 
           @thread = Thread.new do
             begin

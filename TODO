@@ -2,12 +2,9 @@ TODO
 
 Release: 0.0  "seeing if its possible" - done
 
-
 Release: 0.1  "making it work"
 
 A complete rewrite, too many changes to even begin to mention.
-
-
 
 Release: 0.2  "doing the right thing"
 
@@ -49,9 +46,16 @@ Release: 0.2  "doing the right thing"
 
 - implement a MDNSSD api for DNSServiceQueryRecord, and 'mdns.rb -Q"
 
+Release: 0.3  "keep it working"
+
+- Change the technique for looking up IPv4 address of the default interface,
+  the old technique stopped working on OS X boxes that had IPv6 enabled (which
+  was the default).
+
+- Fixed a bug causing infinite loops (in the wrong place) in background query.
 
 
-Release: 0.3  "making it pretty"
+Todo:
 
 - define constants in module MDNSSD::Types  like Http = '_http._tcp', ...?
 
@@ -125,8 +129,7 @@ Open design issues:
 
 System differences in multicast:
 
-[EACCES]           The destination address is a broadcast address, and
-SO_BROADCAST has not been set on the socket.
+[EACCES] The destination address is a broadcast address, and SO_BROADCAST has not been set on the socket.
 
 
 Comments for DNS-SD:
@@ -249,8 +252,6 @@ in a single message. Possible exception is when to large, in which case the
 TC bit should be set so the resolver knows to expect another message.
 
 
-
-
 * TXT records from mDNSResponder may have zero character-strings
 
 Violates DNS spec.
@@ -268,9 +269,7 @@ Recommend that:
   this as being equivalent to a TXT with one zero-length character string.
 
 
-
 * OS X puts additional answers in the answers section, not the additional section
-
 
 * OS X resolver generates queries for ensemble.local.local
 
