@@ -10,16 +10,13 @@ $stdout.sync = true
 Addr = "224.0.0.251"
 Port = 5353
 
+include Net::DNS
+
 @hostname = Name.create(Socket.gethostname)
 @hostname.absolute = true
 @hostaddr = Socket.getaddrinfo(@hostname.to_s, 0, Socket::AF_INET, Socket::SOCK_STREAM)[0][3]
 @hostrr   = [ @hostname, 240, IN::A.new(@hostaddr) ]
 @hostaddr = IPAddr.new(@hostaddr).hton
-
-puts "hostaddr #{@hostaddr}"
-puts "hostaddr #{@hostaddr[0]}"
-puts "hostaddr #{@hostaddr[3]}"
-
 
 @sock = UDPSocket.new
 
