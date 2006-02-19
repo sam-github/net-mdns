@@ -63,7 +63,6 @@ Options:
                 library (this is the default).
   -n,--dnssd    Attempt to use 'dnssd', the interface to the native ("-n")
                 DNS-SD resolver library APIs, "dns_sd.h" from Apple.
-                Note: YMMV, this doesn't entirely work, currently.
   -d,--debug    Print debug messages to stderr.
 
 Examples:
@@ -146,10 +145,14 @@ end
 begin
   DNSSD.class
   puts "Using native DNSSD..."
+
+	Thread.abort_on_exception = true # So we notice exceptions in DNSSD threads.
+
   module DNSSD
     def self.namesplit(n)
       n.scan(/(?:\\.|[^\.])+/)
     end
+		# DNSSD > 0.6.0 uses class Reply which has these methods already
     class ResolveReply
       def domain
         DNSSD.namesplit(fullname)[-1]
