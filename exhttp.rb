@@ -37,7 +37,7 @@ DNSSD.browse('_http._tcp') do |b|
       headers = http.head(path)
 
       $lock.synchronize do
-        puts "#{r.name.inspect} on #{r.target}:#{r.port}#{path} was last-modified #{headers['server']}"
+        puts "#{r.name.inspect} on #{r.target}:#{r.port}#{path} using server #{headers['server']}"
       end
     rescue
       $lock.synchronize { puts $!; puts $!.backtrace }
