@@ -24,7 +24,7 @@ module Net
     # Author::     Sam Roberts <sroberts@uniserve.com>
     # Copyright::  Copyright (C) 2005 Sam Roberts
     # License::    May be distributed under the same terms as Ruby
-    # Version::    0.3
+    # Version::    0.4
     # Homepage::   http://dnssd.rubyforge.org/net-mdns
     # Download::   http://rubyforge.org/frs/?group_id=316
     #
@@ -454,11 +454,16 @@ module Net
 
           @sock = UDPSocket.new
 
-          # TODO - do we need this?
-          @sock.fcntl(Fcntl::F_SETFD, 1)
+          # Set the close-on-exec flag, if supported.
+          if Fcntl.constants.include? 'F_SETFD'
+            @sock.fcntl(Fcntl::F_SETFD, 1)
+          end
 
           # Allow 5353 to be shared.
-          so_reuseport = 0x0200 # The definition on OS X, where it is required.
+          so_reuseport = 0x0200
+          # The definition on OS X, where it is required, and where the shipped
+          # ruby version (1.6) does not have Socket::SO_REUSEPORT. The definition
+          # seems to be shared by at least some other BSD-derived stacks.
           if Socket.constants.include? 'SO_REUSEPORT'
             so_reuseport = Socket::SO_REUSEPORT
           end
@@ -471,6 +476,9 @@ module Net
           end
 
           # Request dest addr and ifx ids... no.
+
+          # Bind to our port.
+          @sock.bind(Socket::INADDR_ANY, Port)
 
           # Join the multicast group.
           #  option is a struct ip_mreq { struct in_addr, struct in_addr }
@@ -487,9 +495,6 @@ module Net
           #  @sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_MULTICAST_TTL, 255 as int)
           #     - or -
           #  @sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_MULTICAST_TTL, 255 as byte)
-
-          # Bind to our port.
-          @sock.bind(Socket::INADDR_ANY, Port)
 
           # Start responder and cacher threads.
 

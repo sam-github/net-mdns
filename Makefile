@@ -42,7 +42,7 @@ ri:
 open:
 	open doc/index.html
 
-V=0.3
+V=0.4
 P=net-mdns-$V
 R=releases/$P
 
@@ -72,4 +72,7 @@ pkg:
 	cp $(SAMPLES)          $R/samples
 	cp test_dns.rb         $R/samples
 	cd releases && tar -zcf $P.tgz $P
+
+gem: pkg
+	cd releases && ruby18 ../mdns.gemspec
 
