@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: Net::DNS::MDNS</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">Net::DNS::MDNS</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/net/dns/mdns_rb.html">
+                net/dns/mdns.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <table>
+<tr><td valign="top">Author:</td><td>Sam Roberts &lt;sroberts@uniserve.com&gt;
+
+</td></tr>
+<tr><td valign="top">Copyright:</td><td>Copyright (C) 2005 Sam Roberts
+
+</td></tr>
+<tr><td valign="top">License:</td><td>May be distributed under the same terms as Ruby
+
+</td></tr>
+<tr><td valign="top">Version:</td><td>0.4
+
+</td></tr>
+<tr><td valign="top">Homepage:</td><td><a
+href="http://dnssd.rubyforge.org/net-mdns">dnssd.rubyforge.org/net-mdns</a>
+
+</td></tr>
+<tr><td valign="top">Download:</td><td><a
+href="http://rubyforge.org/frs/?group_id=316">rubyforge.org/frs/?group_id=316</a>
+
+</td></tr>
+</table>
+<h2>Summary</h2>
+<p>
+An implementation of a multicast <a href="../DNS.html">DNS</a> (mDNS)
+responder. mDNS is an extension of hierarchical, unicast <a
+href="../DNS.html">DNS</a> to link-local multicast, used to do service
+discovery and address lookups over local networks. It is most widely known
+because it is part of Apple&#8216;s OS X.
+</p>
+<p>
+net-mdns consists of:
+</p>
+<ul>
+<li><a href="MDNSSD.html">Net::DNS::MDNSSD</a>: a high-level API for browsing,
+resolving, and advertising services using <a href="../DNS.html">DNS</a>-SD
+over mDNS that aims to be compatible with DNSSD, see below for more
+information.
+
+</li>
+<li><a href="../../Resolv/MDNS.html">Resolv::MDNS</a>: an extension to the
+&#8216;resolv&#8217; resolver library that adds support for multicast <a
+href="../DNS.html">DNS</a>.
+
+</li>
+<li><a href="MDNS.html">Net::DNS::MDNS</a>: the low-level APIs and mDNS
+responder at the core of <a href="../../Resolv/MDNS.html">Resolv::MDNS</a>
+and <a href="MDNSSD.html">Net::DNS::MDNSSD</a>.
+
+</li>
+</ul>
+<p>
+net-mdns can be used for:
+</p>
+<ul>
+<li>name to address lookups on local networks
+
+</li>
+<li>address to name lookups on local networks
+
+</li>
+<li>discovery of services on local networks
+
+</li>
+<li>advertisement of services on local networks
+
+</li>
+</ul>
+<h2>Client Example</h2>
+<p>
+This is an example of finding all _http._tcp services, connecting to them,
+and printing the &#8216;Server&#8217; field of the HTTP headers using
+Net::HTTP (from <a href="../../.././exhttp.txt">exhttp.txt</a>):
+</p>
+<pre>
+  require 'net/http'
+  require 'thread'
+  require 'pp'
+
+  # For MDNSSD
+  require 'net/dns/mdns-sd'
+
+  # To make Resolv aware of mDNS
+  require 'net/dns/resolv-mdns'
+
+  # To make TCPSocket use Resolv, not the C library resolver.
+  require 'net/dns/resolv-replace'
+
+  # Use a short name.
+  DNSSD = Net::DNS::MDNSSD
+
+  # Sync stdout, and don't write to console from multiple threads.
+  $stdout.sync
+  $lock = Mutex.new
+
+  # Be quiet.
+  debug = false
+
+  DNSSD.browse('_http._tcp') do |b|
+    $lock.synchronize { pp b } if debug
+    DNSSD.resolve(b.name, b.type) do |r|
+      $lock.synchronize { pp r } if debug
+      begin
+        http = Net::HTTP.new(r.target, r.port)
+
+        path = r.text_record['path'] || '/'
+
+        headers = http.head(path)
+
+        $lock.synchronize do
+          puts &quot;#{r.name.inspect} on #{r.target}:#{r.port}#{path} was last-modified #{headers['server']}&quot;
+        end
+      rescue
+        $lock.synchronize { puts $!; puts $!.backtrace }
+      end
+    end
+  end
+
+  # Hit enter when you think that's all.
+  STDIN.gets
+</pre>
+<h2>Server Example</h2>
+<p>
+This is an example of advertising a webrick server using <a
+href="../DNS.html">DNS</a>-SD (from <a
+href="../../.././exwebrick.txt">exwebrick.txt</a>).
+</p>
+<pre>
+  require 'webrick'
+  require 'net/dns/mdns-sd'
+
+  DNSSD = Net::DNS::MDNSSD
+
+  class HelloServlet &lt; WEBrick::HTTPServlet::AbstractServlet
+    def do_GET(req, resp)
+      resp.body = &quot;hello, world\n&quot;
+      resp['content-type'] = 'text/plain'
+      raise WEBrick::HTTPStatus::OK
+    end
+  end
+
+  server = WEBrick::HTTPServer.new( :Port =&gt; 8080 )
+
+  server.mount( '/hello/', HelloServlet )
+
+  handle = DNSSD.register(&quot;hello&quot;, '_http._tcp', 'local', 8080, 'path' =&gt; '/hello/')
+
+  ['INT', 'TERM'].each { |signal|
+    trap(signal) { server.shutdown; handle.stop; }
+  }
+
+  server.start
+</pre>
+<h2>Samples</h2>
+<p>
+There are a few command line utilities in the samples/ directory:
+</p>
+<ul>
+<li><a href="../../.././mdns.txt">mdns.txt</a>, mdns.rb is a command line
+interface for to <a href="MDNSSD.html">Net::DNS::MDNSSD</a> (or to DNSSD)
+
+</li>
+<li><a href="../../.././v1demo.txt">v1demo.txt</a>, v1demo.rb is a sample
+provided by Ben Giddings showing the call sequences to use with <a
+href="../../Resolv/MDNS.html">Resolv::MDNS</a> for service resolution. This
+predates <a href="MDNSSD.html">Net::DNS::MDNSSD</a>, so while its a great
+sample, you might want to look at mdns.rb instead.
+
+</li>
+<li><a href="../../.././v1mdns.txt">v1mdns.txt</a>, v1mdns.rb is a low-level
+utility for exercising <a href="../../Resolv/MDNS.html">Resolv::MDNS</a>.
+
+</li>
+<li><a href="../../.././mdns-watch.txt">mdns-watch.txt</a>, mdns-watch.rb is a
+utility that dumps all mDNS traffic, useful for debugging.
+
+</li>
+</ul>
+<h2>Comparison to the <a href="../DNS.html">DNS</a>-SD Extension</h2>
+<p>
+The <a href="../DNS.html">DNS</a>-SD project at <a
+href="http://dnssd.rubyforge.org">dnssd.rubyforge.org</a> is another
+approach to mDNS and service discovery.
+</p>
+<p>
+<a href="../DNS.html">DNS</a>-SD is a compiled ruby extension implemented
+on top of the dns_sd.h APIs published by Apple. These APIs work by
+contacting a local mDNS daemon (through unix domain sockets) and should be
+more efficient since they use a daemon written in C by a dedicated team at
+Apple.
+</p>
+<p>
+Currently, the only thing I&#8216;m aware of net-mdns doing that <a
+href="../DNS.html">DNS</a>-SD doesn&#8216;t is integrate into the standard
+library so that link-local domain names can be used throughout the standard
+networking classes, and allow querying of arbitrary <a
+href="../DNS.html">DNS</a> record types. There is no reason <a
+href="../DNS.html">DNS</a>-SD can&#8216;t do this, it just needs to wrap
+DNSServiceQueryRecord() and expose it, and that will happen sometime soon.
+</p>
+<p>
+Since net-mdns doesn&#8216;t do significantly more than DNSSD, why would
+you be interested in it?
+</p>
+<p>
+The <a href="../DNS.html">DNS</a>-SD extension requires the dns_sd.h C
+language APIs for the Apple mDNS daemon. Installing the Apple responder can
+be quite difficult, and requires a running daemon. It also requires
+compiling the extension. If you need a pure ruby implementation, or if
+building <a href="../DNS.html">DNS</a>-SD turns out to be difficult for
+you, net-mdns may be useful to you.
+</p>
+<h2>For More Information</h2>
+<p>
+See the following:
+</p>
+<ul>
+<li>draft-cheshire-dnsext-multicastdns-04.txt for a description of mDNS
+
+</li>
+<li>RFC 2782 for a description of <a href="../DNS.html">DNS</a> SRV records
+
+</li>
+<li>draft-cheshire-dnsext-dns-sd-02.txt for a description of how to use SRV,
+PTR, and TXT records for service discovery
+
+</li>
+<li><a href="http://www.dns-sd.org">www.dns-sd.org</a> (a list of services is
+at <a
+href="http://www.dns-sd.org/ServiceTypes.html">www.dns-sd.org/ServiceTypes.html</a>).
+
+</li>
+<li><a href="http://dnssd.rubyforge.org">dnssd.rubyforge.org</a> - for DNSSD, a
+C extension for communicating with Apple&#8216;s mDNSResponder daemon.
+
+</li>
+</ul>
+<h2>TODO</h2>
+<p>
+See <a href="../../.././TODO">TODO</a>.
+</p>
+<h2>Thanks</h2>
+<ul>
+<li>to Tanaka Akira for resolv.rb, I learned a lot about meta-programming and
+ruby idioms from it, as well as getting an almost-complete implementation
+of the <a href="../DNS.html">DNS</a> message format and a resolver
+framework I could plug mDNS support into.
+
+</li>
+<li>to Charles Mills for letting me add net-mdns to <a
+href="../DNS.html">DNS</a>-SD&#8216;s Rubyforge project when he hardly knew
+me, and hadn&#8216;t even seen any code yet.
+
+</li>
+<li>to Ben Giddings for promising to use this if I wrote it, which was the
+catalyst for resuming a year-old prototype.
+
+</li>
+</ul>
+<h2>Author</h2>
+<p>
+Any feedback, questions, problems, etc., please contact me, Sam Roberts,
+via dnssd-developers@rubyforge.org, or directly.
+</p>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Module <a href="MDNS/QueryImp.html" class="link">Net::DNS::MDNS::QueryImp</a><br />
+Class <a href="MDNS/Answer.html" class="link">Net::DNS::MDNS::Answer</a><br />
+Class <a href="MDNS/BackgroundQuery.html" class="link">Net::DNS::MDNS::BackgroundQuery</a><br />
+Class <a href="MDNS/Query.html" class="link">Net::DNS::MDNS::Query</a><br />
+Class <a href="MDNS/Question.html" class="link">Net::DNS::MDNS::Question</a><br />
+Class <a href="MDNS/Service.html" class="link">Net::DNS::MDNS::Service</a><br />
+
+    </div>
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>
